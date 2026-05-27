@@ -1,0 +1,1908 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IA Souveraine — République du Bénin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231F6B3A'/%3E%3Crect x='0' y='26' width='32' height='6' rx='0' fill='%23A63A32'/%3E%3Crect x='0' y='26' width='32' height='3' fill='%23D9A404'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-size='14' font-weight='700' font-family='system-ui%2Csans-serif' fill='%23D9A404'%3EIA%3C%2Ftext%3E%3C%2Fsvg%3E" />
+  <meta name="description" content="Une trajectoire concrète pour déployer l'intelligence artificielle dans les secteurs stratégiques du Bénin, tout en gardant le contrôle total des données sensibles." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      /* Palette Bénin souverain */
+      --vert-profond: #1F6B3A;
+      --vert-sombre:  #123524;
+      --vert-clair:   #2A8850;
+      --or-dore:      #D9A404;
+      --or-doux:      #E7C64A;
+      --rouge:        #A63A32;
+      --blanc:        #F7F4EC;
+      --gris:         #D9D4C7;
+      --anthracite:   #1E1E1A;
+      --muted:        #5A5756;
+      --border:       #E0DBD0;
+      --surface:      #FFFFFF;
+
+      /* Typography */
+      --font: 'DM Sans', -apple-system, system-ui, sans-serif;
+
+      /* Spacing */
+      --sp-1: 4px;  --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+      --sp-5: 20px; --sp-6: 24px;  --sp-8: 32px;  --sp-10: 40px;
+      --sp-12: 48px;--sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+      /* Radius */
+      --r-sm: 6px;  --r-md: 12px;  --r-lg: 20px;
+
+      /* Container */
+      --container: 1200px;
+      --gutter: clamp(20px, 4vw, 48px);
+
+      /* Section rhythm */
+      --section-y: clamp(64px, 9vw, 128px);
+
+      /* Transitions */
+      --ease: cubic-bezier(0.2, 0, 0, 1);
+      --fast: 150ms;
+      --base: 250ms;
+      --slow: 450ms;
+    }
+
+    /* ─── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--blanc);
+      color: var(--anthracite);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ─── Layout ─────────────────────────────────────────────── */
+    .container {
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    /* ─── Reveal animations ──────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 80ms; }
+    .d2 { transition-delay: 160ms; }
+    .d3 { transition-delay: 240ms; }
+    .d4 { transition-delay: 320ms; }
+
+    /* ─── Eyebrow / label ─────────────────────────────────────── */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--vert-profond);
+      margin-bottom: 14px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--or-dore);
+      flex-shrink: 0;
+    }
+    .eyebrow-light { color: rgba(255,255,255,0.55); }
+    .eyebrow-light::before { background: var(--or-dore); }
+
+    .section-title {
+      font-size: clamp(28px, 3.8vw, 50px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.022em;
+      margin-bottom: 18px;
+    }
+    .section-sub {
+      font-size: clamp(15px, 1.5vw, 18px);
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 600px;
+    }
+    .section-sub-light { color: rgba(255,255,255,0.62); }
+
+    /* ══════════════════════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════════════════════ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 900;
+      background: rgba(18, 53, 36, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.07);
+      transition: background var(--base) var(--ease), box-shadow var(--base) var(--ease);
+    }
+    #nav.scrolled {
+      background: rgba(18, 53, 36, 0.99);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.32);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 18px;
+      gap: 20px;
+    }
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .nav-brand-sup {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .nav-brand-main {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand-accent { color: var(--or-dore); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      transition: color var(--fast) var(--ease);
+      position: relative;
+      padding-bottom: 3px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--or-dore);
+      border-radius: 2px;
+      transition: width var(--base) var(--ease);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: #fff; font-weight: 600; }
+    .nav-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--or-dore);
+      color: var(--anthracite);
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: var(--r-sm);
+      flex-shrink: 0;
+      transition: background var(--fast) var(--ease), transform var(--fast) var(--ease);
+    }
+    .nav-pill:hover { background: var(--or-doux); transform: translateY(-1px); }
+    .nav-pill svg { width: 13px; height: 13px; }
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      flex-shrink: 0;
+    }
+    .burger span {
+      display: block; width: 22px; height: 2px;
+      background: #fff; border-radius: 2px;
+      transition: all var(--base) var(--ease);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--vert-sombre);
+      overflow: hidden;
+    }
+    .hero-photo {
+      position: absolute; inset: 0;
+      background-image: url('mpo3b4kn-photo.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      opacity: 0.28;
+    }
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(18,53,36,0.96) 0%,
+        rgba(31,107,58,0.72) 55%,
+        rgba(18,53,36,0.90) 100%
+      );
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      padding-top: 128px;
+      padding-bottom: 80px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid rgba(217,164,4,0.35);
+      background: rgba(217,164,4,0.1);
+      border-radius: var(--r-sm);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--or-doux);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--or-dore);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero-h1 {
+      font-size: clamp(38px, 5.5vw, 76px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      max-width: 840px;
+      margin-bottom: 24px;
+    }
+    .hero-accent { color: var(--or-dore); }
+    .hero-sub {
+      font-size: clamp(15px, 1.8vw, 19px);
+      color: rgba(255,255,255,0.70);
+      max-width: 580px;
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 44px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 72px;
+    }
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 28px;
+      background: var(--or-dore); color: var(--anthracite);
+      font-size: 15px; font-weight: 700; border-radius: var(--r-sm);
+      transition: all var(--fast) var(--ease);
+    }
+    .btn-gold:hover { background: var(--or-doux); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,164,4,0.32); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 26px;
+      border: 1.5px solid rgba(255,255,255,0.28); color: rgba(255,255,255,0.88);
+      font-size: 15px; font-weight: 500; border-radius: var(--r-sm);
+      transition: all var(--fast) var(--ease);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.07); }
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 40px;
+    }
+    .hstat { display: flex; flex-direction: column; gap: 3px; }
+    .hstat-val {
+      font-size: 28px; font-weight: 700;
+      color: var(--or-dore); letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .hstat-label { font-size: 12.5px; color: rgba(255,255,255,0.54); }
+    .hero-scroll-indicator {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.32);
+      font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+      animation: scrollDrop 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0%,100% { opacity:1; transform: scaleY(1); transform-origin: top; }
+      50% { opacity:0.25; transform: scaleY(0.55); }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       VISION
+    ══════════════════════════════════════════════════════════ */
+    #vision {
+      padding-block: var(--section-y);
+      background: var(--surface);
+    }
+    .vision-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-bottom: 72px;
+    }
+    .vision-photo {
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      background: var(--blanc);
+      cursor: zoom-in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--base) var(--ease), box-shadow var(--base) var(--ease);
+    }
+    .vision-photo:hover {
+      z-index: 20;
+      transform: scale(1.12);
+      box-shadow: 0 22px 60px rgba(18,53,36,0.22);
+    }
+    .vision-photo img {
+      max-width: 100%;
+      max-height: 400px;
+      width: auto;
+      height: auto;
+      display: block;
+    }
+    .vision-pillars {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .pillar {
+      background: var(--blanc); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 22px 20px;
+      transition: all var(--base) var(--ease);
+    }
+    .pillar:hover {
+      border-color: var(--vert-profond);
+      box-shadow: 0 4px 24px rgba(31,107,58,0.09);
+      transform: translateY(-2px);
+    }
+    .pillar-ico {
+      width: 38px; height: 38px;
+      background: rgba(31,107,58,0.1);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .pillar-ico svg { width: 18px; height: 18px; color: var(--vert-profond); }
+    .pillar-title { font-size: 14.5px; font-weight: 700; margin-bottom: 6px; }
+    .pillar-desc { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+
+    /* ══════════════════════════════════════════════════════════
+       DÉFIS
+    ══════════════════════════════════════════════════════════ */
+    #defis {
+      padding-block: var(--section-y);
+      background: var(--vert-sombre);
+      color: #fff;
+      position: relative; overflow: hidden;
+    }
+    #defis::before {
+      content: '';
+      position: absolute; top: -30%; right: -5%;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(31,107,58,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .defis-intro { max-width: 740px; margin-bottom: 52px; }
+    .defis-text { font-size: 15.5px; color: rgba(255,255,255,0.66); line-height: 1.8; margin-top: 18px; }
+    .defis-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .defi {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--r-md);
+      padding: 28px 22px;
+      position: relative;
+      transition: all var(--base) var(--ease);
+    }
+    .defi:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(217,164,4,0.28);
+    }
+    .defi-bar {
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 44px;
+      background: var(--or-dore);
+      border-radius: 0 0 3px 3px;
+    }
+    .defi-num {
+      font-size: 44px; font-weight: 700;
+      color: rgba(217,164,4,0.13);
+      line-height: 1; margin-bottom: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+    .defi-title { font-size: 15.5px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .defi-desc { font-size: 13px; color: rgba(255,255,255,0.58); line-height: 1.68; }
+
+    /* ══════════════════════════════════════════════════════════
+       USE CASES
+    ══════════════════════════════════════════════════════════ */
+    #usecases {
+      padding-block: var(--section-y);
+      background: var(--blanc);
+    }
+    .uc-top {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .uc-filters {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 32px;
+    }
+    .uf {
+      padding: 8px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 13px; font-weight: 500;
+      color: var(--muted); background: var(--surface);
+      transition: all var(--fast) var(--ease);
+    }
+    .uf:hover { border-color: var(--vert-profond); color: var(--vert-profond); }
+    .uf.on { background: var(--vert-profond); border-color: var(--vert-profond); color: #fff; }
+    .uc-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .uc-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 22px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: all var(--base) var(--ease);
+      display: none;
+    }
+    .uc-card.show { display: flex; }
+    .uc-card:hover {
+      border-color: var(--vert-profond);
+      box-shadow: 0 4px 24px rgba(31,107,58,0.07);
+      transform: translateY(-2px);
+    }
+    .uc-photo {
+      border-radius: var(--r-sm); overflow: hidden;
+      aspect-ratio: 16/9; flex-shrink: 0;
+    }
+    .uc-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform var(--slow) var(--ease);
+    }
+    .uc-card:hover .uc-photo img { transform: scale(1.05); }
+    .uc-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px; border-radius: 100px;
+      align-self: flex-start;
+    }
+    .t-admin  { background: rgba(31,107,58,0.1);  color: #1A5A30; }
+    .t-sante  { background: rgba(166,58,50,0.1);  color: #8B2E28; }
+    .t-agri   { background: rgba(180,120,0,0.12); color: #7A5200; }
+    .t-edu    { background: rgba(50,80,180,0.10); color: #2E4CAF; }
+    .t-pme    { background: rgba(100,60,180,0.10);color: #5A3AAF; }
+    .t-finance{ background: rgba(0,110,130,0.10); color: #005F70; }
+    .uc-title { font-size: 14.5px; font-weight: 700; line-height: 1.35; }
+    .uc-value { font-size: 12.5px; color: var(--muted); line-height: 1.65; flex: 1; }
+
+    /* ══════════════════════════════════════════════════════════
+       SOUVERAINETÉ
+    ══════════════════════════════════════════════════════════ */
+    #souverainete {
+      padding-block: var(--section-y);
+      background: var(--anthracite);
+      color: #fff;
+      position: relative; overflow: hidden;
+    }
+    #souverainete::after {
+      content: '';
+      position: absolute; bottom: -15%; left: -8%;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(217,164,4,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .souv-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: start;
+    }
+    .souv-bricks {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-top: 32px;
+    }
+    .brick {
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--r-md); padding: 22px 18px;
+      transition: all var(--base) var(--ease);
+    }
+    .brick:hover {
+      background: rgba(255,255,255,0.075);
+      border-color: rgba(217,164,4,0.30);
+    }
+    .brick-ico {
+      width: 34px; height: 34px;
+      background: rgba(217,164,4,0.14);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px;
+    }
+    .brick-ico svg { width: 17px; height: 17px; color: var(--or-dore); }
+    .brick-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+    .brick-desc { font-size: 12px; color: rgba(255,255,255,0.52); line-height: 1.65; }
+    .souv-right {}
+    .souv-photo {
+      border-radius: var(--r-lg); overflow: hidden;
+      margin-bottom: 28px;
+      background: var(--vert-sombre);
+      cursor: zoom-in;
+      transition: transform var(--base) var(--ease), box-shadow var(--base) var(--ease);
+    }
+    .souv-photo:hover {
+      z-index: 20;
+      transform: scale(1.12);
+      box-shadow: 0 22px 60px rgba(0,0,0,0.28);
+    }
+    .souv-photo img { width: 100%; height: auto; display: block; }
+    .souv-schema {
+      background: rgba(255,255,255,0.042);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--r-md);
+      padding: 24px;
+    }
+    .schema-label {
+      font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.13em;
+      color: var(--or-dore); margin-bottom: 18px;
+    }
+    .flow {
+      display: flex; align-items: center;
+      flex-wrap: nowrap; gap: 0;
+    }
+    .fnode {
+      flex: 1; min-width: 0; text-align: center;
+    }
+    .fdot {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid var(--or-dore);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 7px;
+      font-size: 16px;
+    }
+    .fdot-red { border-color: var(--rouge); }
+    .fdot-gold { border-color: var(--or-dore); }
+    .flabel { font-size: 10px; color: rgba(255,255,255,0.5); line-height: 1.35; }
+    .farrow {
+      flex-shrink: 0; padding-inline: 6px;
+      color: rgba(255,255,255,0.2); font-size: 14px;
+    }
+    .souv-note {
+      margin-top: 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: var(--r-sm);
+      background: rgba(166,58,50,0.12);
+      border: 1px solid rgba(166,58,50,0.22);
+    }
+    .souv-note-icon { flex-shrink: 0; color: var(--rouge); margin-top: 1px; }
+    .souv-note-text { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.55; }
+
+    /* ══════════════════════════════════════════════════════════
+       PROJETS PILOTES
+    ══════════════════════════════════════════════════════════ */
+    #pilotes {
+      padding-block: var(--section-y);
+      background: var(--surface);
+    }
+    .pilotes-header { margin-bottom: 48px; }
+    .pilotes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .pilote {
+      background: var(--blanc); border: 1px solid var(--border);
+      border-radius: var(--r-lg); overflow: hidden;
+      cursor: pointer;
+      transition: all var(--base) var(--ease);
+    }
+    .pilote:hover {
+      border-color: var(--vert-profond);
+      box-shadow: 0 10px 36px rgba(31,107,58,0.12);
+      transform: translateY(-3px);
+    }
+    .pilote-img {
+      aspect-ratio: 16/10; overflow: hidden;
+      background: var(--vert-sombre);
+    }
+    .pilote-img img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.88;
+      transition: transform var(--slow) var(--ease);
+    }
+    .pilote:hover .pilote-img img { transform: scale(1.05); }
+    .pilote-body { padding: 22px; }
+    .pilote-num {
+      font-size: 10.5px; font-weight: 700;
+      color: var(--or-dore); text-transform: uppercase;
+      letter-spacing: 0.10em; margin-bottom: 7px;
+    }
+    .pilote-title { font-size: 16px; font-weight: 700; margin-bottom: 9px; line-height: 1.3; }
+    .pilote-excerpt { font-size: 12.5px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+    .pilote-link {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 12.5px; color: var(--vert-profond); font-weight: 600;
+    }
+    .pilote-link svg { width: 13px; height: 13px; transition: transform var(--fast) var(--ease); }
+    .pilote:hover .pilote-link svg { transform: translateX(3px); }
+
+    /* ══════════════════════════════════════════════════════════
+       MODALS
+    ══════════════════════════════════════════════════════════ */
+    .backdrop {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(18,53,36,0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--base) var(--ease);
+    }
+    .backdrop.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      max-width: 620px; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      transform: translateY(18px) scale(0.97);
+      transition: transform var(--base) var(--ease);
+    }
+    .backdrop.open .modal { transform: none; }
+    .modal-head {
+      position: sticky; top: 0;
+      background: var(--vert-sombre);
+      padding: 28px 28px 24px;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+    .modal-close-btn {
+      position: absolute; top: 14px; right: 14px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,0.10); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--fast) var(--ease);
+    }
+    .modal-close-btn:hover { background: rgba(255,255,255,0.20); }
+    .modal-close-btn svg { width: 15px; height: 15px; }
+    .modal-sector {
+      font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.11em;
+      color: var(--or-dore); margin-bottom: 10px;
+    }
+    .modal-title { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.3; }
+    .modal-body { padding: 28px; }
+    .modal-2col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 22px; margin-bottom: 22px;
+    }
+    .mfield label {
+      font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--muted); display: block; margin-bottom: 5px;
+    }
+    .mfield p { font-size: 13.5px; color: var(--anthracite); line-height: 1.65; }
+    .modal-hr { height: 1px; background: var(--border); margin-bottom: 22px; }
+    .modal-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip {
+      padding: 4px 12px;
+      background: rgba(31,107,58,0.09);
+      border: 1px solid rgba(31,107,58,0.18);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 500;
+      color: var(--vert-profond);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       ROADMAP
+    ══════════════════════════════════════════════════════════ */
+    #roadmap {
+      padding-block: var(--section-y);
+      background: var(--blanc);
+    }
+    .roadmap-head { text-align: center; max-width: 600px; margin-inline: auto; margin-bottom: 72px; }
+    .roadmap-head .eyebrow { justify-content: center; }
+    .roadmap-track {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 0; position: relative;
+    }
+    .roadmap-track::before {
+      content: '';
+      position: absolute; top: 27px;
+      left: calc(100% / 6); right: calc(100% / 6);
+      height: 2px;
+      background: linear-gradient(90deg, var(--or-dore), var(--vert-profond), var(--or-dore));
+      z-index: 0;
+    }
+    .phase {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding-inline: 12px;
+      position: relative; z-index: 1; cursor: pointer;
+    }
+    .phase-dot {
+      width: 54px; height: 54px; border-radius: 50%;
+      border: 2.5px solid var(--border); background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; color: var(--muted);
+      margin-bottom: 22px;
+      transition: all var(--base) var(--ease);
+    }
+    .phase.active .phase-dot, .phase:hover .phase-dot {
+      border-color: var(--vert-profond); background: var(--vert-profond);
+      color: #fff; box-shadow: 0 0 0 7px rgba(31,107,58,0.11);
+    }
+    .phase-step {
+      font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.11em;
+      color: var(--or-dore); margin-bottom: 7px;
+    }
+    .phase-name { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
+    .phase-period { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .phase-panel {
+      width: 100%; max-height: 0; overflow: hidden;
+      transition: max-height 0.4s var(--ease);
+    }
+    .phase.active .phase-panel { max-height: 440px; }
+    .phase-inner {
+      background: var(--vert-sombre); border-radius: var(--r-md);
+      padding: 18px; text-align: left; margin-top: 6px;
+    }
+    .pitem {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.075);
+    }
+    .pitem:last-child { border-bottom: none; }
+    .pcheck {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(217,164,4,0.17);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .pcheck svg { width: 10px; height: 10px; color: var(--or-dore); }
+    .ptext { font-size: 12.5px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+
+    /* ══════════════════════════════════════════════════════════
+       CTA FINAL
+    ══════════════════════════════════════════════════════════ */
+    #cta {
+      padding-block: var(--section-y);
+      background: var(--vert-sombre);
+      position: relative; overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url('mpo3b4na-photo6.jpg');
+      background-size: cover; background-position: center;
+      opacity: 0.06;
+    }
+    #cta::after {
+      content: '';
+      position: absolute; bottom: 0; right: 0;
+      width: 440px; height: 440px;
+      background: radial-gradient(circle, rgba(217,164,4,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-content { position: relative; z-index: 1; max-width: 740px; }
+    .cta-title {
+      font-size: clamp(26px, 4vw, 54px);
+      font-weight: 700; color: #fff;
+      line-height: 1.12; letter-spacing: -0.022em;
+      margin-bottom: 18px;
+    }
+    .cta-sub {
+      font-size: clamp(14px, 1.5vw, 17px);
+      color: rgba(255,255,255,0.68);
+      line-height: 1.75; margin-bottom: 42px;
+      max-width: 560px;
+    }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .cta-gold {
+      padding: 15px 26px;
+      background: var(--or-dore); color: var(--anthracite);
+      font-size: 14.5px; font-weight: 700; border-radius: var(--r-sm);
+      transition: all var(--fast) var(--ease);
+      display: inline-block; cursor: pointer;
+    }
+    .cta-gold:hover { background: var(--or-doux); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,164,4,0.30); }
+    .cta-outline {
+      padding: 15px 22px;
+      border: 1.5px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.82);
+      font-size: 14px; font-weight: 500; border-radius: var(--r-sm);
+      transition: all var(--fast) var(--ease);
+      display: inline-block; cursor: pointer; background: transparent;
+    }
+    .cta-outline:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.06); }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════════ */
+    footer {
+      background: var(--anthracite);
+      padding-block: 28px;
+    }
+    .foot {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .foot-brand { font-size: 12.5px; color: rgba(255,255,255,0.36); }
+    .foot-flag {
+      display: flex; gap: 2px; align-items: center;
+    }
+    .fs { width: 10px; height: 18px; border-radius: 1px; }
+    .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
+
+    /* ══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 1023px) {
+      .vision-layout { grid-template-columns: 1fr; gap: 40px; }
+      .defis-grid { grid-template-columns: 1fr 1fr; }
+      .uc-grid { grid-template-columns: 1fr 1fr; }
+      .pilotes-grid { grid-template-columns: 1fr 1fr; }
+      .souv-layout { grid-template-columns: 1fr; gap: 40px; }
+      .souv-photo { aspect-ratio: 16/9; }
+      .roadmap-track { grid-template-columns: 1fr; gap: 28px; }
+      .roadmap-track::before { display: none; }
+      .phase { flex-direction: row; text-align: left; align-items: flex-start; gap: 18px; }
+      .phase-dot { margin-bottom: 0; flex-shrink: 0; }
+      .phase-panel { max-height: none !important; }
+    }
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .nav-links.mobile-open {
+        display: flex; flex-direction: column;
+        position: fixed; inset: 0; top: 66px;
+        background: rgba(18,53,36,0.98);
+        backdrop-filter: blur(14px);
+        padding: 36px var(--gutter);
+        gap: 28px; z-index: 899;
+      }
+      .nav-links.mobile-open a { font-size: 20px; color: #fff; }
+      .nav-pill { display: none; }
+      .burger { display: flex; }
+      .defis-grid { grid-template-columns: 1fr; }
+      .uc-grid { grid-template-columns: 1fr; }
+      .pilotes-grid { grid-template-columns: 1fr; }
+      .vision-pillars { grid-template-columns: 1fr; }
+      .souv-bricks { grid-template-columns: 1fr; }
+      .modal-2col { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+      .cta-actions { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .flow { flex-wrap: wrap; justify-content: center; gap: 10px; }
+      .farrow { display: none; }
+    }
+
+    /* ─── Barre de progression lecture ─────────────────────── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--or-dore), var(--or-doux));
+      z-index: 1100;
+      border-radius: 0 2px 2px 0;
+      pointer-events: none;
+      transition: width 80ms linear;
+    }
+
+    /* ─── Use-case cards : placeholders sans photo ──────────── */
+    .uc-ph {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .uc-ph-admin { background: linear-gradient(135deg, rgba(31,107,58,0.05) 0%, rgba(31,107,58,0.14) 100%); }
+    .uc-ph-sante { background: linear-gradient(135deg, rgba(166,58,50,0.05) 0%, rgba(166,58,50,0.14) 100%); }
+    .uc-ph-agri  { background: linear-gradient(135deg, rgba(180,120,0,0.05) 0%, rgba(180,120,0,0.14) 100%); }
+    .uc-ph-edu   { background: linear-gradient(135deg, rgba(50,80,180,0.05) 0%, rgba(50,80,180,0.14) 100%); }
+    .uc-ph svg   { width: 44px; height: 44px; opacity: 0.28; }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar" aria-hidden="true"></div>
+
+<!-- ════ NAV ════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">
+        <span class="nav-brand-sup">République du Bénin</span>
+        <span class="nav-brand-main">Ministère de <span class="nav-brand-accent">l'Intelligence Artificielle</span></span>
+      </a>
+
+      <ul class="nav-links" id="navlinks">
+        <li><a href="#vision">Vision</a></li>
+        <li><a href="#defis">Défis</a></li>
+        <li><a href="#usecases">Opportunités</a></li>
+        <li><a href="#souverainete">Souveraineté</a></li>
+        <li><a href="#pilotes">Pilotes</a></li>
+        <li><a href="#roadmap">Feuille de route</a></li>
+      </ul>
+
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </div>
+</nav>
+
+<!-- ════ HERO ═══════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-photo" aria-hidden="true"></div>
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="hero-grid-lines" aria-hidden="true"></div>
+
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot" aria-hidden="true"></span>
+      Ministère de l'IA — Bénin · 2026
+    </div>
+
+    <h1 class="hero-h1">
+      Bâtir une <span class="hero-accent">IA souveraine</span><br>au service du Bénin
+    </h1>
+
+    <p class="hero-sub">
+      Une trajectoire concrète pour déployer l'intelligence artificielle dans les secteurs stratégiques, tout en gardant le contrôle total des données sensibles.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#usecases" class="btn-gold">
+        Découvrir les opportunités
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#roadmap" class="btn-ghost">Voir la feuille de route</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat">
+        <span class="hstat-val" data-count="8"><span class="cnum">8</span><sup style="font-size:0.55em;font-weight:600;">ème</sup></span>
+        <span class="hstat-label">rang africain AI Readiness 2023</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-val" data-count="1400"><span class="cnum">1 400</span></span>
+        <span class="hstat-label">cœurs de calcul souverains (IMSP)</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-val" data-count="12"><span class="cnum">12</span></span>
+        <span class="hstat-label">cas d'usage à fort impact identifiés</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-val" data-count="5"><span class="cnum">5</span></span>
+        <span class="hstat-label">projets pilotes prêts à lancer</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
+
+<!-- ════ VISION ══════════════════════════════════════════════════ -->
+<section id="vision">
+  <div class="container">
+
+    <div class="vision-layout">
+      <div class="reveal">
+        <p class="eyebrow">01 — Vision stratégique</p>
+        <h2 class="section-title">Un ministère au cœur de la transformation nationale</h2>
+        <p class="section-sub">
+          Le Bénin s'affirme comme un pôle technologique émergent en Afrique, porté par des réformes structurelles ambitieuses. La création d'un ministère dédié à l'intelligence artificielle marque un tournant : l'IA devient un levier d'action publique concret, pas une promesse lointaine.
+        </p>
+        <p class="section-sub" style="margin-top:14px;">
+          Avec un supercalculateur de 1&nbsp;400 cœurs à l'IMSP, les câbles sous-marins Equiano et 2Africa, le datacenter du MEF et le cadre de l'APDP, le Bénin dispose des fondations pour déployer une IA utile, maîtrisée et souveraine dès maintenant.
+        </p>
+      </div>
+
+      <div class="vision-photo reveal d2">
+        <img src="cartographie_benin.jpg" alt="Cartographie stratégique de l'intelligence artificielle au Bénin" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="vision-pillars reveal">
+      <div class="pillar d1">
+        <div class="pillar-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="pillar-title">Moderniser l'action publique</div>
+        <div class="pillar-desc">Accélérer les services administratifs, réduire les délais de traitement et améliorer l'expérience usager grâce à des outils IA déployés directement dans les ministères.</div>
+      </div>
+
+      <div class="pillar d2">
+        <div class="pillar-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="pillar-title">Protéger les données sensibles</div>
+        <div class="pillar-desc">Garantir que les données des citoyens, hôpitaux et administrations restent sous contrôle national, hébergées sur des infrastructures souveraines maîtrisées par l'État béninois.</div>
+      </div>
+
+      <div class="pillar d3">
+        <div class="pillar-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="pillar-title">Renforcer les capacités nationales</div>
+        <div class="pillar-desc">Former une élite technique locale via le CEA-SMIA, le Master Data Science de l'UAC/IMSP et des partenariats avec l'INRIA, la Banque Mondiale et le réseau WACREN.</div>
+      </div>
+
+      <div class="pillar d4">
+        <div class="pillar-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="pillar-title">Créer un effet d'entraînement sectoriel</div>
+        <div class="pillar-desc">Diffuser standards, outils et bonnes pratiques à travers tous les secteurs — santé, agriculture, éducation, finance — pour multiplier l'impact à l'échelle nationale.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════ DÉFIS ════════════════════════════════════════════════════ -->
+<section id="defis">
+  <div class="container">
+
+    <div class="defis-intro reveal">
+      <p class="eyebrow eyebrow-light">02 — Constats actuels</p>
+      <h2 class="section-title" style="color:#fff;">Les défis à surmonter pour passer à l'action</h2>
+      <p class="defis-text">
+        Aujourd'hui, de nombreuses institutions et services publics savent que l'intelligence artificielle peut améliorer l'efficacité, la rapidité et la qualité des services — mais les initiatives restent fragmentées, peu industrialisées et souvent inadaptées aux contraintes de souveraineté. Le principal frein n'est pas seulement technologique : il concerne aussi la gouvernance, le contrôle des données, la confiance, l'infrastructure et la capacité à transformer une ambition politique en projets déployables. Sans cadre clair, les usages restent ponctuels et les données sensibles ne peuvent pas être confiées à des plateformes tierces non maîtrisées.
+      </p>
+    </div>
+
+    <div class="defis-grid">
+      <div class="defi reveal d1">
+        <div class="defi-bar"></div>
+        <div class="defi-num">01</div>
+        <h3 class="defi-title">Dépendance aux solutions externes</h3>
+        <p class="defi-desc">La majorité des outils d'IA disponibles sont hébergés sur des clouds étrangers ou liés à des APIs tierces qui ne permettent pas une maîtrise réelle des données sensibles ni une continuité souveraine du service.</p>
+      </div>
+
+      <div class="defi reveal d2">
+        <div class="defi-bar"></div>
+        <div class="defi-num">02</div>
+        <h3 class="defi-title">Faible structuration des usages IA</h3>
+        <p class="defi-desc">Les initiatives existantes sont ponctuelles et non coordonnées. Sans priorités définies ni cadre clair, les gains de productivité restent limités et les investissements peu valorisés à l'échelle nationale.</p>
+      </div>
+
+      <div class="defi reveal d3">
+        <div class="defi-bar"></div>
+        <div class="defi-num">03</div>
+        <h3 class="defi-title">Absence de solutions souveraines déployables</h3>
+        <p class="defi-desc">La santé, la justice et la sécurité requièrent des déploiements on-premise stricts. L'offre de solutions IA adaptées à ces contraintes de souveraineté reste quasi inexistante au niveau national.</p>
+      </div>
+
+      <div class="defi reveal d4">
+        <div class="defi-bar"></div>
+        <div class="defi-num">04</div>
+        <h3 class="defi-title">Difficulté à passer de la vision à l'exécution</h3>
+        <p class="defi-desc">Sans méthode structurée, sans pilotes validés et sans gouvernance technique, les ambitions stratégiques peinent à se concrétiser. Le risque est de répéter les cycles "étude sans suite" qui freinent la transformation.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════ USE CASES ════════════════════════════════════════════════ -->
+<section id="usecases">
+  <div class="container">
+
+    <div class="uc-top reveal">
+      <div>
+        <p class="eyebrow">03 — Opportunités sectorielles</p>
+        <h2 class="section-title">12 cas d'usage à fort impact</h2>
+        <p class="section-sub">Sélectionnés pour leur déployabilité souveraine, leur retour rapide et leur pertinence pour les priorités nationales du Bénin.</p>
+      </div>
+    </div>
+
+    <div class="uc-filters reveal" id="uc-filters" role="group" aria-label="Filtres secteurs">
+      <button class="uf on" data-s="all">Tous les secteurs</button>
+      <button class="uf" data-s="admin">Administration</button>
+      <button class="uf" data-s="sante">Santé</button>
+      <button class="uf" data-s="agri">Agriculture</button>
+      <button class="uf" data-s="edu">Éducation</button>
+      <button class="uf" data-s="pme">PME</button>
+      <button class="uf" data-s="finance">Finance</button>
+    </div>
+
+    <div class="uc-grid" id="uc-grid">
+
+      <!-- Administration -->
+      <article class="uc-card show" data-s="admin">
+        <span class="uc-tag t-admin">Administration</span>
+        <div class="uc-photo uc-ph uc-ph-admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="uc-title">Assistant documentaire ministériel</h3>
+        <p class="uc-value">Accélérer le traitement des courriers, dossiers et réponses internes. Réduction estimée des délais de 60 à 70&nbsp;%. Modèle déployé on-premise dans le ministère pilote.</p>
+      </article>
+
+      <article class="uc-card show" data-s="admin">
+        <span class="uc-tag t-admin">Administration</span>
+        <div class="uc-photo uc-ph uc-ph-admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="uc-title">Chatbot citoyen local</h3>
+        <p class="uc-value">Répondre 24h/24 aux questions des usagers sur les démarches et services publics, sans données transmises à l'étranger. Accessible via WhatsApp ou interface web souveraine.</p>
+      </article>
+
+      <!-- Santé -->
+      <article class="uc-card show" data-s="sante">
+        <span class="uc-tag t-sante">Santé</span>
+        <div class="uc-photo">
+          <img src="mpo3b4l2-photo2.jpg" alt="Santé numérique Bénin" loading="lazy" />
+        </div>
+        <h3 class="uc-title">Aide au diagnostic médical</h3>
+        <p class="uc-value">Aider les médecins à analyser symptômes et images médicales. Modèle déployé en local dans les hôpitaux — aucune donnée médicale ne quitte l'établissement.</p>
+      </article>
+
+      <article class="uc-card show" data-s="sante">
+        <span class="uc-tag t-sante">Santé</span>
+        <div class="uc-photo uc-ph uc-ph-sante">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3 class="uc-title">Détection précoce de tuberculose</h3>
+        <p class="uc-value">Analyse d'images radiologiques par IA embarquée dans les hôpitaux et centres de santé. Aucune connexion externe requise. Amélioration du taux de détection précoce.</p>
+      </article>
+
+      <article class="uc-card show" data-s="sante">
+        <span class="uc-tag t-sante">Santé</span>
+        <div class="uc-photo uc-ph uc-ph-sante">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3 class="uc-title">Suivi intelligent des stocks de médicaments</h3>
+        <p class="uc-value">Anticiper les ruptures, réduire le gaspillage et optimiser les commandes dans les pharmacies hospitalières via des modèles prédictifs locaux. Réduction des coûts estimée : 25 à 35&nbsp;%.</p>
+      </article>
+
+      <article class="uc-card show" data-s="sante">
+        <span class="uc-tag t-sante">Santé</span>
+        <div class="uc-photo uc-ph uc-ph-sante">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h3 class="uc-title">Surveillance épidémiologique locale</h3>
+        <p class="uc-value">Suivre les tendances sanitaires par zone sans centraliser les données sensibles. Apprentissage fédéré entre établissements : seuls les modèles circulent, jamais les données brutes.</p>
+      </article>
+
+      <article class="uc-card show" data-s="sante">
+        <span class="uc-tag t-sante">Santé</span>
+        <div class="uc-photo uc-ph uc-ph-sante">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3 class="uc-title">Retrait automatisé des médicaments interdits</h3>
+        <p class="uc-value">Sécuriser la dispensation et éviter l'usage de médicaments non autorisés ou rappelés grâce à une vérification automatisée en temps réel, entièrement on-premise.</p>
+      </article>
+
+      <!-- Agriculture -->
+      <article class="uc-card show" data-s="agri">
+        <span class="uc-tag t-agri">Agriculture</span>
+        <div class="uc-photo">
+          <img src="mpo3b4m7-photo4.jpg" alt="Agriculteur béninois utilisant l'IA mobile sur le terrain" loading="lazy" />
+        </div>
+        <h3 class="uc-title">Conseiller agricole intelligent</h3>
+        <p class="uc-value">Recommandations personnalisées sur les semis, traitements et bonnes pratiques via mobile. Inspiré du projet Drone4Ag et de l'app Nana. Fonctionne hors-ligne en zone rurale.</p>
+      </article>
+
+      <article class="uc-card show" data-s="agri">
+        <span class="uc-tag t-agri">Agriculture</span>
+        <div class="uc-photo uc-ph uc-ph-agri">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
+        <h3 class="uc-title">Détection des maladies des cultures</h3>
+        <p class="uc-value">Identifier parasites, stress hydrique et maladies directement sur le terrain par analyse photo sur smartphone. Aucune connexion internet requise — edge AI embarquée.</p>
+      </article>
+
+      <!-- Éducation -->
+      <article class="uc-card show" data-s="edu">
+        <span class="uc-tag t-edu">Éducation</span>
+        <div class="uc-photo uc-ph uc-ph-edu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3 class="uc-title">Tutorat personnalisé par IA</h3>
+        <p class="uc-value">Adapter l'apprentissage au niveau de chaque élève, corriger automatiquement les exercices et proposer des parcours individualisés. Déployé en établissement — données élèves strictement locales.</p>
+      </article>
+
+      <!-- PME -->
+      <article class="uc-card show" data-s="pme">
+        <span class="uc-tag t-pme">PME / Entreprises</span>
+        <div class="uc-photo">
+          <img src="mpo3b4mj-photo5.jpg" alt="Transformation digitale industrielle africaine" loading="lazy" />
+        </div>
+        <h3 class="uc-title">Automatisation documentaire PME</h3>
+        <p class="uc-value">Classer factures, contrats et emails, réduire les tâches répétitives dans les PME béninoises. Gain de temps estimé : 30 à 50&nbsp;% sur les processus documentaires.</p>
+      </article>
+
+      <!-- Finance -->
+      <article class="uc-card show" data-s="finance">
+        <span class="uc-tag t-finance">Finance / Inclusion</span>
+        <div class="uc-photo">
+          <img src="mpo3b4l7-photo3.jpg" alt="Inclusion financière et technologie mobile au Bénin" loading="lazy" />
+        </div>
+        <h3 class="uc-title">Scoring crédit et assistance client IA</h3>
+        <p class="uc-value">Simplifier l'accès au crédit pour les populations non bancarisées et améliorer le support client via des modèles de scoring déployés localement — tontine moderne, banque mobile.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ SOUVERAINETÉ ════════════════════════════════════════════ -->
+<section id="souverainete">
+  <div class="container">
+    <div class="souv-layout">
+
+      <div class="reveal">
+        <p class="eyebrow eyebrow-light">04 — Souveraineté des données</p>
+        <h2 class="section-title" style="color:#fff;">Une IA souveraine,<br>sous contrôle national</h2>
+        <p class="section-sub section-sub-light">
+          Les données sensibles ne doivent pas être hébergées sur des infrastructures étrangères non maîtrisées. Chaque déploiement doit s'appuyer sur une architecture où l'État béninois conserve le contrôle total des données, des modèles et des accès.
+        </p>
+
+        <div class="souv-bricks">
+          <div class="brick reveal d1">
+            <div class="brick-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <div class="brick-title">Déploiement On-Premise</div>
+            <div class="brick-desc">Modèles installés dans les ministères et hôpitaux. Aucune donnée ne sort de l'institution. Compatible avec Ollama et Foundry Local.</div>
+          </div>
+
+          <div class="brick reveal d2">
+            <div class="brick-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </div>
+            <div class="brick-title">Cloud Souverain National</div>
+            <div class="brick-desc">Datacenter MEF comme hub gouvernemental. Hébergement certifié, accès contrôlé par l'État béninois — sans abonnement à un cloud étranger.</div>
+          </div>
+
+          <div class="brick reveal d3">
+            <div class="brick-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+            </div>
+            <div class="brick-title">Edge AI Embarquée</div>
+            <div class="brick-desc">Inférence locale sur device ou serveur de proximité. Fonctionne hors connexion — données jamais transmises en dehors du périmètre de l'institution.</div>
+          </div>
+
+          <div class="brick reveal d4">
+            <div class="brick-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>
+            </div>
+            <div class="brick-title">Apprentissage Fédéré</div>
+            <div class="brick-desc">Les modèles s'améliorent sans centraliser les données. Seuls les gradients circulent entre institutions — jamais les données brutes des patients ou citoyens.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="souv-right reveal d2">
+        <div class="souv-photo">
+          <img src="pileIA-africaine.jpg" alt="Pile IA africaine pour une architecture souveraine" loading="lazy" />
+        </div>
+
+        <div class="souv-schema">
+          <div class="schema-label">Architecture de gouvernance souveraine des données</div>
+          <div class="flow">
+            <div class="fnode">
+              <div class="fdot">🏥</div>
+              <div class="flabel">Institution<br>locale</div>
+            </div>
+            <div class="farrow" aria-hidden="true">→</div>
+            <div class="fnode">
+              <div class="fdot fdot-red">🔒</div>
+              <div class="flabel">Données<br>chiffrées</div>
+            </div>
+            <div class="farrow" aria-hidden="true">→</div>
+            <div class="fnode">
+              <div class="fdot">⚙️</div>
+              <div class="flabel">Traitement<br>IA local</div>
+            </div>
+            <div class="farrow" aria-hidden="true">→</div>
+            <div class="fnode">
+              <div class="fdot">📊</div>
+              <div class="flabel">Résultat<br>utile</div>
+            </div>
+            <div class="farrow" aria-hidden="true">→</div>
+            <div class="fnode">
+              <div class="fdot fdot-gold">🇧🇯</div>
+              <div class="flabel">Contrôle<br>national</div>
+            </div>
+          </div>
+
+          <div class="souv-note" style="margin-top:16px;">
+            <svg class="souv-note-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="souv-note-text">Modèles open-weight recommandés : Llama 4, Qwen 3, DeepSeek R1 (licences Apache 2.0 / MIT). Aucun abonnement Azure ou cloud étranger requis.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ PROJETS PILOTES ══════════════════════════════════════════ -->
+<section id="pilotes">
+  <div class="container">
+
+    <div class="pilotes-header reveal">
+      <p class="eyebrow">05 — Premiers projets</p>
+      <h2 class="section-title">Projets pilotes à lancer en priorité</h2>
+      <p class="section-sub">Cinq projets concrets, déployables rapidement, à fort impact institutionnel et entièrement souverains. Cliquez pour explorer chaque pilote.</p>
+    </div>
+
+    <div class="pilotes-grid">
+
+      <div class="pilote reveal d1" onclick="openModal('m1')" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="pilote-img">
+          <img src="mpo3b4kn-photo.jpg" alt="Administration publique numérique Bénin" loading="lazy" />
+        </div>
+        <div class="pilote-body">
+          <div class="pilote-num">Pilote 01 — Administration</div>
+          <h3 class="pilote-title">Assistant documentaire ministériel</h3>
+          <p class="pilote-excerpt">Déployer un assistant IA local dans un ministère pilote pour traiter les courriers, classer les dossiers et générer des réponses standardisées en temps réel.</p>
+          <div class="pilote-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Explorer ce pilote
+          </div>
+        </div>
+      </div>
+
+      <div class="pilote reveal d2" onclick="openModal('m2')" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="pilote-img">
+          <img src="mpo3b4l2-photo2.jpg" alt="Services citoyens numériques Bénin" loading="lazy" />
+        </div>
+        <div class="pilote-body">
+          <div class="pilote-num">Pilote 02 — Services citoyens</div>
+          <h3 class="pilote-title">Chatbot citoyen pour l'administration</h3>
+          <p class="pilote-excerpt">Interface conversationnelle déployée dans une administration, permettant aux citoyens d'obtenir des informations et d'initier des démarches sans attente.</p>
+          <div class="pilote-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Explorer ce pilote
+          </div>
+        </div>
+      </div>
+
+      <div class="pilote reveal d3" onclick="openModal('m3')" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="pilote-img">
+          <img src="mpo3b4l7-photo3.jpg" alt="Santé numérique Bénin inclusion" loading="lazy" />
+        </div>
+        <div class="pilote-body">
+          <div class="pilote-num">Pilote 03 — Santé</div>
+          <h3 class="pilote-title">Gestion hospitalière intelligente des médicaments</h3>
+          <p class="pilote-excerpt">Système intégré de suivi des stocks et d'alerte pour les médicaments non autorisés, déployé on-premise dans des hôpitaux pilotes.</p>
+          <div class="pilote-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Explorer ce pilote
+          </div>
+        </div>
+      </div>
+
+      <div class="pilote reveal d1" onclick="openModal('m4')" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="pilote-img">
+          <img src="mpo3b4m7-photo4.jpg" alt="Agriculture intelligente Bénin terrain" loading="lazy" />
+        </div>
+        <div class="pilote-body">
+          <div class="pilote-num">Pilote 04 — Agriculture</div>
+          <h3 class="pilote-title">Conseiller agricole offline-first</h3>
+          <p class="pilote-excerpt">Application mobile fonctionnant hors-ligne pour guider les producteurs sur les semis, traitements et calendriers agricoles — inspiré du projet Drone4Ag et de l'app Nana.</p>
+          <div class="pilote-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Explorer ce pilote
+          </div>
+        </div>
+      </div>
+
+      <div class="pilote reveal d2" onclick="openModal('m5')" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="pilote-img">
+          <img src="mpo3b4mj-photo5.jpg" alt="Éducation numérique transformation Bénin" loading="lazy" />
+        </div>
+        <div class="pilote-body">
+          <div class="pilote-num">Pilote 05 — Éducation</div>
+          <h3 class="pilote-title">Plateforme de tutorat IA pour établissements</h3>
+          <p class="pilote-excerpt">Système de tutorat adaptatif déployé dans des lycées pilotes, personnalisant le parcours de chaque élève. Données élèves strictement locales, aucune transmission à l'étranger.</p>
+          <div class="pilote-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Explorer ce pilote
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ ROADMAP ══════════════════════════════════════════════════ -->
+<section id="roadmap">
+  <div class="container">
+
+    <div class="roadmap-head reveal">
+      <p class="eyebrow">06 — Feuille de route</p>
+      <h2 class="section-title">Une trajectoire nationale en 3 étapes</h2>
+      <p class="section-sub" style="margin-inline:auto;">De la structuration à l'industrialisation : une méthode progressive, mesurable et souveraine. Cliquez sur chaque phase pour les détails.</p>
+    </div>
+
+    <div class="roadmap-track reveal" id="roadmap-track">
+
+      <div class="phase active" data-p="0" onclick="togglePhase(this)">
+        <div class="phase-dot">1</div>
+        <div>
+          <div class="phase-step">Phase 1 — Mois 1 à 6</div>
+          <div class="phase-name">Structurer</div>
+          <div class="phase-period">Gouvernance &amp; priorisation</div>
+          <div class="phase-panel">
+            <div class="phase-inner">
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Cadrer les secteurs prioritaires et identifier les cas d'usage à fort impact immédiat</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Définir la gouvernance nationale des données en lien avec l'APDP et le PRSCG</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Cartographier les infrastructures existantes : Datacenter MEF, supercalculateur IMSP 1 400 cœurs</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Sélectionner les institutions pilotes et les premiers partenaires techniques et académiques</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" data-p="1" onclick="togglePhase(this)">
+        <div class="phase-dot">2</div>
+        <div>
+          <div class="phase-step">Phase 2 — Mois 6 à 18</div>
+          <div class="phase-name">Expérimenter</div>
+          <div class="phase-period">Pilotes &amp; validation terrain</div>
+          <div class="phase-panel">
+            <div class="phase-inner">
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Lancer les 5 projets pilotes dans les institutions sélectionnées avec des KPIs clairs</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Tester les architectures souveraines : Ollama, Foundry Local, modèles Llama 4 / Qwen 3</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Mesurer les résultats, documenter les apprentissages et ajuster les déploiements</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Former les équipes techniques nationales via le CEA-SMIA et le Master Data Science de l'UAC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" data-p="2" onclick="togglePhase(this)">
+        <div class="phase-dot">3</div>
+        <div>
+          <div class="phase-step">Phase 3 — Mois 18 à 36</div>
+          <div class="phase-name">Déployer</div>
+          <div class="phase-period">Industrialisation &amp; échelle nationale</div>
+          <div class="phase-panel">
+            <div class="phase-inner">
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Industrialiser les cas d'usage les plus performants dans l'ensemble des ministères et secteurs</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Renforcer l'infrastructure souveraine : cloud national, edge nodes, backbone fibre nationale</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Diffuser les standards de gouvernance IA à l'ensemble des administrations et partenaires</span>
+              </div>
+              <div class="pitem">
+                <div class="pcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="ptext">Positionner le Bénin comme référence régionale d'IA souveraine en Afrique de l'Ouest</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA FINAL ════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-content reveal">
+      <p class="eyebrow eyebrow-light">07 — Passer à l'action</p>
+      <h2 class="cta-title">Faire du ministère un moteur d'exécution, pas seulement de vision</h2>
+      <p class="cta-sub">
+        L'opportunité n'est pas seulement d'adopter l'intelligence artificielle, mais de construire une capacité nationale à la déployer avec maîtrise, impact et souveraineté. La méthode existe. Les cas d'usage sont identifiés. Les infrastructures sont en place. Le moment d'agir est maintenant.
+      </p>
+      <div class="cta-actions">
+        <a href="#pilotes" class="cta-gold">Lancer une première vague de pilotes</a>
+        <a href="#roadmap" class="cta-outline">Structurer une stratégie de déploiement</a>
+        <a href="#vision" class="cta-outline">Ouvrir une phase de concertation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="foot">
+      <span class="foot-brand">République du Bénin — Ministère de l'Intelligence Artificielle · 2026</span>
+      <div class="foot-flag" aria-label="Drapeau du Bénin">
+        <div class="fs" style="background:#1F6B3A;" title="Vert"></div>
+        <div class="fs" style="background:#D9A404;width:8px;" title="Jaune"></div>
+        <div class="fs" style="background:#A63A32;" title="Rouge"></div>
+      </div>
+      <span class="foot-note">Document de travail institutionnel · Stratégie IA souveraine</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ════ MODALS ═══════════════════════════════════════════════════ -->
+
+<!-- Modal 1 -->
+<div class="backdrop" id="m1" role="dialog" aria-labelledby="m1-title" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close-btn" onclick="closeModal('m1')" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-sector">Pilote 01 — Administration publique</div>
+      <h3 class="modal-title" id="m1-title">Assistant documentaire ministériel</h3>
+    </div>
+    <div class="modal-body">
+      <div class="modal-2col">
+        <div class="mfield"><label>Objectif</label><p>Réduire de 60 à 70&nbsp;% les délais de traitement des courriers, dossiers et demandes internes dans un ministère pilote désigné.</p></div>
+        <div class="mfield"><label>Valeur immédiate</label><p>Gain de temps administratif substantiel, réduction des erreurs de classement, meilleure traçabilité et archivage automatique des dossiers.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="modal-2col">
+        <div class="mfield"><label>Mode de déploiement</label><p>On-premise dans le datacenter du ministère. Modèle open-weight (Llama 4 ou Qwen 3) via Ollama. Aucune donnée transmise à l'extérieur de l'institution.</p></div>
+        <div class="mfield"><label>Bénéfice institutionnel</label><p>Preuve de concept nationale réplicable dans 15+ ministères. Gouvernance documentaire renforcée. Référence publique de déploiement souverain.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="mfield"><label>Technologies souveraines proposées</label>
+        <div class="modal-chips">
+          <span class="chip">Ollama — inférence locale</span>
+          <span class="chip">Llama 4 / Qwen 3</span>
+          <span class="chip">On-premise</span>
+          <span class="chip">Datacenter MEF</span>
+          <span class="chip">Zéro cloud étranger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2 -->
+<div class="backdrop" id="m2" role="dialog" aria-labelledby="m2-title" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close-btn" onclick="closeModal('m2')" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-sector">Pilote 02 — Services citoyens</div>
+      <h3 class="modal-title" id="m2-title">Chatbot citoyen pour l'administration</h3>
+    </div>
+    <div class="modal-body">
+      <div class="modal-2col">
+        <div class="mfield"><label>Objectif</label><p>Offrir aux citoyens un accès immédiat aux informations sur les démarches administratives, 24h/24, sans déplacement ni attente en guichet.</p></div>
+        <div class="mfield"><label>Valeur immédiate</label><p>Désengorgement des guichets, satisfaction citoyenne améliorée, réduction des demandes répétitives aux agents administratifs.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="modal-2col">
+        <div class="mfield"><label>Mode de déploiement</label><p>Serveur local dans l'administration. Accessible via WhatsApp, Signal ou interface web. Entraîné exclusivement sur les données publiques de l'administration béninoise.</p></div>
+        <div class="mfield"><label>Bénéfice institutionnel</label><p>Image modernisée de l'État, réduction du coût de service, premier service IA visible et tangible pour le grand public béninois.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="mfield"><label>Technologies souveraines proposées</label>
+        <div class="modal-chips">
+          <span class="chip">OpenClaw — multi-plateformes</span>
+          <span class="chip">WhatsApp / Signal</span>
+          <span class="chip">Serveur local</span>
+          <span class="chip">Données béninoises uniquement</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 3 -->
+<div class="backdrop" id="m3" role="dialog" aria-labelledby="m3-title" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close-btn" onclick="closeModal('m3')" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-sector">Pilote 03 — Santé</div>
+      <h3 class="modal-title" id="m3-title">Gestion hospitalière intelligente des médicaments</h3>
+    </div>
+    <div class="modal-body">
+      <div class="modal-2col">
+        <div class="mfield"><label>Objectif</label><p>Système de gestion prédictive des stocks et d'alerte automatique pour les médicaments non autorisés ou retirés dans 3 hôpitaux pilotes sélectionnés.</p></div>
+        <div class="mfield"><label>Valeur immédiate</label><p>Zéro rupture de stock critique, élimination des médicaments interdits, réduction de 25 à 35&nbsp;% des coûts d'approvisionnement hospitalier.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="modal-2col">
+        <div class="mfield"><label>Mode de déploiement</label><p>On-premise dans le SI hospitalier. Synchronisation inter-établissements via apprentissage fédéré. Données médicales strictement locales, jamais transmises.</p></div>
+        <div class="mfield"><label>Bénéfice institutionnel</label><p>Sécurité sanitaire nationale renforcée, conformité réglementaire, modèle extensible à tous les CHU et hôpitaux de district du Bénin.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="mfield"><label>Technologies souveraines proposées</label>
+        <div class="modal-chips">
+          <span class="chip">Apprentissage fédéré</span>
+          <span class="chip">On-premise hospitalier</span>
+          <span class="chip">Modèle prédictif local</span>
+          <span class="chip">Chiffrement de bout en bout</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 4 -->
+<div class="backdrop" id="m4" role="dialog" aria-labelledby="m4-title" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close-btn" onclick="closeModal('m4')" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-sector">Pilote 04 — Agriculture</div>
+      <h3 class="modal-title" id="m4-title">Conseiller agricole offline-first</h3>
+    </div>
+    <div class="modal-body">
+      <div class="modal-2col">
+        <div class="mfield"><label>Objectif</label><p>Mettre à disposition des producteurs (ananas, maïs, niébé) un assistant intelligent fonctionnant hors-ligne, inspiré du projet Drone4Ag et de l'application Nana.</p></div>
+        <div class="mfield"><label>Valeur immédiate</label><p>Amélioration des rendements agricoles, réduction des pertes par maladies ou ravageurs, autonomie des producteurs en zones rurales à faible connectivité.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="modal-2col">
+        <div class="mfield"><label>Mode de déploiement</label><p>Application mobile Android avec modèle embarqué (edge AI). Fonctionne sans connexion internet. Mises à jour synchronisées lors de connexions ponctuelles.</p></div>
+        <div class="mfield"><label>Bénéfice institutionnel</label><p>Souveraineté alimentaire renforcée, données agronomiques nationales collectées, impact mesurable sur la productivité agricole et les revenus ruraux.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="mfield"><label>Technologies souveraines proposées</label>
+        <div class="modal-chips">
+          <span class="chip">Edge AI embarquée</span>
+          <span class="chip">Android offline-first</span>
+          <span class="chip">Modèle vision — maladies cultures</span>
+          <span class="chip">Alertes SMS (app Nana)</span>
+          <span class="chip">Données locales uniquement</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 5 -->
+<div class="backdrop" id="m5" role="dialog" aria-labelledby="m5-title" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close-btn" onclick="closeModal('m5')" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-sector">Pilote 05 — Éducation</div>
+      <h3 class="modal-title" id="m5-title">Plateforme de tutorat IA pour établissements</h3>
+    </div>
+    <div class="modal-body">
+      <div class="modal-2col">
+        <div class="mfield"><label>Objectif</label><p>Déployer dans 5 lycées pilotes un système de tutorat adaptatif qui ajuste les exercices au niveau de chaque élève et corrige automatiquement les productions.</p></div>
+        <div class="mfield"><label>Valeur immédiate</label><p>Réduction du décrochage scolaire, amélioration des résultats aux examens nationaux, allègement de la charge des enseignants sur les corrections répétitives.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="modal-2col">
+        <div class="mfield"><label>Mode de déploiement</label><p>Serveur local dans chaque établissement. Données élèves strictement locales. Modèles adaptés aux programmes officiels du BEPC et du BAC béninois.</p></div>
+        <div class="mfield"><label>Bénéfice institutionnel</label><p>Équité éducative renforcée, données pédagogiques nationales protégées, vitrine internationale de l'IA éducative souveraine africaine.</p></div>
+      </div>
+      <div class="modal-hr"></div>
+      <div class="mfield"><label>Technologies souveraines proposées</label>
+        <div class="modal-chips">
+          <span class="chip">Serveur local établissement</span>
+          <span class="chip">Modèle adaptatif souverain</span>
+          <span class="chip">Programmes BEPC / BAC béninois</span>
+          <span class="chip">Foundry Local — runtime léger</span>
+          <span class="chip">Zéro données élèves à l'étranger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SCRIPTS ══════════════════════════════════════════════════ -->
+<script>
+  /* ─── Nav scroll ─────────────────────────────────────────── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ─── Scroll-spy (section active dans le menu) ───────────── */
+  const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+  const spySections = Array.from(navAnchors)
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  const scrollSpy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navAnchors.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25, rootMargin: '-64px 0px -55% 0px' });
+  spySections.forEach(s => scrollSpy.observe(s));
+
+  /* ─── Mobile burger ──────────────────────────────────────── */
+  const burger = document.getElementById('burger');
+  const navlinks = document.getElementById('navlinks');
+  burger.addEventListener('click', () => {
+    const open = navlinks.classList.toggle('mobile-open');
+    burger.setAttribute('aria-expanded', open);
+  });
+  navlinks.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => {
+      navlinks.classList.remove('mobile-open');
+      burger.setAttribute('aria-expanded', 'false');
+    })
+  );
+
+  /* ─── Reveal on scroll ───────────────────────────────────── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ─── Sector filter ──────────────────────────────────────── */
+  const filterBtns = document.querySelectorAll('.uf');
+  const ucCards    = document.querySelectorAll('.uc-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const s = btn.dataset.s;
+      ucCards.forEach(card => {
+        const match = s === 'all' || card.dataset.s === s;
+        card.classList.toggle('show', match);
+      });
+    });
+  });
+
+  /* ─── Roadmap phase toggle ───────────────────────────────── */
+  function togglePhase(el) {
+    const wasActive = el.classList.contains('active');
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+    if (!wasActive) el.classList.add('active');
+  }
+  /* Keyboard support for phase */
+  document.querySelectorAll('.phase').forEach(p => {
+    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePhase(p); } });
+  });
+
+  /* ─── Compteur animé (hero stats) ────────────────────────── */
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target  = parseInt(el.dataset.count, 10);
+    const numEl   = el.querySelector('.cnum');
+    if (!numEl) return;
+    const duration = 1600;
+    const fmt = n => target >= 1000 ? n.toLocaleString('fr-FR') : String(n);
+    numEl.textContent = fmt(0);
+    const obs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      obs.unobserve(el);
+      let t0 = null;
+      (function step(ts) {
+        if (!t0) t0 = ts;
+        const p    = Math.min((ts - t0) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        numEl.textContent = fmt(Math.round(ease * target));
+        if (p < 1) requestAnimationFrame(step);
+      })(performance.now());
+    }, { threshold: 0.6 });
+    obs.observe(el);
+  });
+
+  /* ─── Barre de progression lecture ───────────────────────── */
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    if (total > 0) bar.style.width = (window.scrollY / total * 100).toFixed(1) + '%';
+  }, { passive: true });
+
+  /* ─── Modals ─────────────────────────────────────────────── */
+  function openModal(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    el.querySelector('.modal-close-btn').focus();
+  }
+  function closeModal(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  /* Close on backdrop click */
+  document.querySelectorAll('.backdrop').forEach(b => {
+    b.addEventListener('click', e => { if (e.target === b) closeModal(b.id); });
+  });
+  /* Close on Escape */
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.backdrop.open').forEach(b => closeModal(b.id));
+  });
+  /* Keyboard for pilote cards */
+  document.querySelectorAll('.pilote[role=button]').forEach(p => {
+    p.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); p.click(); }
+    });
+  });
+</script>
+</body>
+</html>
