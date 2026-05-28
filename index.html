@@ -53,14 +53,13 @@
 
     /* ─── Reset ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; scroll-behavior: smooth; }
+    html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
     body {
       background: var(--blanc);
       color: var(--anthracite);
       font-family: var(--font);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
     img { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
@@ -124,123 +123,104 @@
     .section-sub-light { color: rgba(255,255,255,0.62); }
 
     /* ══════════════════════════════════════════════════════════
-       NAV
+       SIDE NAV
     ══════════════════════════════════════════════════════════ */
-    #nav {
-      position: fixed; top: 0; left: 0; right: 0;
+    #sidenav {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 900;
-      background: rgba(18, 53, 36, 0.95);
+      background: rgba(20, 20, 18, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 40px;
+      padding: 14px 10px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+    }
+    #sidenav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .snav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px 7px 9px;
+      border-radius: 100px;
+      transition: background var(--fast) var(--ease);
+      white-space: nowrap;
+    }
+    .snav-item:hover {
+      background: rgba(255,255,255,0.08);
+    }
+    .snav-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.55);
+      flex-shrink: 0;
+      transition: background var(--base) var(--ease), transform var(--base) var(--ease), box-shadow var(--base) var(--ease);
+    }
+    .snav-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.60);
+      letter-spacing: 0.03em;
+      transition: color var(--fast) var(--ease);
+      pointer-events: none;
+    }
+    .snav-item:hover .snav-dot {
+      background: rgba(255,255,255,0.75);
+    }
+    .snav-item:hover .snav-label {
+      color: rgba(255,255,255,0.85);
+    }
+    .snav-item.active .snav-dot {
+      background: var(--or-dore);
+      transform: scale(1.55);
+      box-shadow: 0 0 0 3px rgba(217,164,4,0.22);
+    }
+    .snav-item.active .snav-label {
+      color: var(--or-dore);
+      font-weight: 700;
+    }
+    @media (max-width: 1023px) {
+      #sidenav { left: 10px; }
+      .snav-label { display: none; }
+    }
+    @media (max-width: 767px) {
+      #sidenav { display: none; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TOPBAR LOGO
+    ══════════════════════════════════════════════════════════ */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      height: 100px;
+      background: rgba(18, 53, 36, 0.96);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.07);
-      transition: background var(--base) var(--ease), box-shadow var(--base) var(--ease);
-    }
-    #nav.scrolled {
-      background: rgba(18, 53, 36, 0.99);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.32);
-    }
-    .nav-inner {
+      border-bottom: 1px solid rgba(255,255,255,0.07);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding-block: 10px;
-      gap: 20px;
+      justify-content: center;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
     }
-    .nav-brand {
+    #topbar a {
       display: flex;
       align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
     }
-    .nav-logo {
-      width: 340px;
-      height: 92px;
-      border-radius: 0;
+    #topbar img {
+      height: 82px;
+      width: auto;
       object-fit: contain;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      flex-shrink: 0;
-    }
-    .nav-brand-copy {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-    .nav-brand-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .nav-brand-sup {
-      font-size: 9.5px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-    .nav-brand-main {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.01em;
-    }
-    .nav-brand-accent { color: var(--or-dore); }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 13.5px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.75);
-      transition: color var(--fast) var(--ease);
-      position: relative;
-      padding-bottom: 3px;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 2px;
-      background: var(--or-dore);
-      border-radius: 2px;
-      transition: width var(--base) var(--ease);
-    }
-    .nav-links a:hover { color: #fff; }
-    .nav-links a:hover::after,
-    .nav-links a.active::after { width: 100%; }
-    .nav-links a.active { color: #fff; font-weight: 600; }
-    .nav-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      background: var(--or-dore);
-      color: var(--anthracite);
-      font-size: 13px;
-      font-weight: 700;
-      border-radius: var(--r-sm);
-      flex-shrink: 0;
-      transition: background var(--fast) var(--ease), transform var(--fast) var(--ease);
-    }
-    .nav-pill:hover { background: var(--or-doux); transform: translateY(-1px); }
-    .nav-pill svg { width: 13px; height: 13px; }
-    .burger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      padding: 8px;
-      flex-shrink: 0;
-    }
-    .burger span {
-      display: block; width: 22px; height: 2px;
-      background: #fff; border-radius: 2px;
-      transition: all var(--base) var(--ease);
     }
 
     /* ══════════════════════════════════════════════════════════
@@ -280,7 +260,7 @@
     }
     .hero-content {
       position: relative; z-index: 1;
-      padding-top: 128px;
+      padding-top: clamp(120px, 12vw, 160px);
       padding-bottom: 80px;
     }
     .hero-badge {
@@ -934,23 +914,6 @@
       .phase-panel { max-height: none !important; }
     }
     @media (max-width: 767px) {
-      .nav-inner { padding-block: 8px; }
-      .nav-logo {
-        width: min(265px, calc(100vw - 92px));
-        height: 72px;
-      }
-      .nav-links { display: none; }
-      .nav-links.mobile-open {
-        display: flex; flex-direction: column;
-        position: fixed; inset: 0; top: 88px;
-        background: rgba(18,53,36,0.98);
-        backdrop-filter: blur(14px);
-        padding: 36px var(--gutter);
-        gap: 28px; z-index: 899;
-      }
-      .nav-links.mobile-open a { font-size: 20px; color: #fff; }
-      .nav-pill { display: none; }
-      .burger { display: flex; }
       .defis-grid { grid-template-columns: 1fr; }
       .uc-grid { grid-template-columns: 1fr; }
       .pilotes-grid { grid-template-columns: 1fr; }
@@ -995,29 +958,24 @@
 
 <div id="progress-bar" aria-hidden="true"></div>
 
-<!-- ════ NAV ════════════════════════════════════════════════════ -->
-<nav id="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-brand">
-        <img class="nav-logo" src="logoKORA_AI-header-fond-header.png" alt="Logo KORA AI - L'intelligence qui a de la valeur" />
-      </a>
+<!-- ════ TOPBAR ══════════════════════════════════════════════════ -->
+<header id="topbar">
+  <a href="#hero">
+    <img src="logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" />
+  </a>
+</header>
 
-      <ul class="nav-links" id="navlinks">
-        <li><a href="#vision">Vision</a></li>
-        <li><a href="#defis">Défis</a></li>
-        <li><a href="#usecases">Opportunités</a></li>
-        <li><a href="#souverainete">Souveraineté</a></li>
-        <li><a href="#pilotes">Pilotes</a></li>
-        <li><a href="#roadmap">Feuille de route</a></li>
-      </ul>
-
-      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-
-    </div>
-  </div>
+<!-- ════ SIDENAV ═════════════════════════════════════════════════ -->
+<nav id="sidenav" aria-label="Navigation sections">
+  <ul>
+    <li><a href="#vision"       class="snav-item"><span class="snav-dot"></span><span class="snav-label">Vision</span></a></li>
+    <li><a href="#defis"        class="snav-item"><span class="snav-dot"></span><span class="snav-label">Défis</span></a></li>
+    <li><a href="#usecases"     class="snav-item"><span class="snav-dot"></span><span class="snav-label">Opportunités</span></a></li>
+    <li><a href="#souverainete" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Souveraineté</span></a></li>
+    <li><a href="#pilotes"      class="snav-item"><span class="snav-dot"></span><span class="snav-label">Pilotes</span></a></li>
+    <li><a href="#roadmap"      class="snav-item"><span class="snav-dot"></span><span class="snav-label">Feuille de route</span></a></li>
+    <li><a href="#cta"          class="snav-item"><span class="snav-dot"></span><span class="snav-label">Agir</span></a></li>
+  </ul>
 </nav>
 
 <!-- ════ HERO ═══════════════════════════════════════════════════ -->
@@ -1804,41 +1762,28 @@
 
 <!-- ════ SCRIPTS ══════════════════════════════════════════════════ -->
 <script>
-  /* ─── Nav scroll ─────────────────────────────────────────── */
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
-
-  /* ─── Scroll-spy (section active dans le menu) ───────────── */
-  const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
-  const spySections = Array.from(navAnchors)
+  /* ─── Sidenav scroll-spy ─────────────────────────────────── */
+  const snavItems = document.querySelectorAll('.snav-item');
+  const snavSections = Array.from(snavItems)
     .map(a => document.querySelector(a.getAttribute('href')))
     .filter(Boolean);
-  const scrollSpy = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navAnchors.forEach(a => a.classList.remove('active'));
-        const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-        if (link) link.classList.add('active');
+
+  function updateSidenav() {
+    const trigger = window.innerHeight * 0.35;
+    let active = null;
+    snavSections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= trigger && rect.bottom > 0) {
+        active = section.id;
       }
     });
-  }, { threshold: 0.25, rootMargin: '-64px 0px -55% 0px' });
-  spySections.forEach(s => scrollSpy.observe(s));
-
-  /* ─── Mobile burger ──────────────────────────────────────── */
-  const burger = document.getElementById('burger');
-  const navlinks = document.getElementById('navlinks');
-  burger.addEventListener('click', () => {
-    const open = navlinks.classList.toggle('mobile-open');
-    burger.setAttribute('aria-expanded', open);
-  });
-  navlinks.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => {
-      navlinks.classList.remove('mobile-open');
-      burger.setAttribute('aria-expanded', 'false');
-    })
-  );
+    snavItems.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      a.classList.toggle('active', id === active);
+    });
+  }
+  window.addEventListener('scroll', updateSidenav, { passive: true });
+  updateSidenav();
 
   /* ─── Reveal on scroll ───────────────────────────────────── */
   const io = new IntersectionObserver((entries) => {
