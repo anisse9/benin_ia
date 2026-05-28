@@ -911,9 +911,15 @@
     }
     .foot-brand { font-size: 12.5px; color: rgba(255,255,255,0.36); }
     .foot-flag {
-      display: flex; gap: 2px; align-items: center;
+      display: flex; align-items: stretch;
+      height: 22px; border-radius: 2px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.10);
+      flex-shrink: 0;
     }
-    .fs { width: 10px; height: 18px; border-radius: 1px; }
+    .fs-green { width: 10px; background: #1F6B3A; }
+    .fs-right  { display: flex; flex-direction: column; width: 18px; }
+    .fs-yellow { flex: 1; background: #FCD116; }
+    .fs-red    { flex: 1; background: #C8102E; }
     .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
 
     /* ══════════════════════════════════════════════════════════
@@ -1622,9 +1628,11 @@
     <div class="foot">
       <span class="foot-brand">République du Bénin — Ministère de l'Intelligence Artificielle · 2026</span>
       <div class="foot-flag" aria-label="Drapeau du Bénin">
-        <div class="fs" style="background:#1F6B3A;" title="Vert"></div>
-        <div class="fs" style="background:#D9A404;width:8px;" title="Jaune"></div>
-        <div class="fs" style="background:#A63A32;" title="Rouge"></div>
+        <div class="fs-green"></div>
+        <div class="fs-right">
+          <div class="fs-yellow"></div>
+          <div class="fs-red"></div>
+        </div>
       </div>
       <span class="foot-note">Document de travail institutionnel · Stratégie IA souveraine</span>
     </div>
