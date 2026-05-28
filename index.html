@@ -148,9 +148,37 @@
     }
     .nav-brand {
       display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .nav-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--r-sm);
+      object-fit: cover;
+      border: 1px solid rgba(217,164,4,0.32);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+      flex-shrink: 0;
+    }
+    .nav-brand-copy {
+      display: flex;
       flex-direction: column;
       gap: 2px;
-      flex-shrink: 0;
+      min-width: 0;
+    }
+    .nav-brand-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .nav-logo-text {
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--or-dore);
+      letter-spacing: 0.02em;
     }
     .nav-brand-sup {
       font-size: 9.5px;
@@ -966,8 +994,14 @@
   <div class="container">
     <div class="nav-inner">
       <a href="#hero" class="nav-brand">
-        <span class="nav-brand-sup">République du Bénin</span>
-        <span class="nav-brand-main">Ministère de <span class="nav-brand-accent">l'Intelligence Artificielle</span></span>
+        <img class="nav-logo" src="sika-ia-logo.png" alt="Logo SIKA IA" />
+        <span class="nav-brand-copy">
+          <span class="nav-brand-row">
+            <span class="nav-logo-text">SIKA IA</span>
+            <span class="nav-brand-sup">République du Bénin</span>
+          </span>
+          <span class="nav-brand-main">Ministère de <span class="nav-brand-accent">l'Intelligence Artificielle</span></span>
+        </span>
       </a>
 
       <ul class="nav-links" id="navlinks">
