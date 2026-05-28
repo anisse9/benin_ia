@@ -140,14 +140,12 @@
       box-shadow: 0 2px 16px rgba(0,0,0,0.32);
     }
     .nav-inner {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      display: flex;
       align-items: center;
+      justify-content: space-between;
       padding-block: 12px;
       gap: 20px;
     }
-    .nav-inner .nav-links { justify-self: end; }
-    .nav-inner .burger    { justify-self: end; }
     .nav-brand {
       display: flex;
       align-items: center;
@@ -1002,8 +1000,6 @@
 <nav id="nav">
   <div class="container">
     <div class="nav-inner">
-      <div></div><!-- spacer colonne gauche -->
-
       <a href="#hero" class="nav-brand">
         <img class="nav-logo" src="logoKORA_AI.jpg" alt="Logo KORA AI" />
       </a>
