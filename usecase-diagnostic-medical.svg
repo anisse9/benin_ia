@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B2E1C"/>
+      <stop offset="100%" stop-color="#061810"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#1F6B3A" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1F6B3A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#1F6B3A" stroke-width="0.4" opacity="0.25">
+    <line x1="0" y1="90" x2="800" y2="90"/>
+    <line x1="0" y1="180" x2="800" y2="180"/>
+    <line x1="0" y1="270" x2="800" y2="270"/>
+    <line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="160" y1="0" x2="160" y2="450"/>
+    <line x1="320" y1="0" x2="320" y2="450"/>
+    <line x1="480" y1="0" x2="480" y2="450"/>
+    <line x1="640" y1="0" x2="640" y2="450"/>
+  </g>
+
+  <!-- Glow halo -->
+  <circle cx="400" cy="200" r="180" fill="url(#glow)"/>
+
+  <!-- Outer rings -->
+  <circle cx="400" cy="200" r="145" fill="none" stroke="#2A8850" stroke-width="1" opacity="0.35" stroke-dasharray="8 6"/>
+  <circle cx="400" cy="200" r="115" fill="none" stroke="#2A8850" stroke-width="1" opacity="0.25"/>
+  <circle cx="400" cy="200" r="88"  fill="none" stroke="#D9A404" stroke-width="0.8" opacity="0.30"/>
+
+  <!-- Scan line (horizontal, gold) -->
+  <line x1="260" y1="188" x2="540" y2="188" stroke="#D9A404" stroke-width="2" opacity="0.7"/>
+  <rect x="260" y="185" width="280" height="6" rx="3" fill="#D9A404" opacity="0.08"/>
+
+  <!-- Medical cross -->
+  <rect x="374" y="130" width="52" height="140" rx="12" fill="#2A8850" opacity="0.95"/>
+  <rect x="330" y="174" width="140" height="52" rx="12" fill="#2A8850" opacity="0.95"/>
+  <!-- Cross highlight -->
+  <rect x="386" y="130" width="14" height="140" rx="6" fill="white" opacity="0.12"/>
+
+  <!-- Heartbeat / ECG line -->
+  <polyline
+    points="30,350 140,350 165,315 185,385 205,280 225,385 245,350 370,350 400,330 420,370 440,350 660,350 685,335 700,360 720,350 770,350"
+    fill="none" stroke="#D9A404" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+
+  <!-- AI chip — bottom left -->
+  <g transform="translate(56,290)" opacity="0.8">
+    <rect width="68" height="68" rx="10" fill="none" stroke="#2A8850" stroke-width="1.5"/>
+    <rect x="16" y="16" width="36" height="36" rx="6" fill="#1F6B3A"/>
+    <text x="34" y="39" text-anchor="middle" font-size="13" font-weight="800"
+          font-family="system-ui" fill="#D9A404">AI</text>
+    <!-- Pins -->
+    <line x1="0" y1="24" x2="16" y2="24" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="0" y1="34" x2="16" y2="34" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="0" y1="44" x2="16" y2="44" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="68" y1="24" x2="52" y2="24" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="68" y1="34" x2="52" y2="34" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="68" y1="44" x2="52" y2="44" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="24" y1="0" x2="24" y2="16" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="44" y1="0" x2="44" y2="16" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="24" y1="68" x2="24" y2="52" stroke="#2A8850" stroke-width="1.5"/>
+    <line x1="44" y1="68" x2="44" y2="52" stroke="#2A8850" stroke-width="1.5"/>
+  </g>
+
+  <!-- Data dots — right column -->
+  <g fill="#D9A404" opacity="0.55">
+    <circle cx="700" cy="100" r="4"/>
+    <circle cx="700" cy="120" r="3"/>
+    <circle cx="700" cy="138" r="2.5"/>
+    <circle cx="680" cy="100" r="2.5"/>
+    <circle cx="720" cy="100" r="2.5"/>
+  </g>
+
+  <!-- Label -->
+  <rect x="220" y="412" width="360" height="30" rx="8" fill="#1F6B3A" opacity="0.3"/>
+  <text x="400" y="433" text-anchor="middle" font-size="15" font-weight="700"
+        font-family="'DM Sans',system-ui,sans-serif" fill="white" letter-spacing="2.5" opacity="0.95">DIAGNOSTIC MÉDICAL IA</text>
+</svg>
