@@ -548,11 +548,11 @@
     }
     .souv-layout {
       display: grid; grid-template-columns: 1fr 1.15fr;
-      gap: 64px; align-items: start;
+      gap: 64px; align-items: center;
     }
     .souv-bricks {
       display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 14px; margin-top: 32px;
+      gap: 16px; margin-top: 48px;
     }
     .brick {
       background: rgba(255,255,255,0.045);
@@ -914,7 +914,7 @@
       .uc-grid { grid-template-columns: 1fr; }
       .pilotes-grid { grid-template-columns: 1fr; }
       .vision-pillars { grid-template-columns: 1fr; }
-      .souv-bricks { grid-template-columns: 1fr 1fr; }
+      .souv-bricks { grid-template-columns: 1fr 1fr; margin-top: 32px; }
       .modal-2col { grid-template-columns: 1fr; }
       .hero-stats { gap: 20px; }
       .cta-actions { flex-direction: column; }
@@ -1263,48 +1263,14 @@
 <!-- ════ SOUVERAINETÉ ════════════════════════════════════════════ -->
 <section id="souverainete">
   <div class="container">
-    <div class="souv-layout">
 
+    <div class="souv-layout">
       <div class="souv-left reveal d1">
         <p class="eyebrow eyebrow-light">04 — Souveraineté des données</p>
         <h2 class="section-title" style="color:#fff;">Une IA souveraine,<br>sous contrôle national</h2>
         <p class="section-sub section-sub-light">
           Les données sensibles ne doivent pas être hébergées sur des infrastructures étrangères non maîtrisées. Chaque déploiement doit s'appuyer sur une architecture où l'État béninois conserve le contrôle total des données, des modèles et des accès.
         </p>
-
-        <div class="souv-bricks">
-          <div class="brick reveal d3">
-            <div class="brick-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-            </div>
-            <div class="brick-title">Déploiement On-Premise</div>
-            <div class="brick-desc">Modèles installés dans les ministères et hôpitaux. Aucune donnée ne sort de l'institution. Compatible avec Ollama et Foundry Local.</div>
-          </div>
-
-          <div class="brick reveal d4">
-            <div class="brick-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-            </div>
-            <div class="brick-title">Cloud Souverain National</div>
-            <div class="brick-desc">Datacenter MEF comme hub gouvernemental. Hébergement certifié, accès contrôlé par l'État béninois — sans abonnement à un cloud étranger.</div>
-          </div>
-
-          <div class="brick reveal d5">
-            <div class="brick-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
-            </div>
-            <div class="brick-title">Edge AI Embarquée</div>
-            <div class="brick-desc">Inférence locale sur device ou serveur de proximité. Fonctionne hors connexion — données jamais transmises en dehors du périmètre de l'institution.</div>
-          </div>
-
-          <div class="brick reveal d6">
-            <div class="brick-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>
-            </div>
-            <div class="brick-title">Apprentissage Fédéré</div>
-            <div class="brick-desc">Les modèles s'améliorent sans centraliser les données. Seuls les gradients circulent entre institutions — jamais les données brutes des patients ou citoyens.</div>
-          </div>
-        </div>
       </div>
 
       <div class="souv-right reveal d2">
@@ -1312,8 +1278,42 @@
           <img src="img/pileIA-africaine-autonomie-grande.png" alt="Pile IA africaine pour une architecture souveraine" loading="lazy" />
         </div>
       </div>
-
     </div>
+
+    <div class="souv-bricks reveal">
+      <div class="brick reveal d1">
+        <div class="brick-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="brick-title">Déploiement On-Premise</div>
+        <div class="brick-desc">Modèles installés dans les ministères et hôpitaux. Aucune donnée ne sort de l'institution. Compatible avec Ollama et Foundry Local.</div>
+      </div>
+
+      <div class="brick reveal d2">
+        <div class="brick-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+        </div>
+        <div class="brick-title">Cloud Souverain National</div>
+        <div class="brick-desc">Datacenter MEF comme hub gouvernemental. Hébergement certifié, accès contrôlé par l'État béninois — sans abonnement à un cloud étranger.</div>
+      </div>
+
+      <div class="brick reveal d3">
+        <div class="brick-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+        </div>
+        <div class="brick-title">Edge AI Embarquée</div>
+        <div class="brick-desc">Inférence locale sur device ou serveur de proximité. Fonctionne hors connexion — données jamais transmises en dehors du périmètre de l'institution.</div>
+      </div>
+
+      <div class="brick reveal d4">
+        <div class="brick-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>
+        </div>
+        <div class="brick-title">Apprentissage Fédéré</div>
+        <div class="brick-desc">Les modèles s'améliorent sans centraliser les données. Seuls les gradients circulent entre institutions — jamais les données brutes des patients ou citoyens.</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
