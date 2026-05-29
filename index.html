@@ -367,7 +367,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 72px;
-      align-items: center;
+      align-items: stretch;
       margin-bottom: 72px;
     }
     .vision-photo {
@@ -379,12 +379,14 @@
     }
     .vision-photo:hover {
       z-index: 20;
-      transform: scale(1.12);
+      transform: scale(1.04);
       box-shadow: 0 22px 60px rgba(18,53,36,0.22);
     }
     .vision-photo img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
     }
     .vision-pillars {
