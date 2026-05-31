@@ -1,0 +1,645 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agribot — Assistant IA phytosanitaire et monitoring agricole · Bénin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A3226'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%23D9A404' stroke-width='1.2'/%3E%3Cpath d='M16 6 C13 10 10 13.5 10 17.5 C10 21.8 12.7 25 16 25 C19.3 25 22 21.8 22 17.5 C22 13.5 19 10 16 6Z' fill='%23D9A404'/%3E%3Cpath d='M16 10 C14 13 12.5 15.5 12.5 17.5 C12.5 20.5 14 23 16 23 C18 23 19.5 20.5 19.5 17.5 C19.5 15.5 18 13 16 10Z' fill='%232A8850'/%3E%3C/svg%3E" />
+  <meta name="description" content="Agribot — Un service numérique public d'assistance phytosanitaire et de monitoring agricole pour le Bénin, inscrit dans la SNIAM 2023-2027." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --vert-profond: #1F6B3A; --vert-sombre: #123524; --vert-clair: #2A8850;
+      --or-dore: #D9A404; --or-doux: #E7C64A; --rouge: #A63A32;
+      --blanc: #F7F4EC; --gris: #D9D4C7; --anthracite: #1E1E1A;
+      --muted: #5A5756; --border: #E0DBD0; --surface: #FFFFFF;
+      --font: 'DM Sans', -apple-system, system-ui, sans-serif;
+      --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+      --container: 1200px; --gutter: clamp(20px, 4vw, 48px);
+      --section-y: clamp(64px, 9vw, 120px);
+      --ease: cubic-bezier(0.2, 0, 0, 1); --fast: 150ms; --base: 250ms;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
+    body { background: var(--blanc); color: var(--anthracite); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    .container { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1{transition-delay:80ms}.d2{transition-delay:160ms}.d3{transition-delay:240ms}
+    .d4{transition-delay:320ms}.d5{transition-delay:400ms}.d6{transition-delay:480ms}
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 14px; }
+    .eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--or-dore); flex-shrink: 0; }
+    .eyebrow-light { color: rgba(255,255,255,0.55); }
+    .eyebrow-light::before { background: var(--or-dore); }
+    .section-title { font-size: clamp(28px, 3.8vw, 50px); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; margin-bottom: 18px; }
+    .section-sub { font-size: clamp(15px, 1.5vw, 18px); color: var(--muted); line-height: 1.75; max-width: 600px; }
+    #sidenav { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 900; background: rgba(20,20,18,0.82); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.18); border-radius: 40px; padding: 14px 10px; box-shadow: 0 8px 40px rgba(0,0,0,0.45); }
+    #sidenav ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .snav-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px 7px 9px; border-radius: 100px; transition: background var(--fast) var(--ease); white-space: nowrap; }
+    .snav-item:hover { background: rgba(255,255,255,0.08); }
+    .snav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.55); flex-shrink: 0; transition: background var(--base) var(--ease), transform var(--base) var(--ease), box-shadow var(--base) var(--ease); }
+    .snav-label { font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.60); letter-spacing: 0.03em; pointer-events: none; transition: color var(--fast) var(--ease); }
+    .snav-item:hover .snav-dot { background: rgba(255,255,255,0.75); }
+    .snav-item:hover .snav-label { color: rgba(255,255,255,0.85); }
+    .snav-item.active .snav-dot { background: var(--or-dore); transform: scale(1.55); box-shadow: 0 0 0 3px rgba(217,164,4,0.22); }
+    .snav-item.active .snav-label { color: var(--or-dore); font-weight: 700; }
+    @media(max-width:1023px){#sidenav{left:10px}.snav-label{display:none}}
+    @media(max-width:767px){#sidenav{display:none}}
+    #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 900; height: 100px; background: rgba(18,53,36,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+    #topbar a { display: flex; align-items: center; }
+    #topbar img { height: 82px; width: auto; object-fit: contain; }
+    .topbar-back { position: absolute; left: var(--gutter); display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); transition: color var(--fast) var(--ease); }
+    .topbar-back:hover { color: var(--or-dore); }
+    .topbar-back svg { width: 15px; height: 15px; transition: transform var(--fast) var(--ease); }
+    .topbar-back:hover svg { transform: translateX(-3px); }
+    #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; background: var(--vert-sombre); overflow: hidden; }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
+    .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
+    .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 45%; pointer-events: none; overflow: hidden; }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(217,164,4,0.35); background: rgba(217,164,4,0.10); border-radius: var(--r-sm); font-size: 11.5px; font-weight: 700; color: var(--or-doux); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 28px; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .hero-h1 { font-size: clamp(36px,5.2vw,72px); font-weight: 700; color: #fff; line-height: 1.08; letter-spacing: -0.025em; max-width: 860px; margin-bottom: 24px; }
+    .hero-accent { color: var(--or-dore); }
+    .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 640px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 52px; margin-bottom: 56px; }
+    .hstat { display: flex; flex-direction: column; gap: 6px; }
+    .hstat-val { font-size: clamp(40px,5vw,62px); font-weight: 700; color: var(--or-dore); letter-spacing: -0.03em; line-height: 1; }
+    .hstat-label { font-size: 13px; color: rgba(255,255,255,0.57); max-width: 150px; line-height: 1.4; }
+    .hero-miniflow { display: flex; align-items: center; padding: 18px 24px; max-width: 680px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-md); }
+    .hmf-node { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 7px; }
+    .hmf-ico { width: 34px; height: 34px; background: rgba(217,164,4,0.14); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .hmf-ico svg { width: 16px; height: 16px; color: var(--or-dore); }
+    .hmf-label { font-size: 10.5px; color: rgba(255,255,255,0.58); font-weight: 500; line-height: 1.3; }
+    .hmf-arrow { flex-shrink: 0; padding-inline: 5px; color: rgba(255,255,255,0.20); margin-bottom: 14px; font-size: 16px; }
+    .hero-scroll-indicator { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.32); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent); animation: scrollDrop 2.2s ease-in-out infinite; }
+    @keyframes scrollDrop{0%,100%{opacity:1}50%{opacity:0.25}}
+    #contexte { padding-block: var(--section-y); background: var(--surface); }
+    .contexte-intro { max-width: 740px; margin-bottom: 52px; }
+    .contexte-text { font-size: 15.5px; color: var(--muted); line-height: 1.8; margin-top: 16px; }
+    .constats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 48px; }
+    .constat { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--r-md); padding: 26px 22px; position: relative; transition: all var(--base) var(--ease); }
+    .constat:hover { border-color: var(--vert-profond); box-shadow: 0 4px 24px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .constat-bar { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--or-dore); border-radius: 3px 3px 0 0; }
+    .constat-ico { width: 40px; height: 40px; background: rgba(31,107,58,0.09); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .constat-ico svg { width: 20px; height: 20px; color: var(--vert-profond); }
+    .constat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .constat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .pourquoi-bloc { background: var(--vert-sombre); border-radius: var(--r-lg); padding: 44px; display: flex; gap: 52px; align-items: flex-start; }
+    .pourquoi-left { flex: 1 1 280px; }
+    .pourquoi-right { flex: 1.4 1 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .pourquoi-title { font-size: clamp(20px,2.4vw,26px); font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .pourquoi-sub { font-size: 14px; color: rgba(255,255,255,0.58); line-height: 1.7; }
+    .raison { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-md); padding: 16px; }
+    .raison-title { font-size: 13px; font-weight: 700; color: var(--or-dore); margin-bottom: 6px; }
+    .raison-desc { font-size: 12px; color: rgba(255,255,255,0.56); line-height: 1.55; }
+    #objectif { padding-block: var(--section-y); background: var(--blanc); }
+    .objectif-header { margin-bottom: 48px; }
+    .objectif-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 52px; }
+    .obj-col { border-radius: var(--r-lg); padding: 40px 36px; position: relative; overflow: hidden; }
+    .obj-col-terrain { background: var(--vert-sombre); }
+    .obj-col-monitoring { background: var(--anthracite); }
+    .obj-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; }
+    .badge-terrain { background: rgba(42,136,80,0.28); color: var(--or-doux); }
+    .badge-monitoring { background: rgba(217,164,4,0.18); color: var(--or-dore); }
+    .obj-title { font-size: clamp(18px,2.2vw,24px); font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.25; }
+    .obj-desc { font-size: 14px; color: rgba(255,255,255,0.62); line-height: 1.7; }
+    .obj-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 20px; }
+    .obj-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+    .obj-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); flex-shrink: 0; margin-top: 6px; }
+    .benef-section-title { font-size: 19px; font-weight: 700; margin-bottom: 22px; }
+    .benef-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .benef { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 22px 16px; text-align: center; transition: all var(--base) var(--ease); }
+    .benef:hover { border-color: var(--vert-profond); box-shadow: 0 4px 20px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .benef-ico { width: 44px; height: 44px; background: rgba(31,107,58,0.09); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .benef-ico svg { width: 22px; height: 22px; color: var(--vert-profond); }
+    .benef-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .benef-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    #solution { padding-block: var(--section-y); background: var(--vert-sombre); color: #fff; position: relative; overflow: hidden; }
+    #solution::before { content: ''; position: absolute; top: -30%; right: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(31,107,58,0.20) 0%, transparent 70%); pointer-events: none; }
+    .solution-intro { max-width: 720px; margin-bottom: 52px; }
+    .solution-text { font-size: 15.5px; color: rgba(255,255,255,0.63); line-height: 1.8; margin-top: 16px; }
+    .arch-wrap { margin-bottom: 44px; }
+    .arch-diag-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--or-dore); margin-bottom: 20px; }
+    .arch-flow { display: flex; align-items: center; overflow-x: auto; padding: 36px 32px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-lg); }
+    .arch-node { flex: 1; min-width: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+    .arch-ico { width: 58px; height: 58px; border-radius: var(--r-md); background: rgba(217,164,4,0.12); border: 1px solid rgba(217,164,4,0.25); display: flex; align-items: center; justify-content: center; transition: all var(--base) var(--ease); }
+    .arch-ico:hover { background: rgba(217,164,4,0.22); border-color: rgba(217,164,4,0.50); transform: translateY(-2px); }
+    .arch-ico svg { width: 26px; height: 26px; color: var(--or-dore); }
+    .arch-node-title { font-size: 12.5px; font-weight: 700; color: #fff; }
+    .arch-node-sub { font-size: 10.5px; color: rgba(255,255,255,0.44); line-height: 1.4; max-width: 120px; }
+    .arch-arrow { flex-shrink: 0; padding-inline: 8px; color: rgba(255,255,255,0.22); margin-bottom: 24px; display: flex; align-items: center; }
+    .arch-arrow svg { width: 18px; height: 18px; }
+    .pourquoi-archi-label { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 18px; }
+    .pourquoi-archi { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .arg { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-md); padding: 18px 14px; transition: all var(--base) var(--ease); }
+    .arg:hover { background: rgba(255,255,255,0.07); border-color: rgba(217,164,4,0.25); }
+    .arg-ico { margin-bottom: 10px; }
+    .arg-ico svg { width: 22px; height: 22px; color: var(--or-dore); }
+    .arg-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .arg-desc { font-size: 11.5px; color: rgba(255,255,255,0.50); line-height: 1.55; }
+    #realisation { padding-block: var(--section-y); background: var(--blanc); }
+    .real-intro { max-width: 740px; margin-bottom: 52px; }
+    .timeline-wrap { margin-bottom: 56px; }
+    .timeline-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .timeline-label::before { content: ''; display: block; width: 18px; height: 2px; background: var(--or-dore); }
+    .timeline-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 0; position: relative; }
+    .timeline-grid::before { content: ''; position: absolute; top: 25px; left: calc(100%/12); right: calc(100%/12); height: 2px; background: linear-gradient(90deg, var(--or-dore), var(--vert-clair), var(--or-dore)); z-index: 0; }
+    .tstep { display: flex; flex-direction: column; align-items: center; text-align: center; padding-inline: 6px; position: relative; z-index: 1; }
+    .tstep-dot { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 18px; transition: all var(--base) var(--ease); }
+    .tstep:hover .tstep-dot { border-color: var(--or-dore); background: rgba(217,164,4,0.08); color: var(--or-dore); box-shadow: 0 0 0 6px rgba(217,164,4,0.10); }
+    .tstep-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 5px; }
+    .tstep-name { font-size: 13px; font-weight: 700; color: var(--anthracite); margin-bottom: 5px; }
+    .tstep-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    .local-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .local-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .local-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 24px 20px; transition: all var(--base) var(--ease); }
+    .local-card:hover { border-color: var(--vert-profond); box-shadow: 0 4px 20px rgba(31,107,58,0.08); }
+    .local-ico { width: 36px; height: 36px; background: rgba(31,107,58,0.09); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .local-ico svg { width: 18px; height: 18px; color: var(--vert-profond); }
+    .local-card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .local-card-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    #chiffrage { padding-block: var(--section-y); background: var(--surface); }
+    .chiffrage-intro { max-width: 700px; margin-bottom: 16px; }
+    .chiffrage-note { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; margin-bottom: 40px; background: rgba(217,164,4,0.09); border: 1px solid rgba(217,164,4,0.22); border-radius: var(--r-sm); font-size: 12px; color: #7A5200; font-weight: 500; }
+    .chiffrage-note svg { width: 14px; height: 14px; color: var(--or-dore); flex-shrink: 0; }
+    .chiffrage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .chiffrage-col { border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border); }
+    .ch-head { padding: 30px 28px 22px; border-bottom: 1px solid var(--border); }
+    .ch-head-dark { background: var(--vert-sombre); border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .ch-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 10px; }
+    .ch-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .ch-title-light { color: #fff; }
+    .ch-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+    .ch-sub-light { color: rgba(255,255,255,0.56); }
+    .ch-body { padding: 28px; background: var(--surface); }
+    .ch-body-alt { background: rgba(18,53,36,0.02); }
+    .poste { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .poste:last-child { border-bottom: none; }
+    .poste-name { font-size: 13.5px; color: var(--anthracite); }
+    .poste-est { font-size: 12.5px; font-weight: 500; color: var(--muted); text-align: right; }
+    .poste-est-or { color: var(--or-dore); font-weight: 600; }
+    .ch-footer { padding: 18px 28px; border-top: 1px solid var(--border); }
+    .ch-footer-dark { background: rgba(255,255,255,0.04); border-top: 1px solid rgba(255,255,255,0.07); }
+    .ch-footer-text { font-size: 13px; }
+    .ch-footer-text-light { color: rgba(255,255,255,0.55); }
+    #modele { padding-block: var(--section-y); background: var(--blanc); }
+    .modele-intro { max-width: 700px; margin-bottom: 52px; }
+    .modele-text { font-size: 15.5px; color: var(--muted); line-height: 1.8; margin-top: 16px; }
+    .modele-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 44px; }
+    .offre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; transition: all var(--base) var(--ease); }
+    .offre:hover { box-shadow: 0 8px 32px rgba(31,107,58,0.09); transform: translateY(-3px); }
+    .offre-featured { border-color: var(--vert-profond); box-shadow: 0 0 0 2px rgba(31,107,58,0.12); }
+    .offre-head { padding: 28px 24px; border-bottom: 1px solid var(--border); }
+    .offre-head-dark { background: var(--vert-sombre); border-bottom: none; }
+    .offre-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 10px; }
+    .offre-name { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .offre-name-light { color: #fff; }
+    .offre-price { font-size: clamp(26px,3vw,36px); font-weight: 700; letter-spacing: -0.025em; line-height: 1; }
+    .offre-price-light { color: var(--or-dore); }
+    .offre-price-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .offre-price-note-light { color: rgba(255,255,255,0.50); }
+    .offre-body { padding: 24px; }
+    .offre-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .offre-items li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .offre-check { width: 18px; height: 18px; border-radius: 50%; background: rgba(31,107,58,0.10); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .offre-check svg { width: 10px; height: 10px; color: var(--vert-profond); }
+    .offre-check-or { background: rgba(217,164,4,0.15); }
+    .offre-check-or svg { color: var(--or-dore); }
+    .coherence { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 44px; }
+    .coherence-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .coherence-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .coherence-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+    .carg-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .carg-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    #ressources { padding-block: var(--section-y); background: var(--surface); border-top: 1px solid var(--border); }
+    .ressources-note { font-size: 14px; color: var(--muted); margin-bottom: 36px; max-width: 600px; line-height: 1.7; margin-top: 14px; }
+    .ressources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ressource-card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 38px 32px; display: flex; flex-direction: column; gap: 14px; transition: all var(--base) var(--ease); }
+    .ressource-card:hover { border-color: var(--vert-profond); box-shadow: 0 8px 32px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .ressource-tag { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--vert-profond); }
+    .ressource-title { font-size: 20px; font-weight: 700; line-height: 1.25; }
+    .ressource-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .ressource-link { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--vert-profond); margin-top: 4px; }
+    .ressource-link svg { width: 14px; height: 14px; transition: transform var(--fast) var(--ease); }
+    .ressource-card:hover .ressource-link svg { transform: translateX(4px); }
+    #cta { padding-block: var(--section-y); background: var(--vert-sombre); position: relative; overflow: hidden; }
+    #cta::after { content: ''; position: absolute; bottom: 0; right: 0; width: 440px; height: 440px; background: radial-gradient(circle, rgba(217,164,4,0.08) 0%, transparent 70%); pointer-events: none; }
+    .cta-content { position: relative; z-index: 1; max-width: 780px; }
+    .cta-title { font-size: clamp(26px,4vw,54px); font-weight: 700; color: #fff; line-height: 1.12; letter-spacing: -0.022em; margin-bottom: 20px; }
+    .cta-sub { font-size: clamp(14px,1.5vw,17px); color: rgba(255,255,255,0.66); line-height: 1.8; margin-bottom: 44px; max-width: 600px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .cta-gold { padding: 15px 28px; background: var(--or-dore); color: var(--anthracite); font-size: 15px; font-weight: 700; border-radius: var(--r-sm); transition: all var(--fast) var(--ease); display: inline-block; }
+    .cta-gold:hover { background: var(--or-doux); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,164,4,0.30); }
+    .cta-outline { padding: 15px 24px; border: 1.5px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 500; border-radius: var(--r-sm); transition: all var(--fast) var(--ease); display: inline-block; background: transparent; }
+    .cta-outline:hover { border-color: rgba(255,255,255,0.50); background: rgba(255,255,255,0.06); }
+    footer { background: var(--anthracite); padding-block: 28px; }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .foot-brand { font-size: 12.5px; color: rgba(255,255,255,0.36); }
+    .foot-flag { display: flex; align-items: stretch; width: 32px; height: 20px; border-radius: 2px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    .fs-green { background: #008751; width: 11px; flex-shrink: 0; }
+    .fs-right { display: flex; flex-direction: column; flex: 1; }
+    .fs-yellow { background: #FCD116; flex: 1; }
+    .fs-red { background: #E8112D; flex: 1; }
+    .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
+    #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--or-dore), var(--or-doux)); z-index: 1100; border-radius: 0 2px 2px 0; pointer-events: none; transition: width 80ms linear; }
+    @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr 1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}}
+    @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="progress-bar" aria-hidden="true"></div>
+<header id="topbar">
+  <a href="../index.html" class="topbar-back"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Page principale</a>
+  <a href="#hero"><img src="img/logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" /></a>
+</header>
+<nav id="sidenav" aria-label="Navigation sections">
+  <ul>
+    <li><a href="#contexte" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Contexte</span></a></li>
+    <li><a href="#objectif" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Objectif</span></a></li>
+    <li><a href="#solution" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Solution</span></a></li>
+    <li><a href="#realisation" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Réalisation</span></a></li>
+    <li><a href="#chiffrage" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Chiffrage</span></a></li>
+    <li><a href="#modele" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Modèle éco.</span></a></li>
+    <li><a href="#ressources" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Ressources</span></a></li>
+    <li><a href="#cta" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Agir</span></a></li>
+  </ul>
+</nav>
+<section id="hero">
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="hero-grid-lines" aria-hidden="true"></div>
+  <div class="hero-deco" aria-hidden="true">
+    <svg viewBox="0 0 500 700" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.09;">
+      <circle cx="350" cy="120" r="180" stroke="#D9A404" stroke-width="1"/>
+      <circle cx="350" cy="120" r="120" stroke="#2A8850" stroke-width="0.8"/>
+      <circle cx="350" cy="120" r="60" stroke="#D9A404" stroke-width="0.6"/>
+      <circle cx="350" cy="120" r="8" fill="#D9A404"/>
+      <line x1="350" y1="120" x2="200" y2="280" stroke="#D9A404" stroke-width="0.7"/>
+      <circle cx="200" cy="280" r="5" fill="#2A8850"/>
+      <line x1="350" y1="120" x2="440" y2="300" stroke="#2A8850" stroke-width="0.7"/>
+      <circle cx="440" cy="300" r="5" fill="#D9A404"/>
+      <line x1="350" y1="120" x2="300" y2="400" stroke="#D9A404" stroke-width="0.7"/>
+      <circle cx="300" cy="400" r="5" fill="#2A8850"/>
+      <line x1="200" y1="280" x2="100" y2="450" stroke="#2A8850" stroke-width="0.5"/>
+      <circle cx="100" cy="450" r="4" fill="#D9A404" opacity="0.7"/>
+      <line x1="440" y1="300" x2="480" y2="500" stroke="#D9A404" stroke-width="0.5"/>
+      <circle cx="480" cy="500" r="4" fill="#2A8850" opacity="0.7"/>
+      <line x1="300" y1="400" x2="250" y2="580" stroke="#2A8850" stroke-width="0.5"/>
+      <circle cx="250" cy="580" r="4" fill="#D9A404" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="container hero-content">
+    <div class="hero-badge reveal"><div class="hero-badge-dot"></div>Initiative IA agricole · SNIAM 2023-2027 · Bénin</div>
+    <h1 class="hero-h1 reveal d1">Un <span class="hero-accent">service numérique public</span><br>d'assistance phytosanitaire<br>et de pilotage agricole</h1>
+    <p class="hero-sub reveal d2">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
+    <div class="hero-stats reveal d3">
+      <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
+      <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
+      <div class="hstat"><span class="hstat-val">9</span><span class="hstat-label">filières stratégiques prioritaires identifiées</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" aria-hidden="true"><div class="scroll-line"></div><span>Découvrir</span></div>
+</section>
+
+<section id="contexte">
+  <div class="container">
+    <div class="contexte-intro reveal">
+      <p class="eyebrow">01 — Contexte</p>
+      <h2 class="section-title">Un secteur stratégique, des défis réels, un cadre national favorable</h2>
+      <p class="contexte-text">Le Bénin a adopté en 2023 sa Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées (SNIAM 2023-2027), avec un mandat explicite : déployer des solutions d'IA adaptées aux besoins nationaux dans les secteurs prioritaires. L'agriculture, premier secteur d'activité du pays, constitue un cas d'usage évident. Les producteurs font face à des pertes de rendement, des maladies non détectées à temps et des difficultés d'accès au conseil technique. L'État, de son côté, dispose de peu d'outils pour centraliser les signaux terrain et piloter la santé des cultures à l'échelle territoriale.</p>
+    </div>
+    <div class="constats-grid">
+      <div class="constat reveal d1">
+        <div class="constat-bar"></div>
+        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/><path d="M5 20c2-3 4-5 7-5s5 2 7 5"/></svg></div>
+        <div class="constat-title">Maladies et ravageurs non détectés à temps</div>
+        <div class="constat-desc">Les producteurs peinent à identifier les maladies fongiques, bactériennes et les attaques de ravageurs sans accès rapide au conseil technique. Les pertes de rendement peuvent dépasser 30 à 40 % sur certaines cultures comme l'anacarde, le maïs ou le manioc.</div>
+      </div>
+      <div class="constat reveal d2">
+        <div class="constat-bar"></div>
+        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="constat-title">Encadrement technique insuffisant à l'échelle</div>
+        <div class="constat-desc">Le ratio agents de vulgarisation / producteurs reste très défavorable. Les zones rurales éloignées ont un accès limité au conseil phytosanitaire, créant une inégalité d'accès au savoir technique entre producteurs selon leur localisation géographique.</div>
+      </div>
+      <div class="constat reveal d3">
+        <div class="constat-bar"></div>
+        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="constat-title">Absence de centralisation des alertes agricoles</div>
+        <div class="constat-desc">L'État béninois ne dispose pas d'un système structuré pour agréger les signaux terrain en temps réel : foyers de maladie, apparition de ravageurs, stress hydriques. Le pilotage de la santé des cultures reste fragmenté et réactif, sans vision territoriale.</div>
+      </div>
+      <div class="constat reveal d1">
+        <div class="constat-bar"></div>
+        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="constat-title">Initiatives numériques existantes à consolider</div>
+        <div class="constat-desc">Des outils numériques agricoles existent déjà au Bénin. La solution proposée se positionne comme une brique complémentaire, non comme une rupture : elle capitalise sur ces acquis et s'intègre dans l'écosystème numérique existant sans le remplacer.</div>
+      </div>
+      <div class="constat reveal d2">
+        <div class="constat-bar"></div>
+        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="constat-title">Manque de données agronomiques structurées</div>
+        <div class="constat-desc">Les données sur les maladies, les rendements et les pratiques culturales sont rarement collectées de manière systématique et géolocalisée. Ce déficit freine la capacité à anticiper les crises agricoles et à concevoir des politiques sectorielles fondées sur l'évidence.</div>
+      </div>
+      <div class="constat reveal d3">
+        <div class="constat-bar"></div>
+        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <div class="constat-title">Un cadre stratégique national favorable</div>
+        <div class="constat-desc">La SNIAM 2023-2027 et les priorités du MAEP créent un contexte institutionnel propice à l'investissement dans des solutions d'IA agricole. L'ambition politique existe ; le besoin d'un premier cas d'usage concret, déployable et mesurable est clairement exprimé.</div>
+      </div>
+    </div>
+    <div class="pourquoi-bloc reveal">
+      <div class="pourquoi-left">
+        <p class="eyebrow eyebrow-light" style="margin-bottom:12px;">Pourquoi maintenant ?</p>
+        <div class="pourquoi-title">Trois conditions réunies pour agir</div>
+        <p class="pourquoi-sub">La maturité technologique de la vision par ordinateur, l'engagement politique du Bénin sur l'IA et la disponibilité de talents locaux forment une fenêtre d'opportunité rare. Un pilote lancé aujourd'hui peut produire des résultats mesurables en moins de 12 mois.</p>
+      </div>
+      <div class="pourquoi-right">
+        <div class="raison"><div class="raison-title">Maturité technique</div><div class="raison-desc">Les modèles de vision par ordinateur pour la détection de maladies végétales sont suffisamment matures pour être déployés sur des cas d'usage réels avec des données locales.</div></div>
+        <div class="raison"><div class="raison-title">Alignement SNIAM</div><div class="raison-desc">Le Bénin dispose d'un cadre stratégique national explicite et d'institutions de coordination qui facilitent l'investissement dans ce type de solution souveraine.</div></div>
+        <div class="raison"><div class="raison-title">Talents locaux disponibles</div><div class="raison-desc">Des compétences en data science, développement mobile et agronomie existent au Bénin et peuvent être mobilisées pour construire et maintenir cette solution en autonomie.</div></div>
+        <div class="raison"><div class="raison-title">Déployable par pilote</div><div class="raison-desc">Une approche progressive par filière et par département permet de valider la solution sur le terrain avant toute mise à l'échelle, limitant le risque institutionnel et financier.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="objectif">
+  <div class="container">
+    <div class="objectif-header reveal">
+      <p class="eyebrow">02 — Objectif</p>
+      <h2 class="section-title">Une double mission au service du terrain et du pilotage public</h2>
+      <p class="section-sub">Agribot n'est pas seulement un outil d'assistance aux producteurs. C'est aussi un instrument de centralisation et d'aide à la décision pour les institutions publiques qui supervisent le secteur agricole.</p>
+    </div>
+    <div class="objectif-split">
+      <div class="obj-col obj-col-terrain reveal d1">
+        <div class="obj-badge badge-terrain">Mission 1</div>
+        <div class="obj-title">Assistance terrain aux acteurs agricoles</div>
+        <div class="obj-desc">Le producteur, le coopérateur ou l'agent technique photographie une plante ou une feuille présentant des signes anormaux. Le système analyse l'image et fournit un diagnostic probable avec une orientation vers les bonnes pratiques.</div>
+        <ul class="obj-list">
+          <li>Identification des maladies fongiques, bactériennes et virales</li>
+          <li>Détection des ravageurs et des carences nutritionnelles</li>
+          <li>Orientation vers les traitements appropriés</li>
+          <li>Accessibilité via application mobile, y compris en zone à faible connectivité</li>
+          <li>Interface simple, sans prérequis technique pour l'utilisateur</li>
+        </ul>
+      </div>
+      <div class="obj-col obj-col-monitoring reveal d2">
+        <div class="obj-badge badge-monitoring">Mission 2</div>
+        <div class="obj-title">Monitoring et pilotage agricole pour l'État</div>
+        <div class="obj-desc">Chaque diagnostic effectué sur le terrain alimente une base de données centrale. Un tableau de bord permet aux institutions publiques de visualiser les tendances, les zones à risque et les dynamiques par culture, par période et par département.</div>
+        <ul class="obj-list">
+          <li>Tableau de bord territorial par filière, département et période</li>
+          <li>Cartographie des foyers de maladies et zones à risque</li>
+          <li>Alertes sur les dynamiques anormales (émergence rapide d'une maladie)</li>
+          <li>Données agrégées et anonymisées pour le pilotage sectoriel</li>
+          <li>Outil d'aide à la décision pour les politiques agricoles</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="benef-section-title">Bénéficiaires directs et institutionnels</div>
+      <div class="benef-grid">
+        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="benef-name">Producteurs</div><div class="benef-desc">Diagnostic rapide sur le terrain, accès au conseil sans déplacement</div></div>
+        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="benef-name">Coopératives</div><div class="benef-desc">Suivi collectif de la santé des cultures, remontée d'alertes groupées</div></div>
+        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div class="benef-name">ONG & projets</div><div class="benef-desc">Outil de suivi terrain pour les programmes d'appui agricole</div></div>
+        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="benef-name">Agents techniques</div><div class="benef-desc">Appui au diagnostic, référentiel standardisé pour le terrain</div></div>
+        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="benef-name">Ministères & agences</div><div class="benef-desc">Dashboard de pilotage territorial, données pour les politiques sectorielles</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solution">
+  <div class="container">
+    <div class="solution-intro reveal">
+      <p class="eyebrow eyebrow-light">03 — Solution technique</p>
+      <h2 class="section-title" style="color:#fff;">Une architecture fiable, explicable et maîtrisable</h2>
+      <p class="solution-text">La solution repose sur des modèles de vision par ordinateur spécialisés — ni sur des modèles de langage généralistes, ni sur des boîtes noires dépendantes de services tiers. Cette approche garantit la maîtrisabilité, la transparence du diagnostic et la pérennité de la solution, indépendamment d'un fournisseur externe.</p>
+    </div>
+    <div class="arch-wrap reveal">
+      <div class="arch-diag-label">Schéma d'architecture — flux de données et composants</div>
+      <div class="arch-flow">
+        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="arch-node-title">Application mobile</div><div class="arch-node-sub">Prise de photo + envoi sécurisé</div></div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div><div class="arch-node-title">API serveur</div><div class="arch-node-sub">Réception, authentification, routage</div></div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div><div class="arch-node-title">Modèles CV</div><div class="arch-node-sub">Classification + Détection spécialisée</div></div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div class="arch-node-title">Base de données</div><div class="arch-node-sub">Stockage, suivi, réentraînement</div></div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="1 20 23 20"/></svg></div><div class="arch-node-title">Dashboard</div><div class="arch-node-sub">Monitoring territorial · Pilotage public</div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="pourquoi-archi-label">Pourquoi cette architecture, et pas une autre ?</div>
+      <div class="pourquoi-archi">
+        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="arg-title">Plus fiable</div><div class="arg-desc">Modèles spécialisés sur la phytopathologie — plus performants que des modèles généralistes sur ce cas d'usage précis.</div></div>
+        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="arg-title">Plus explicable</div><div class="arg-desc">Chaque diagnostic est associé à une classe de maladie documentée, compréhensible par un agronome ou un décideur institutionnel.</div></div>
+        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="arg-title">Plus maîtrisable</div><div class="arg-desc">Aucune dépendance à un LLM tiers. Les modèles sont contrôlés par l'État ou son prestataire désigné, sans dépendance externe.</div></div>
+        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="arg-title">Plus économique</div><div class="arg-desc">Coût de fonctionnement prévisible, sans tarification à l'appel API. Supervisable par des équipes locales formées.</div></div>
+        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div><div class="arg-title">Adapté au terrain</div><div class="arg-desc">Diagnostic par simple photo de feuille ou de plante. Interface mobile accessible à des utilisateurs peu familiers du numérique.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="realisation">
+  <div class="container">
+    <div class="real-intro reveal">
+      <p class="eyebrow">04 — Réalisation</p>
+      <h2 class="section-title">Un projet faisable localement, de manière progressive et souveraine</h2>
+      <p class="section-sub">La force de cette approche est qu'elle peut être construite et maintenue avec des ressources largement disponibles au Bénin — experts agronomiques, techniciens terrain, talents data et développeurs locaux — sans dépendance à un seul fournisseur externe.</p>
+    </div>
+    <div class="timeline-wrap reveal">
+      <div class="timeline-label">Feuille de route opérationnelle — 6 étapes</div>
+      <div class="timeline-grid">
+        <div class="tstep d1"><div class="tstep-dot">1</div><div><div class="tstep-num">Étape 01</div><div class="tstep-name">Collecte terrain</div><div class="tstep-desc">Photos de cultures malades et saines collectées avec des agents et producteurs dans les zones pilotes. Minimum 2 000 à 5 000 images par filière.</div></div></div>
+        <div class="tstep d2"><div class="tstep-dot">2</div><div><div class="tstep-num">Étape 02</div><div class="tstep-name">Annotation</div><div class="tstep-desc">Labellisation des images par des agronomes et ingénieurs phytosanitaires locaux. Chaque maladie est documentée et classifiée avec les experts du MAEP.</div></div></div>
+        <div class="tstep d3"><div class="tstep-dot">3</div><div><div class="tstep-num">Étape 03</div><div class="tstep-name">Entraînement</div><div class="tstep-desc">Entraînement des modèles de classification et de détection sur les données annotées. Validation croisée avec les experts avant déploiement.</div></div></div>
+        <div class="tstep d4"><div class="tstep-dot">4</div><div><div class="tstep-num">Étape 04</div><div class="tstep-name">Intégration API</div><div class="tstep-desc">Déploiement de l'API backend, intégration des modèles, développement de l'application mobile et du dashboard de monitoring institutionnel.</div></div></div>
+        <div class="tstep d5"><div class="tstep-dot">5</div><div><div class="tstep-num">Étape 05</div><div class="tstep-name">Pilote terrain</div><div class="tstep-desc">Déploiement sur 1 à 2 filières dans 1 à 2 départements pilotes. Évaluation des performances et ajustement des modèles selon les retours terrain.</div></div></div>
+        <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Étape 06</div><div class="tstep-name">Amélioration continue</div><div class="tstep-desc">Réentraînement régulier avec les nouvelles données terrain. Extension progressive à de nouvelles filières, régions et types de problèmes.</div></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="local-title">Ressources locales mobilisables</div>
+      <div class="local-grid">
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div><div class="local-card-title">Expertise agronomique locale</div><div class="local-card-desc">Ingénieurs phytosanitaires, chercheurs du INRAB, experts du MAEP, techniciens de la SONAPRA et structures coopératives disposant de la connaissance terrain des pathologies des cultures béninoises.</div></div>
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="local-card-title">Structures publiques partenaires</div><div class="local-card-desc">MAEP, ASIN, ministère du numérique, agences de développement rural, Chambres d'agriculture du Bénin, structures d'encadrement des filières prioritaires (coton, anacarde, ananas, maïs).</div></div>
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="local-card-title">Talents data & développement</div><div class="local-card-desc">Diplômés du Master Data Science de l'UAC/IMSP, ingénieurs des écoles polytechniques, développeurs mobiles locaux et alumni des formations de l'ASIN. Le CEA-SMIA constitue un vivier de compétences IA directement mobilisables.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="chiffrage">
+  <div class="container">
+    <div class="chiffrage-intro reveal">
+      <p class="eyebrow">05 — Chiffrage indicatif</p>
+      <h2 class="section-title">Structure de coûts : du pilote à la mise à l'échelle</h2>
+      <p class="section-sub">L'investissement se décompose en deux phases distinctes, permettant de valider la solution à périmètre réduit avant tout engagement à l'échelle nationale.</p>
+    </div>
+    <div class="chiffrage-note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Document de cadrage indicatif — les montants définitifs sont établis après concertation et définition précise du périmètre du pilote.
+    </div>
+    <div class="chiffrage-grid reveal">
+      <div class="chiffrage-col">
+        <div class="ch-head ch-head-dark"><div class="ch-badge">Phase 1</div><div class="ch-title ch-title-light">Pilote</div><div class="ch-sub ch-sub-light">1 à 2 filières · 1 à 2 départements · durée indicative 6 à 12 mois</div></div>
+        <div class="ch-body">
+          <div class="poste"><span class="poste-name">Collecte de données terrain</span><span class="poste-est">Photos, déplacements, agents</span></div>
+          <div class="poste"><span class="poste-name">Annotation & validation agronomique</span><span class="poste-est">Experts, outils d'annotation</span></div>
+          <div class="poste"><span class="poste-name">Entraînement des modèles</span><span class="poste-est">Calcul, itérations, validation</span></div>
+          <div class="poste"><span class="poste-name">Développement MVP mobile + API</span><span class="poste-est">Application, backend, intégration</span></div>
+          <div class="poste"><span class="poste-name">Dashboard de monitoring</span><span class="poste-est">Interface institutionnelle</span></div>
+          <div class="poste"><span class="poste-name">Déploiement terrain & formation</span><span class="poste-est">Agents, coopératives pilotes</span></div>
+          <div class="poste"><span class="poste-name">Infrastructure & hébergement</span><span class="poste-est">Serveur, stockage, sécurité</span></div>
+          <div class="poste"><span class="poste-name">Coordination & gestion de projet</span><span class="poste-est">Suivi, reporting, KPIs</span></div>
+        </div>
+        <div class="ch-footer ch-footer-dark"><div class="ch-footer-text ch-footer-text-light">Budget du pilote : à définir selon le périmètre retenu, finançable dans le cadre d'un accord institutionnel initial ou d'un cofinancement bailleurs / État.</div></div>
+      </div>
+      <div class="chiffrage-col">
+        <div class="ch-head"><div class="ch-badge">Phase 2</div><div class="ch-title">Exploitation nationale</div><div class="ch-sub">Extension progressive · modèle de licence annuelle · après validation du pilote</div></div>
+        <div class="ch-body ch-body-alt">
+          <div class="poste"><span class="poste-name">Extension à de nouvelles filières</span><span class="poste-est">Coton, anacarde, manioc, riz…</span></div>
+          <div class="poste"><span class="poste-name">Extension géographique</span><span class="poste-est">Nouveaux départements, zones rurales</span></div>
+          <div class="poste"><span class="poste-name">Réentraînement continu des modèles</span><span class="poste-est">Nouvelles données, nouvelles maladies</span></div>
+          <div class="poste"><span class="poste-name">Maintenance & support technique</span><span class="poste-est">SLA défini, équipe dédiée</span></div>
+          <div class="poste"><span class="poste-name">Hébergement & supervision</span><span class="poste-est">Infrastructure scalable, monitoring</span></div>
+          <div class="poste"><span class="poste-name">Gouvernance & pilotage du service</span><span class="poste-est">Comité de suivi institutionnel</span></div>
+          <div class="poste"><span class="poste-name">Formation continue des utilisateurs</span><span class="poste-est">Agents terrain, nouveaux entrants</span></div>
+          <div class="poste"><span class="poste-name">Licence institutionnelle annuelle</span><span class="poste-est poste-est-or">100 000 € / an</span></div>
+        </div>
+        <div class="ch-footer"><div class="ch-footer-text">Modèle B2G : licence annuelle couvrant la maintenance, le réentraînement, l'hébergement et le support. Visibilité budgétaire pluriannuelle pour l'État.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="modele">
+  <div class="container">
+    <div class="modele-intro reveal">
+      <p class="eyebrow">06 — Modèle économique</p>
+      <h2 class="section-title">Un modèle B2G clair, prévisible et soutenable</h2>
+      <p class="modele-text">Agribot est un service public numérique, contractualisé avec l'État ou ses agences selon un modèle de licence institutionnelle annuelle. Ce modèle garantit la continuité du service, l'amélioration progressive des performances et la visibilité budgétaire pour les décideurs publics.</p>
+    </div>
+    <div class="modele-grid reveal">
+      <div class="offre">
+        <div class="offre-head"><div class="offre-label">Phase initiale</div><div class="offre-name">Pilote</div><div class="offre-price">Sur devis</div><div class="offre-price-note">Budget défini selon périmètre concerté</div></div>
+        <div class="offre-body"><ul class="offre-items">
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Collecte de données terrain et annotation</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Entraînement des premiers modèles</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>MVP mobile + API + dashboard initial</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Déploiement terrain sur filières pilotes</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Rapport d'évaluation et recommandations</li>
+        </ul></div>
+      </div>
+      <div class="offre offre-featured">
+        <div class="offre-head offre-head-dark"><div class="offre-label">Exploitation annuelle</div><div class="offre-name offre-name-light">Licence institutionnelle</div><div class="offre-price offre-price-light">100 000 €</div><div class="offre-price-note offre-price-note-light">par an · contrat pluriannuel recommandé</div></div>
+        <div class="offre-body"><ul class="offre-items">
+          <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Maintenance et supervision du service</li>
+          <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Réentraînement continu des modèles IA</li>
+          <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Hébergement sécurisé des données et modèles</li>
+          <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Dashboard institutionnel mis à jour en continu</li>
+          <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Support aux agents et formations</li>
+          <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Rapports périodiques de performance et d'usage</li>
+        </ul></div>
+      </div>
+      <div class="offre">
+        <div class="offre-head"><div class="offre-label">Extension</div><div class="offre-name">Expansion</div><div class="offre-price">Sur avenant</div><div class="offre-price-note">Négocié selon le périmètre additionnel</div></div>
+        <div class="offre-body"><ul class="offre-items">
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Nouvelles filières agricoles couvertes</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Extension géographique nationale</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Nouveaux modules (conseil fertilisation, météo…)</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Intégration avec les SI existants (MAEP, ASIN)</li>
+          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Transfert de compétences et documentation technique</li>
+        </ul></div>
+      </div>
+    </div>
+    <div class="coherence reveal">
+      <div class="coherence-title">Pourquoi ce modèle est cohérent pour l'État ?</div>
+      <div class="coherence-sub">Quatre raisons qui font de la licence institutionnelle le cadre adapté à un service public numérique.</div>
+      <div class="coherence-grid">
+        <div><div class="carg-title">Visibilité budgétaire</div><div class="carg-desc">Un coût annuel fixe et prévisible, intégrable dans les cycles budgétaires de l'État sans surprise ni dépassement imprévu.</div></div>
+        <div><div class="carg-title">Amélioration continue</div><div class="carg-desc">Les modèles s'améliorent avec le temps grâce aux nouvelles données terrain. La valeur du service croît à mesure que la base de données locale s'enrichit.</div></div>
+        <div><div class="carg-title">Outil mutualisable</div><div class="carg-desc">Une licence unique couvre l'ensemble des structures publiques et partenaires accrédités : ministères, agences, ONG, projets financés par l'État.</div></div>
+        <div><div class="carg-title">Valeur stratégique croissante</div><div class="carg-desc">Le tableau de bord national devient un actif de pilotage de plus en plus précieux à mesure que les données s'accumulent et que la couverture géographique s'élargit.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ressources">
+  <div class="container">
+    <div class="reveal">
+      <p class="eyebrow">07 — Pour aller plus loin</p>
+      <h2 class="section-title" style="max-width:540px;">Deux ressources pour approfondir</h2>
+      <p class="ressources-note">Cette page peut être complétée par un pitch oral synthétique et une foire aux questions conçue pour anticiper les objections institutionnelles les plus courantes.</p>
+    </div>
+    <div class="ressources-grid reveal">
+      <a href="#pitch-oral" class="ressource-card">
+        <div class="ressource-tag">Présentation orale</div>
+        <div class="ressource-title">Pitch oral — 5 minutes</div>
+        <div class="ressource-desc">Une présentation synthétique destinée à un échange de 5 minutes avec un décideur public ou un bailleur : le problème, la solution, le modèle, les prochaines étapes. Structure claire, discours calibré pour un public ministériel.</div>
+        <div class="ressource-link">Accéder à la présentation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+      <a href="#faq-objections" class="ressource-card">
+        <div class="ressource-tag">Questions / Réponses</div>
+        <div class="ressource-title">FAQ — Objections ministérielles</div>
+        <div class="ressource-desc">Une foire aux questions conçue pour anticiper les objections institutionnelles les plus fréquentes : budget, fiabilité technique, dépendance à un prestataire, gouvernance des données, compatibilité avec l'existant et modèle de sortie.</div>
+        <div class="ressource-link">Consulter la FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="hero-grid-lines" aria-hidden="true" style="position:absolute;inset:0;"></div>
+  <div class="container">
+    <div class="cta-content reveal">
+      <p class="eyebrow eyebrow-light">08 — Passer à l'action</p>
+      <h2 class="cta-title">Un outil de souveraineté agricole,<br>faisable dès maintenant par un pilote</h2>
+      <p class="cta-sub">Agribot est à la fois un service d'assistance terrain pour les producteurs et un outil de pilotage public pour les institutions. Il s'inscrit dans les ambitions du Bénin en matière d'IA appliquée à l'agriculture, est techniquement réaliste, réalisable avec des ressources locales et déployable de manière progressive et mesurable. Un pilote de 6 à 12 mois suffit à valider la valeur du service avant tout engagement à l'échelle nationale.</p>
+      <div class="cta-actions">
+        <a href="mailto:contact@kora.ai?subject=Agribot%20—%20Demande%20de%20cadrage%20pilote" class="cta-gold">Échanger sur un pilote</a>
+        <a href="mailto:contact@kora.ai?subject=Agribot%20—%20Note%20de%20cadrage" class="cta-outline">Recevoir une note de cadrage</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <span class="foot-brand">KORA AI · Agribot · 2026</span>
+      <div class="foot-flag" aria-label="Drapeau du Bénin"><div class="fs-green"></div><div class="fs-right"><div class="fs-yellow"></div><div class="fs-red"></div></div></div>
+      <span class="foot-note">Document institutionnel · Initiative IA agricole · SNIAM 2023-2027</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const snavItems = document.querySelectorAll('.snav-item');
+  const snavSections = Array.from(snavItems).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function updateSidenav() {
+    const trigger = window.innerHeight * 0.35;
+    let active = null;
+    snavSections.forEach(s => { const r = s.getBoundingClientRect(); if (r.top <= trigger && r.bottom > 0) active = s.id; });
+    snavItems.forEach(a => { const id = a.getAttribute('href').slice(1); a.classList.toggle('active', id === active); });
+  }
+  window.addEventListener('scroll', updateSidenav, { passive: true });
+  updateSidenav();
+  const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => { const total = document.documentElement.scrollHeight - window.innerHeight; if (total > 0) bar.style.width = (window.scrollY / total * 100).toFixed(1) + '%'; }, { passive: true });
+</script>
+</body>
+</html>
