@@ -529,9 +529,13 @@
     .t-finance{ background: rgba(0,110,130,0.10); color: #005F70; }
     .uc-title { font-size: 14.5px; font-weight: 700; line-height: 1.35; }
     .uc-value { font-size: 12.5px; color: var(--muted); line-height: 1.65; flex: 1; }
+    @keyframes pilote-glow {
+      0%,100% { box-shadow: 0 0 5px 2px rgba(42,136,80,0.55), 0 0 14px 5px rgba(42,136,80,0.18), 0 0 0 2px rgba(217,164,4,0.12); }
+      50%      { box-shadow: 0 0 5px 2px rgba(217,164,4,0.65), 0 0 14px 5px rgba(217,164,4,0.22), 0 0 0 2px rgba(42,136,80,0.12); }
+    }
     .uc-tags-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .uc-pilote { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em; padding: 5px 13px; border-radius: 100px; background: rgba(217,164,4,0.28); color: #5C3D00; border: 1.5px solid rgba(217,164,4,0.60); box-shadow: 0 0 0 3px rgba(217,164,4,0.10); }
-    .uc-pilote-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
+    .uc-pilote { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em; padding: 5px 13px; border-radius: 100px; background: linear-gradient(135deg, rgba(42,136,80,0.18) 0%, rgba(217,164,4,0.25) 100%); color: #3D2B00; border: 1.5px solid rgba(217,164,4,0.55); animation: pilote-glow 2.8s ease-in-out infinite; }
+    .uc-pilote-dot { width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--vert-clair), var(--or-dore)); flex-shrink: 0; animation: pulse 2.4s ease-in-out infinite; }
     .uc-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 700; color: #fff; background: var(--vert-profond); padding: 10px 18px; border-radius: var(--r-sm); margin-top: 6px; transition: all var(--fast) var(--ease); }
     .uc-cta:hover { background: var(--vert-clair); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(31,107,58,0.30); }
     .uc-cta svg { width: 14px; height: 14px; transition: transform var(--fast) var(--ease); }
