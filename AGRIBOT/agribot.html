@@ -604,7 +604,7 @@
         <div class="ressource-tag">Présentation orale</div>
         <div class="ressource-title">Pitch oral — 5 minutes</div>
         <div class="ressource-desc">Une présentation synthétique destinée à un échange de 5 minutes avec un décideur public ou un bailleur : le problème, la solution, le modèle, les prochaines étapes. Structure claire, discours calibré pour un public ministériel.</div>
-        <div class="ressource-link">Lire le pitch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="ressource-link" id="pitch-link">Lire le pitch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </a>
       <a href="#faq-objections" class="ressource-card">
         <div class="ressource-tag">Questions / Réponses</div>
@@ -686,16 +686,16 @@
   window.addEventListener('scroll', () => { const total = document.documentElement.scrollHeight - window.innerHeight; if (total > 0) bar.style.width = (window.scrollY / total * 100).toFixed(1) + '%'; }, { passive: true });
 
   // Pitch popup
-  const pitchTrigger = document.getElementById('pitch-trigger');
+  const pitchLink    = document.getElementById('pitch-link');
   const pitchPopup   = document.getElementById('pitch-popup');
   const pitchOverlay = document.getElementById('pitch-overlay');
   const pitchClose   = document.getElementById('pitch-close');
   let pitchTimer;
   function openPitch(e) { if (e) e.preventDefault(); clearTimeout(pitchTimer); pitchPopup.classList.add('open'); document.body.style.overflow = 'hidden'; }
   function schedulePitchClose() { pitchTimer = setTimeout(() => { pitchPopup.classList.remove('open'); document.body.style.overflow = ''; }, 180); }
-  pitchTrigger.addEventListener('mouseenter', openPitch);
-  pitchTrigger.addEventListener('mouseleave', schedulePitchClose);
-  pitchTrigger.addEventListener('click', openPitch);
+  pitchLink.addEventListener('mouseenter', openPitch);
+  pitchLink.addEventListener('mouseleave', schedulePitchClose);
+  pitchLink.addEventListener('click', openPitch);
   pitchPopup.addEventListener('mouseenter', () => clearTimeout(pitchTimer));
   pitchPopup.addEventListener('mouseleave', schedulePitchClose);
   pitchOverlay.addEventListener('click', schedulePitchClose);
