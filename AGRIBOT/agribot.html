@@ -253,6 +253,22 @@
     @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr 1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}}
     @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
+    /* ── Pitch popup ── */
+    #pitch-popup { display: none; position: fixed; inset: 0; z-index: 1200; padding: 24px; align-items: center; justify-content: center; }
+    #pitch-popup.open { display: flex; }
+    .pitch-overlay { position: absolute; inset: 0; background: rgba(10,18,12,0.62); backdrop-filter: blur(6px); cursor: pointer; }
+    .pitch-panel { position: relative; background: var(--surface); border-radius: var(--r-lg); max-width: 680px; width: 100%; max-height: 84vh; display: flex; flex-direction: column; box-shadow: 0 28px 80px rgba(0,0,0,0.40); overflow: hidden; z-index: 1; }
+    .pitch-header { padding: 30px 40px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .pitch-eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .pitch-eyebrow::before { content: ''; display: block; width: 20px; height: 2px; background: var(--or-dore); }
+    .pitch-title { font-size: 20px; font-weight: 700; }
+    .pitch-body { overflow-y: auto; padding: 26px 40px 36px; }
+    .pitch-body p { font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+    .pitch-body p:first-child { font-size: 15px; font-weight: 600; color: var(--anthracite); }
+    .pitch-body p:last-child { margin-bottom: 0; }
+    .pitch-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--blanc); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all var(--fast) var(--ease); cursor: pointer; font-size: 20px; line-height: 1; z-index: 2; }
+    .pitch-close:hover { background: var(--border); color: var(--anthracite); }
+    @media(max-width:600px){ .pitch-panel { max-height: 90vh; } .pitch-header, .pitch-body { padding-inline: 22px; } }
   </style>
 </head>
 <body>
@@ -584,11 +600,11 @@
       <p class="ressources-note">Cette page peut être complétée par un pitch oral synthétique et une foire aux questions conçue pour anticiper les objections institutionnelles les plus courantes.</p>
     </div>
     <div class="ressources-grid reveal">
-      <a href="#pitch-oral" class="ressource-card">
+      <a href="#" class="ressource-card" id="pitch-trigger">
         <div class="ressource-tag">Présentation orale</div>
         <div class="ressource-title">Pitch oral — 5 minutes</div>
         <div class="ressource-desc">Une présentation synthétique destinée à un échange de 5 minutes avec un décideur public ou un bailleur : le problème, la solution, le modèle, les prochaines étapes. Structure claire, discours calibré pour un public ministériel.</div>
-        <div class="ressource-link">Accéder à la présentation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="ressource-link">Lire le pitch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </a>
       <a href="#faq-objections" class="ressource-card">
         <div class="ressource-tag">Questions / Réponses</div>
@@ -625,6 +641,34 @@
   </div>
 </footer>
 
+<!-- Pitch oral popup -->
+<div id="pitch-popup" role="dialog" aria-modal="true" aria-label="Pitch oral Agribot">
+  <div class="pitch-overlay" id="pitch-overlay"></div>
+  <div class="pitch-panel">
+    <button class="pitch-close" id="pitch-close" aria-label="Fermer">&#x2715;</button>
+    <div class="pitch-header">
+      <div class="pitch-eyebrow">Présentation orale · 5 minutes</div>
+      <div class="pitch-title">Pitch oral — Agribot</div>
+    </div>
+    <div class="pitch-body">
+      <p>Bonjour, et merci de me recevoir.</p>
+      <p>Je souhaite vous présenter une proposition de service public numérique agricole qui s'inscrit directement dans la Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées 2023-2027 du Bénin, adoptée en janvier 2023, avec l'ambition de développer des solutions technologiques adaptées aux besoins du pays, notamment dans l'agriculture.</p>
+      <p>L'idée est simple : permettre à un producteur, à un agent de terrain ou à une coopérative d'envoyer la photo d'une plante ou d'une feuille présentant un symptôme, puis de recevoir rapidement un premier diagnostic probable ainsi qu'une orientation utile. En parallèle, les données remontées par le terrain peuvent être centralisées dans un système de monitoring pour aider l'État à mieux suivre les maladies, ravageurs et alertes agricoles.</p>
+      <p>Ce projet ne doit pas être compris comme une application isolée de plus. Le Bénin a déjà engagé une dynamique de transformation numérique agricole avec des plateformes comme acteur-agricole.bj, agrizonecna.com, ainsi qu'une plateforme de gestion et de suivi des exploitations agricoles ; la proposition ici est donc de créer une brique complémentaire, spécialisée dans l'assistance phytosanitaire et la remontée de données terrain.</p>
+      <p>L'intérêt pour l'État est double. Premièrement, il s'agit d'un outil concret d'appui aux producteurs, aux agents techniques, aux ONG et aux projets agricoles, en apportant une réponse simple à un problème fréquent : identifier plus vite un symptôme, orienter l'action, et réduire les pertes liées aux maladies ou aux ravageurs.</p>
+      <p>Deuxièmement, il s'agit d'un outil de pilotage public : chaque signal remonté peut nourrir une lecture agrégée par territoire, par culture, par période ou par type de problème, afin d'améliorer la surveillance phytosanitaire et l'aide à la décision.</p>
+      <p>Autrement dit, nous ne parlons pas seulement d'un assistant numérique pour les agriculteurs. Nous parlons d'une infrastructure légère de collecte, d'analyse et de centralisation de données agricoles, au service du terrain mais aussi au service de l'État. C'est précisément ce type de cas d'usage concret que la SNIAM cherche à encourager : des solutions utiles, visibles, adaptées au contexte béninois et capables de produire de la valeur publique.</p>
+      <p>Sur le plan technique, l'approche est volontairement simple et robuste. L'application mobile permet de prendre une photo, cette photo est envoyée à un serveur via une API, puis des modèles spécialisés de vision par ordinateur analysent l'image pour identifier une maladie, un ravageur ou un état probable de la culture, avant de renvoyer le diagnostic. Les données peuvent ensuite être stockées de façon structurée pour alimenter un tableau de bord de monitoring, et le système s'améliore progressivement grâce aux données locales validées sur le terrain.</p>
+      <p>Ce point est important : il ne s'agit pas ici d'un projet abstrait ou déconnecté du pays. Le modèle peut être entraîné progressivement à partir de données réelles béninoises, avec l'appui d'experts agricoles, d'agents terrain, d'universités, de techniciens et de compétences locales en développement et en data. Cela permet de construire une solution plus crédible, plus souveraine et mieux adaptée aux réalités des filières et des territoires.</p>
+      <p>Le projet est également réaliste dans sa mise en œuvre. Nous ne proposons pas un grand programme complexe à déployer immédiatement à l'échelle nationale. Nous proposons un pilote ciblé, par exemple sur une ou deux filières prioritaires et dans un périmètre géographique limité, afin de tester le service, valider son utilité, mesurer l'adoption terrain, affiner les modèles et construire progressivement les conditions d'un passage à l'échelle. Cette logique de déploiement progressif est à la fois plus prudente, plus efficace et plus compatible avec la conduite d'une politique publique.</p>
+      <p>Ce projet présente aussi un intérêt stratégique en matière d'investissement public. Il peut être structuré sous forme de pilote initial, puis d'exploitation institutionnelle avec un cadre contractuel clair, une maintenance continue, des améliorations progressives et une visibilité budgétaire pour l'État. L'enjeu n'est pas uniquement technologique ; il s'agit de mettre en place un outil mutualisable, durable, capable de renforcer à la fois les services aux producteurs et les capacités de pilotage du secteur agricole.</p>
+      <p>Ma conviction est donc la suivante : le Bénin a déjà posé une ambition forte avec la SNIAM, il a déjà commencé à structurer un écosystème agricole numérique, et il lui faut désormais des cas d'usage stratégiques capables de relier innovation, utilité terrain et décision publique. Agribot peut être l'un de ces cas d'usage.</p>
+      <p>En résumé, cette proposition vise à créer un service numérique agricole qui assiste les acteurs de terrain, centralise des données utiles au suivi phytosanitaire, s'appuie sur des ressources locales pour l'apprentissage et peut être déployé de manière progressive à travers un pilote. C'est une solution concrète, compatible avec les priorités nationales, et pensée pour produire à la fois de l'impact terrain et de la valeur institutionnelle.</p>
+      <p>Je serais heureux de pouvoir vous présenter la maquette, le schéma d'architecture, le pilote proposé ainsi que les modalités de partenariat institutionnel pour avancer sur cette initiative.</p>
+    </div>
+  </div>
+</div>
+
 <script>
   const snavItems = document.querySelectorAll('.snav-item');
   const snavSections = Array.from(snavItems).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
@@ -640,6 +684,23 @@
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   const bar = document.getElementById('progress-bar');
   window.addEventListener('scroll', () => { const total = document.documentElement.scrollHeight - window.innerHeight; if (total > 0) bar.style.width = (window.scrollY / total * 100).toFixed(1) + '%'; }, { passive: true });
+
+  // Pitch popup
+  const pitchTrigger = document.getElementById('pitch-trigger');
+  const pitchPopup   = document.getElementById('pitch-popup');
+  const pitchOverlay = document.getElementById('pitch-overlay');
+  const pitchClose   = document.getElementById('pitch-close');
+  let pitchTimer;
+  function openPitch(e) { if (e) e.preventDefault(); clearTimeout(pitchTimer); pitchPopup.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function schedulePitchClose() { pitchTimer = setTimeout(() => { pitchPopup.classList.remove('open'); document.body.style.overflow = ''; }, 180); }
+  pitchTrigger.addEventListener('mouseenter', openPitch);
+  pitchTrigger.addEventListener('mouseleave', schedulePitchClose);
+  pitchTrigger.addEventListener('click', openPitch);
+  pitchPopup.addEventListener('mouseenter', () => clearTimeout(pitchTimer));
+  pitchPopup.addEventListener('mouseleave', schedulePitchClose);
+  pitchOverlay.addEventListener('click', schedulePitchClose);
+  pitchClose.addEventListener('click', schedulePitchClose);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') schedulePitchClose(); });
 </script>
 </body>
 </html>
