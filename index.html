@@ -529,6 +529,12 @@
     .t-finance{ background: rgba(0,110,130,0.10); color: #005F70; }
     .uc-title { font-size: 14.5px; font-weight: 700; line-height: 1.35; }
     .uc-value { font-size: 12.5px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .uc-tags-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .uc-pilote { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 9px; border-radius: 100px; background: rgba(217,164,4,0.15); color: #7A5200; border: 1px solid rgba(217,164,4,0.30); }
+    .uc-pilote-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
+    .uc-cta { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--vert-profond); margin-top: 2px; transition: gap var(--fast) var(--ease); }
+    .uc-cta svg { width: 13px; height: 13px; transition: transform var(--fast) var(--ease); }
+    .uc-card:hover .uc-cta svg { transform: translateX(3px); }
 
     /* ══════════════════════════════════════════════════════════
        SOUVERAINETÉ
@@ -1218,12 +1224,16 @@
       </article>
 
       <article class="uc-card show" data-s="agri">
-        <span class="uc-tag t-agri">Agriculture</span>
+        <div class="uc-tags-row">
+          <span class="uc-tag t-agri">Agriculture</span>
+          <span class="uc-pilote"><span class="uc-pilote-dot"></span>Pilote</span>
+        </div>
         <div class="uc-photo">
           <img src="img/usecase-detection-maladies-cultures.png" alt="Détection des maladies des cultures par IA mobile" loading="lazy" />
         </div>
         <h3 class="uc-title">Détection des maladies des cultures</h3>
         <p class="uc-value">Identifier parasites, stress hydrique et maladies directement sur le terrain par analyse photo sur smartphone. Aucune connexion internet requise — edge AI embarquée.</p>
+        <a href="AGRIBOT/agribot.html" class="uc-cta">En savoir plus <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </article>
 
       <!-- Éducation -->
