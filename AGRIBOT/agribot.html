@@ -60,10 +60,10 @@
     #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; background: var(--vert-sombre); overflow: hidden; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
     .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
-    .hero-deco { position: absolute; top: 0; left: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
+    .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
     .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to left, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
-    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; display: flex; justify-content: flex-end; }
+    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; }
     .hero-text { max-width: 480px; width: 100%; }
     .hstat-val { font-size: clamp(36px,4.5vw,58px); font-weight: 700; color: #52D68A; letter-spacing: -0.03em; line-height: 1; }
     .hstat-label { font-size: 13px; color: rgba(255,255,255,0.60); max-width: 160px; line-height: 1.4; }
