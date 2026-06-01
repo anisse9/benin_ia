@@ -60,10 +60,13 @@
     #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; background: var(--vert-sombre); overflow: hidden; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
     .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
-    .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 50%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
+    .hero-deco { position: absolute; top: 0; left: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
     .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.6) 25%, transparent 65%); }
-    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; }
+    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to left, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; display: flex; justify-content: flex-end; }
+    .hero-text { max-width: 480px; width: 100%; }
+    .hstat-val { font-size: clamp(36px,4.5vw,58px); font-weight: 700; color: #52D68A; letter-spacing: -0.03em; line-height: 1; }
+    .hstat-label { font-size: 13px; color: rgba(255,255,255,0.60); max-width: 160px; line-height: 1.4; }
     .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(217,164,4,0.35); background: rgba(217,164,4,0.10); border-radius: var(--r-sm); font-size: 11.5px; font-weight: 700; color: var(--or-doux); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 28px; }
     .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
@@ -301,12 +304,12 @@
     <div class="hero-deco-fade"></div>
   </div>
   <div class="container hero-content">
-    <div class="hero-badge reveal"><div class="hero-badge-dot"></div>Initiative IA agricole · SNIAM 2023-2027 · Bénin</div>
-    <p class="hero-sub reveal d2">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
-    <div class="hero-stats reveal d3">
-      <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
-      <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
-      <div class="hstat"><span class="hstat-val">9</span><span class="hstat-label">filières stratégiques prioritaires identifiées</span></div>
+    <div class="hero-text">
+      <p class="hero-sub reveal d1">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
+      <div class="hero-stats reveal d2">
+        <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
+        <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
+      </div>
     </div>
   </div>
   <div class="hero-scroll-indicator" aria-hidden="true"><div class="scroll-line"></div><span>Découvrir</span></div>
