@@ -60,11 +60,10 @@
     #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; background: var(--vert-sombre); overflow: hidden; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
     .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
-    .hero-deco { display: none; }
+    .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 50%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
+    .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.6) 25%, transparent 65%); }
     .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; }
-    .hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px,4vw,64px); align-items: center; }
-    .hero-video-wrap { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07); }
-    .hero-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
     .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(217,164,4,0.35); background: rgba(217,164,4,0.10); border-radius: var(--r-sm); font-size: 11.5px; font-weight: 700; color: var(--or-doux); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 28px; }
     .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
@@ -254,7 +253,7 @@
     .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
     #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--or-dore), var(--or-doux)); z-index: 1100; border-radius: 0 2px 2px 0; pointer-events: none; transition: width 80ms linear; }
     @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr 1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-layout{grid-template-columns:1fr}.hero-video-col{order:-1}}
+    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-deco{display:none}}
     @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
     /* ── Pitch popup ── */
     #pitch-popup { display: none; position: fixed; inset: 0; z-index: 1200; padding: 24px; align-items: center; justify-content: center; }
@@ -295,24 +294,19 @@
 <section id="hero">
   <div class="hero-gradient" aria-hidden="true"></div>
   <div class="hero-grid-lines" aria-hidden="true"></div>
+  <div class="hero-deco" aria-hidden="true">
+    <video class="hero-deco-video" autoplay muted loop playsinline>
+      <source src="assets/hero-agribot.mp4" type="video/mp4">
+    </video>
+    <div class="hero-deco-fade"></div>
+  </div>
   <div class="container hero-content">
-    <div class="hero-layout">
-      <div class="hero-text-col">
-        <div class="hero-badge reveal"><div class="hero-badge-dot"></div>Initiative IA agricole · SNIAM 2023-2027 · Bénin</div>
-        <p class="hero-sub reveal d2">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
-        <div class="hero-stats reveal d3">
-          <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
-          <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
-          <div class="hstat"><span class="hstat-val">9</span><span class="hstat-label">filières stratégiques prioritaires identifiées</span></div>
-        </div>
-      </div>
-      <div class="hero-video-col reveal d2">
-        <div class="hero-video-wrap">
-          <video autoplay muted loop playsinline>
-            <source src="assets/hero-agribot.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
+    <div class="hero-badge reveal"><div class="hero-badge-dot"></div>Initiative IA agricole · SNIAM 2023-2027 · Bénin</div>
+    <p class="hero-sub reveal d2">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
+    <div class="hero-stats reveal d3">
+      <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
+      <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
+      <div class="hstat"><span class="hstat-val">9</span><span class="hstat-label">filières stratégiques prioritaires identifiées</span></div>
     </div>
   </div>
   <div class="hero-scroll-indicator" aria-hidden="true"><div class="scroll-line"></div><span>Découvrir</span></div>
