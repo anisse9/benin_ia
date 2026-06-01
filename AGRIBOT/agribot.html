@@ -63,7 +63,7 @@
     .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
     .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
     .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
-    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 100%; align-self: stretch; }
     .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 520px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
     .hstat-val { font-size: clamp(36px,4.5vw,58px); font-weight: 700; color: #52D68A; letter-spacing: -0.03em; line-height: 1; }
     .hstat-label { font-size: 13px; color: rgba(255,255,255,0.60); max-width: 160px; line-height: 1.4; }
@@ -303,11 +303,13 @@
     </video>
     <div class="hero-deco-fade"></div>
   </div>
-  <div class="container hero-content">
-    <p class="hero-sub reveal d1">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
-    <div class="hero-stats reveal d2">
-      <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
-      <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
+  <div class="hero-content">
+    <div class="container">
+      <p class="hero-sub reveal d1">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
+      <div class="hero-stats reveal d2">
+        <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
+        <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
+      </div>
     </div>
   </div>
   <div class="hero-scroll-indicator" aria-hidden="true"><div class="scroll-line"></div><span>Découvrir</span></div>
