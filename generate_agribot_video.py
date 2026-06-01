@@ -11,13 +11,13 @@ OUT_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "AGRIBOT",
 OUT_PATH   = os.path.join(OUT_DIR, "hero-agribot.mp4")
 
 PROMPT = (
-    "A realistic farmer in a corn field gently picks up the damaged leaf with one hand, "
-    "positions it next to the smartphone to take a clear photo, then puts the leaf back "
-    "exactly where it was. The phone stays solid and physically correct, the leaf never "
-    "passes through the phone, and the scene remains stable. After taking the photo, the "
-    "farmer looks briefly toward the camera with a friendly smile and gives a small "
-    "thumbs-up gesture. Keep the same framing, preserve the original environment, "
-    "realistic physics, subtle motion only, no scene change, no warping."
+    "A realistic farmer gently lifts the corn leaf away from the phone, holds the leaf "
+    "still while taking a photo, then carefully places the leaf back in its original "
+    "position. Keep the original composition and camera angle stable. Realistic hand "
+    "motion, natural body movement, subtle wind in the leaves, no scene change, no object "
+    "passing through the phone, no deformation, no extra motion. Then the farmer turns "
+    "toward the camera, smiles, and gives a clear thumbs-up gesture. Preserve the same "
+    "environment, realistic physics, subtle motion only, cinematic but natural, no warping."
 )
 
 def image_to_data_uri(path: str) -> str:
@@ -53,4 +53,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
