@@ -61,6 +61,8 @@
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
     .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
     .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 45%; pointer-events: none; overflow: hidden; }
+    .hero-deco-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 35%, transparent 70%); }
     .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; }
     .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(217,164,4,0.35); background: rgba(217,164,4,0.10); border-radius: var(--r-sm); font-size: 11.5px; font-weight: 700; color: var(--or-doux); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 28px; }
     .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
@@ -293,29 +295,14 @@
   <div class="hero-gradient" aria-hidden="true"></div>
   <div class="hero-grid-lines" aria-hidden="true"></div>
   <div class="hero-deco" aria-hidden="true">
-    <svg viewBox="0 0 500 700" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.09;">
-      <circle cx="350" cy="120" r="180" stroke="#D9A404" stroke-width="1"/>
-      <circle cx="350" cy="120" r="120" stroke="#2A8850" stroke-width="0.8"/>
-      <circle cx="350" cy="120" r="60" stroke="#D9A404" stroke-width="0.6"/>
-      <circle cx="350" cy="120" r="8" fill="#D9A404"/>
-      <line x1="350" y1="120" x2="200" y2="280" stroke="#D9A404" stroke-width="0.7"/>
-      <circle cx="200" cy="280" r="5" fill="#2A8850"/>
-      <line x1="350" y1="120" x2="440" y2="300" stroke="#2A8850" stroke-width="0.7"/>
-      <circle cx="440" cy="300" r="5" fill="#D9A404"/>
-      <line x1="350" y1="120" x2="300" y2="400" stroke="#D9A404" stroke-width="0.7"/>
-      <circle cx="300" cy="400" r="5" fill="#2A8850"/>
-      <line x1="200" y1="280" x2="100" y2="450" stroke="#2A8850" stroke-width="0.5"/>
-      <circle cx="100" cy="450" r="4" fill="#D9A404" opacity="0.7"/>
-      <line x1="440" y1="300" x2="480" y2="500" stroke="#D9A404" stroke-width="0.5"/>
-      <circle cx="480" cy="500" r="4" fill="#2A8850" opacity="0.7"/>
-      <line x1="300" y1="400" x2="250" y2="580" stroke="#2A8850" stroke-width="0.5"/>
-      <circle cx="250" cy="580" r="4" fill="#D9A404" opacity="0.5"/>
-    </svg>
+    <video class="hero-deco-video" autoplay muted loop playsinline>
+      <source src="assets/hero-agribot.mp4" type="video/mp4">
+    </video>
+    <div class="hero-deco-fade"></div>
   </div>
   <div class="container hero-content">
     <div class="hero-badge reveal"><div class="hero-badge-dot"></div>Initiative IA agricole · SNIAM 2023-2027 · Bénin</div>
-    <h1 class="hero-h1 reveal d1">Un <span class="hero-accent">service numérique public</span><br>d'assistance phytosanitaire<br>et de pilotage agricole</h1>
-    <p class="hero-sub reveal d2">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
+<p class="hero-sub reveal d2">Agribot assiste les producteurs, coopératives et agents terrain dans le diagnostic des maladies des cultures, et fournit à l'État un outil de centralisation des alertes agricoles et de pilotage territorial par la donnée.</p>
     <div class="hero-stats reveal d3">
       <div class="hstat"><span class="hstat-val">~70<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">de la population active dans le secteur agricole</span></div>
       <div class="hstat"><span class="hstat-val">26<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">du PIB national généré par l'agriculture</span></div>
