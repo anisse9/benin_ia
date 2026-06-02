@@ -198,7 +198,7 @@
     #modele { padding-block: var(--section-y); background: var(--blanc); }
     .modele-intro { max-width: 700px; margin-bottom: 52px; }
     .modele-text { font-size: 15.5px; color: var(--muted); line-height: 1.8; margin-top: 16px; }
-    .modele-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 44px; }
+    .modele-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-bottom: 44px; }
     .offre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; transition: all var(--base) var(--ease); }
     .offre:hover { box-shadow: 0 8px 32px rgba(31,107,58,0.09); transform: translateY(-3px); }
     .offre-featured { border-color: var(--vert-profond); box-shadow: 0 0 0 2px rgba(31,107,58,0.12); }
@@ -221,7 +221,7 @@
     .coherence { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 44px; }
     .coherence-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
     .coherence-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
-    .coherence-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+    .coherence-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
     .carg-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
     .carg-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
     #ressources { padding-block: var(--section-y); background: var(--surface); border-top: 1px solid var(--border); }
@@ -280,7 +280,7 @@
 <div id="progress-bar" aria-hidden="true"></div>
 <header id="topbar">
   <a href="../index.html" class="topbar-back"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Page principale</a>
-  <a href="#hero"><img src="img/logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" /></a>
+  <a href="#hero"><img src="../img/logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" /></a>
 </header>
 <nav id="sidenav" aria-label="Navigation sections">
   <ul>
@@ -291,7 +291,6 @@
     <li><a href="#chiffrage" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Chiffrage</span></a></li>
     <li><a href="#modele" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Modèle éco.</span></a></li>
     <li><a href="#ressources" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Ressources</span></a></li>
-    <li><a href="#cta" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Agir</span></a></li>
   </ul>
 </nav>
 <section id="hero">
@@ -322,55 +321,21 @@
       <h2 class="section-title">Un secteur stratégique, des défis réels, un cadre national favorable</h2>
       <p class="contexte-text">Le Bénin a adopté en 2023 sa Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées (SNIAM 2023-2027), avec un mandat explicite : déployer des solutions d'IA adaptées aux besoins nationaux dans les secteurs prioritaires. L'agriculture, premier secteur d'activité du pays, constitue un cas d'usage évident. Les producteurs font face à des pertes de rendement, des maladies non détectées à temps et des difficultés d'accès au conseil technique. L'État, de son côté, dispose de peu d'outils pour centraliser les signaux terrain et piloter la santé des cultures à l'échelle territoriale.</p>
     </div>
-    <div class="constats-grid">
-      <div class="constat reveal d1">
-        <div class="constat-bar"></div>
-        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/><path d="M5 20c2-3 4-5 7-5s5 2 7 5"/></svg></div>
-        <div class="constat-title">Maladies et ravageurs non détectés à temps</div>
-        <div class="constat-desc">Les producteurs peinent à identifier les maladies fongiques, bactériennes et les attaques de ravageurs sans accès rapide au conseil technique. Les pertes de rendement peuvent dépasser 30 à 40 % sur certaines cultures comme l'anacarde, le maïs ou le manioc.</div>
-      </div>
-      <div class="constat reveal d2">
-        <div class="constat-bar"></div>
-        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div class="constat-title">Encadrement technique insuffisant à l'échelle</div>
-        <div class="constat-desc">Le ratio agents de vulgarisation / producteurs reste très défavorable. Les zones rurales éloignées ont un accès limité au conseil phytosanitaire, créant une inégalité d'accès au savoir technique entre producteurs selon leur localisation géographique.</div>
-      </div>
-      <div class="constat reveal d3">
-        <div class="constat-bar"></div>
-        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <div class="constat-title">Absence de centralisation des alertes agricoles</div>
-        <div class="constat-desc">L'État béninois ne dispose pas d'un système structuré pour agréger les signaux terrain en temps réel : foyers de maladie, apparition de ravageurs, stress hydriques. Le pilotage de la santé des cultures reste fragmenté et réactif, sans vision territoriale.</div>
-      </div>
-      <div class="constat reveal d1">
-        <div class="constat-bar"></div>
-        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-        <div class="constat-title">Initiatives numériques existantes à consolider</div>
-        <div class="constat-desc">Des outils numériques agricoles existent déjà au Bénin. La solution proposée se positionne comme une brique complémentaire, non comme une rupture : elle capitalise sur ces acquis et s'intègre dans l'écosystème numérique existant sans le remplacer.</div>
-      </div>
-      <div class="constat reveal d2">
-        <div class="constat-bar"></div>
-        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="constat-title">Manque de données agronomiques structurées</div>
-        <div class="constat-desc">Les données sur les maladies, les rendements et les pratiques culturales sont rarement collectées de manière systématique et géolocalisée. Ce déficit freine la capacité à anticiper les crises agricoles et à concevoir des politiques sectorielles fondées sur l'évidence.</div>
-      </div>
-      <div class="constat reveal d3">
-        <div class="constat-bar"></div>
-        <div class="constat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-        <div class="constat-title">Un cadre stratégique national favorable</div>
-        <div class="constat-desc">La SNIAM 2023-2027 et les priorités du MAEP créent un contexte institutionnel propice à l'investissement dans des solutions d'IA agricole. L'ambition politique existe ; le besoin d'un premier cas d'usage concret, déployable et mesurable est clairement exprimé.</div>
-      </div>
-    </div>
-    <div class="pourquoi-bloc reveal">
-      <div class="pourquoi-left">
-        <p class="eyebrow eyebrow-light" style="margin-bottom:12px;">Pourquoi maintenant ?</p>
-        <div class="pourquoi-title">Trois conditions réunies pour agir</div>
-        <p class="pourquoi-sub">La maturité technologique de la vision par ordinateur, l'engagement politique du Bénin sur l'IA et la disponibilité de talents locaux forment une fenêtre d'opportunité rare. Un pilote lancé aujourd'hui peut produire des résultats mesurables en moins de 12 mois.</p>
-      </div>
-      <div class="pourquoi-right">
-        <div class="raison"><div class="raison-title">Maturité technique</div><div class="raison-desc">Les modèles de vision par ordinateur pour la détection de maladies végétales sont suffisamment matures pour être déployés sur des cas d'usage réels avec des données locales.</div></div>
-        <div class="raison"><div class="raison-title">Alignement SNIAM</div><div class="raison-desc">Le Bénin dispose d'un cadre stratégique national explicite et d'institutions de coordination qui facilitent l'investissement dans ce type de solution souveraine.</div></div>
-        <div class="raison"><div class="raison-title">Talents locaux disponibles</div><div class="raison-desc">Des compétences en data science, développement mobile et agronomie existent au Bénin et peuvent être mobilisées pour construire et maintenir cette solution en autonomie.</div></div>
-        <div class="raison"><div class="raison-title">Déployable par pilote</div><div class="raison-desc">Une approche progressive par filière et par département permet de valider la solution sur le terrain avant toute mise à l'échelle, limitant le risque institutionnel et financier.</div></div>
+    <div class="reveal" style="margin-top:48px;">
+      <h3 style="font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-0.018em;margin-bottom:28px;">Pourquoi maintenant</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Maturité technique</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Les modèles de vision par ordinateur pour la détection de maladies végétales sont suffisamment matures pour être déployés sur des cas d'usage réels avec des données locales.</div>
+        </div>
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Alignement SNIAM</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Le Bénin dispose d'un cadre stratégique national explicite et d'institutions de coordination qui facilitent l'investissement dans ce type de solution souveraine.</div>
+        </div>
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Talents locaux disponibles</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Des compétences en data science, développement mobile et agronomie existent au Bénin et peuvent être mobilisées pour construire et maintenir cette solution en autonomie.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -381,7 +346,7 @@
     <div class="objectif-header reveal">
       <p class="eyebrow">02 — Objectif</p>
       <h2 class="section-title">Une double mission au service du terrain et du pilotage public</h2>
-      <p class="section-sub">Agribot n'est pas seulement un outil d'assistance aux producteurs. C'est aussi un instrument de centralisation et d'aide à la décision pour les institutions publiques qui supervisent le secteur agricole.</p>
+      <p class="section-sub" style="max-width:100%;">Agribot n'est pas seulement un outil d'assistance aux producteurs. C'est aussi un instrument de centralisation et d'aide à la décision pour les institutions publiques qui supervisent le secteur agricole.</p>
     </div>
     <div class="objectif-split">
       <div class="obj-col obj-col-terrain reveal d1">
@@ -409,16 +374,6 @@
         </ul>
       </div>
     </div>
-    <div class="reveal">
-      <div class="benef-section-title">Bénéficiaires directs et institutionnels</div>
-      <div class="benef-grid">
-        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="benef-name">Producteurs</div><div class="benef-desc">Diagnostic rapide sur le terrain, accès au conseil sans déplacement</div></div>
-        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="benef-name">Coopératives</div><div class="benef-desc">Suivi collectif de la santé des cultures, remontée d'alertes groupées</div></div>
-        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div class="benef-name">ONG & projets</div><div class="benef-desc">Outil de suivi terrain pour les programmes d'appui agricole</div></div>
-        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="benef-name">Agents techniques</div><div class="benef-desc">Appui au diagnostic, référentiel standardisé pour le terrain</div></div>
-        <div class="benef"><div class="benef-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="benef-name">Ministères & agences</div><div class="benef-desc">Dashboard de pilotage territorial, données pour les politiques sectorielles</div></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -427,41 +382,18 @@
     <div class="solution-intro reveal">
       <p class="eyebrow eyebrow-light">03 — Solution technique</p>
       <h2 class="section-title" style="color:#fff;">Une architecture fiable, explicable et maîtrisable</h2>
-      <p class="solution-text">La solution repose sur des modèles de vision par ordinateur spécialisés — ni sur des modèles de langage généralistes, ni sur des boîtes noires dépendantes de services tiers. Cette approche garantit la maîtrisabilité, la transparence du diagnostic et la pérennité de la solution, indépendamment d'un fournisseur externe.</p>
+      <p class="solution-text">La solution repose sur des modèles de vision par ordinateur spécialisés dans la détection de maladies végétales.</p>
     </div>
     <div class="arch-wrap reveal">
-      <div class="arch-diag-label">Schéma d'architecture — flux de données et composants</div>
-      <div class="arch-flow">
-        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="arch-node-title">Application mobile</div><div class="arch-node-sub">Prise de photo + envoi sécurisé</div></div>
-        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div><div class="arch-node-title">API serveur</div><div class="arch-node-sub">Réception, authentification, routage</div></div>
-        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div><div class="arch-node-title">Modèles CV</div><div class="arch-node-sub">Classification + Détection spécialisée</div></div>
-        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div class="arch-node-title">Base de données</div><div class="arch-node-sub">Stockage, suivi, réentraînement</div></div>
-        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        <div class="arch-node"><div class="arch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="1 20 23 20"/></svg></div><div class="arch-node-title">Dashboard</div><div class="arch-node-sub">Monitoring territorial · Pilotage public</div></div>
-      </div>
-    </div>
-    <div class="reveal">
-      <div class="pourquoi-archi-label">Pourquoi cette architecture, et pas une autre ?</div>
-      <div class="pourquoi-archi">
-        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="arg-title">Plus fiable</div><div class="arg-desc">Modèles spécialisés sur la phytopathologie — plus performants que des modèles généralistes sur ce cas d'usage précis.</div></div>
-        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="arg-title">Plus explicable</div><div class="arg-desc">Chaque diagnostic est associé à une classe de maladie documentée, compréhensible par un agronome ou un décideur institutionnel.</div></div>
-        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="arg-title">Plus maîtrisable</div><div class="arg-desc">Aucune dépendance à un LLM tiers. Les modèles sont contrôlés par l'État ou son prestataire désigné, sans dépendance externe.</div></div>
-        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="arg-title">Plus économique</div><div class="arg-desc">Coût de fonctionnement prévisible, sans tarification à l'appel API. Supervisable par des équipes locales formées.</div></div>
-        <div class="arg"><div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div><div class="arg-title">Adapté au terrain</div><div class="arg-desc">Diagnostic par simple photo de feuille ou de plante. Interface mobile accessible à des utilisateurs peu familiers du numérique.</div></div>
-      </div>
+      <img src="assets/workflow-detection-maladies-cultures-kora-ai.png" alt="Workflow de détection des maladies des cultures — KORA AI" style="width:100%;border-radius:var(--r-lg);display:block;" />
     </div>
   </div>
 </section>
 
 <section id="realisation">
   <div class="container">
-    <div class="real-intro reveal">
+    <div class="reveal" style="margin-bottom:48px;">
       <p class="eyebrow">04 — Réalisation</p>
-      <h2 class="section-title">Un projet faisable localement, de manière progressive et souveraine</h2>
-      <p class="section-sub">La force de cette approche est qu'elle peut être construite et maintenue avec des ressources largement disponibles au Bénin — experts agronomiques, techniciens terrain, talents data et développeurs locaux — sans dépendance à un seul fournisseur externe.</p>
     </div>
     <div class="timeline-wrap reveal">
       <div class="timeline-label">Feuille de route opérationnelle — 6 étapes</div>
@@ -471,7 +403,7 @@
         <div class="tstep d3"><div class="tstep-dot">3</div><div><div class="tstep-num">Étape 03</div><div class="tstep-name">Entraînement</div><div class="tstep-desc">Entraînement des modèles de classification et de détection sur les données annotées. Validation croisée avec les experts avant déploiement.</div></div></div>
         <div class="tstep d4"><div class="tstep-dot">4</div><div><div class="tstep-num">Étape 04</div><div class="tstep-name">Intégration API</div><div class="tstep-desc">Déploiement de l'API backend, intégration des modèles, développement de l'application mobile et du dashboard de monitoring institutionnel.</div></div></div>
         <div class="tstep d5"><div class="tstep-dot">5</div><div><div class="tstep-num">Étape 05</div><div class="tstep-name">Pilote terrain</div><div class="tstep-desc">Déploiement sur 1 à 2 filières dans 1 à 2 départements pilotes. Évaluation des performances et ajustement des modèles selon les retours terrain.</div></div></div>
-        <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Étape 06</div><div class="tstep-name">Amélioration continue</div><div class="tstep-desc">Réentraînement régulier avec les nouvelles données terrain. Extension progressive à de nouvelles filières, régions et types de problèmes.</div></div></div>
+        <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Étape 06</div><div class="tstep-name">Amélioration continue</div><div class="tstep-desc">Réentraînement régulier des modèles à partir des nouvelles données terrain collectées.</div></div></div>
       </div>
     </div>
     <div class="reveal">
@@ -558,16 +490,6 @@
           <li><div class="offre-check offre-check-or"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Rapports périodiques de performance et d'usage</li>
         </ul></div>
       </div>
-      <div class="offre">
-        <div class="offre-head"><div class="offre-label">Extension</div><div class="offre-name">Expansion</div><div class="offre-price">Sur avenant</div><div class="offre-price-note">Négocié selon le périmètre additionnel</div></div>
-        <div class="offre-body"><ul class="offre-items">
-          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Nouvelles filières agricoles couvertes</li>
-          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Extension géographique nationale</li>
-          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Nouveaux modules (conseil fertilisation, météo…)</li>
-          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Intégration avec les SI existants (MAEP, ASIN)</li>
-          <li><div class="offre-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Transfert de compétences et documentation technique</li>
-        </ul></div>
-      </div>
     </div>
     <div class="coherence reveal">
       <div class="coherence-title">Pourquoi ce modèle est cohérent pour l'État ?</div>
@@ -575,7 +497,6 @@
       <div class="coherence-grid">
         <div><div class="carg-title">Visibilité budgétaire</div><div class="carg-desc">Un coût annuel fixe et prévisible, intégrable dans les cycles budgétaires de l'État sans surprise ni dépassement imprévu.</div></div>
         <div><div class="carg-title">Amélioration continue</div><div class="carg-desc">Les modèles s'améliorent avec le temps grâce aux nouvelles données terrain. La valeur du service croît à mesure que la base de données locale s'enrichit.</div></div>
-        <div><div class="carg-title">Outil mutualisable</div><div class="carg-desc">Une licence unique couvre l'ensemble des structures publiques et partenaires accrédités : ministères, agences, ONG, projets financés par l'État.</div></div>
         <div><div class="carg-title">Valeur stratégique croissante</div><div class="carg-desc">Le tableau de bord national devient un actif de pilotage de plus en plus précieux à mesure que les données s'accumulent et que la couverture géographique s'élargit.</div></div>
       </div>
     </div>
@@ -586,8 +507,7 @@
   <div class="container">
     <div class="reveal">
       <p class="eyebrow">07 — Pour aller plus loin</p>
-      <h2 class="section-title" style="max-width:540px;">Deux ressources pour approfondir</h2>
-      <p class="ressources-note">Cette page peut être complétée par un pitch oral synthétique et une foire aux questions conçue pour anticiper les objections institutionnelles les plus courantes.</p>
+      <p class="ressources-note" style="margin-top:4px;">Cette page peut être complétée par un pitch oral synthétique et une foire aux questions conçue pour anticiper les objections institutionnelles les plus courantes.</p>
     </div>
     <div class="ressources-grid reveal">
       <a href="#" class="ressource-card" id="pitch-trigger">
@@ -602,21 +522,6 @@
         <div class="ressource-desc">Une foire aux questions conçue pour anticiper les objections institutionnelles les plus fréquentes : budget, fiabilité technique, dépendance à un prestataire, gouvernance des données, compatibilité avec l'existant et modèle de sortie.</div>
         <div class="ressource-link">Consulter la FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </a>
-    </div>
-  </div>
-</section>
-
-<section id="cta">
-  <div class="hero-grid-lines" aria-hidden="true" style="position:absolute;inset:0;"></div>
-  <div class="container">
-    <div class="cta-content reveal">
-      <p class="eyebrow eyebrow-light">08 — Passer à l'action</p>
-      <h2 class="cta-title">Un outil de souveraineté agricole,<br>faisable dès maintenant par un pilote</h2>
-      <p class="cta-sub">Agribot est à la fois un service d'assistance terrain pour les producteurs et un outil de pilotage public pour les institutions. Il s'inscrit dans les ambitions du Bénin en matière d'IA appliquée à l'agriculture, est techniquement réaliste, réalisable avec des ressources locales et déployable de manière progressive et mesurable. Un pilote de 6 à 12 mois suffit à valider la valeur du service avant tout engagement à l'échelle nationale.</p>
-      <div class="cta-actions">
-        <a href="mailto:contact@kora.ai?subject=Agribot%20—%20Demande%20de%20cadrage%20pilote" class="cta-gold">Échanger sur un pilote</a>
-        <a href="mailto:contact@kora.ai?subject=Agribot%20—%20Note%20de%20cadrage" class="cta-outline">Recevoir une note de cadrage</a>
-      </div>
     </div>
   </div>
 </section>

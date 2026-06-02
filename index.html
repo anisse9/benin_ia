@@ -979,7 +979,7 @@
     <li><a href="#defis"        class="snav-item"><span class="snav-dot"></span><span class="snav-label">Défis</span></a></li>
     <li><a href="#usecases"     class="snav-item"><span class="snav-dot"></span><span class="snav-label">Opportunités</span></a></li>
     <li><a href="#souverainete" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Souveraineté</span></a></li>
-    <li><a href="#pilotes"      class="snav-item"><span class="snav-dot"></span><span class="snav-label">Pilotes</span></a></li>
+
     <li><a href="#roadmap"      class="snav-item"><span class="snav-dot"></span><span class="snav-label">Feuille de route</span></a></li>
     <li><a href="#cta"          class="snav-item"><span class="snav-dot"></span><span class="snav-label">Agir</span></a></li>
   </ul>
@@ -1153,6 +1153,20 @@
 
     <div class="uc-grid" id="uc-grid">
 
+      <!-- Agriculture — Pilote en vedette -->
+      <article class="uc-card show" data-s="agri">
+        <div class="uc-tags-row">
+          <span class="uc-tag t-agri">Agriculture</span>
+          <span class="uc-pilote"><span class="uc-pilote-dot"></span>Pilote</span>
+        </div>
+        <div class="uc-photo">
+          <img src="img/usecase-detection-maladies-cultures.png" alt="Détection des maladies des cultures par IA mobile" loading="lazy" />
+        </div>
+        <h3 class="uc-title">Détection des maladies des cultures</h3>
+        <p class="uc-value">Identifier parasites, stress hydrique et maladies directement sur le terrain par analyse photo sur smartphone. Aucune connexion internet requise — edge AI embarquée.</p>
+        <a href="AGRIBOT/agribot.html" class="uc-cta">En savoir plus <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </article>
+
       <!-- Administration -->
       <article class="uc-card show" data-s="admin">
         <span class="uc-tag t-admin">Administration</span>
@@ -1226,19 +1240,6 @@
         </div>
         <h3 class="uc-title">Conseiller agricole intelligent</h3>
         <p class="uc-value">Recommandations personnalisées sur les semis, traitements et bonnes pratiques via mobile. Inspiré du projet Drone4Ag et de l'app Nana. Fonctionne hors-ligne en zone rurale.</p>
-      </article>
-
-      <article class="uc-card show" data-s="agri">
-        <div class="uc-tags-row">
-          <span class="uc-tag t-agri">Agriculture</span>
-          <span class="uc-pilote"><span class="uc-pilote-dot"></span>Pilote</span>
-        </div>
-        <div class="uc-photo">
-          <img src="img/usecase-detection-maladies-cultures.png" alt="Détection des maladies des cultures par IA mobile" loading="lazy" />
-        </div>
-        <h3 class="uc-title">Détection des maladies des cultures</h3>
-        <p class="uc-value">Identifier parasites, stress hydrique et maladies directement sur le terrain par analyse photo sur smartphone. Aucune connexion internet requise — edge AI embarquée.</p>
-        <a href="AGRIBOT/agribot.html" class="uc-cta">En savoir plus <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </article>
 
       <!-- Éducation -->
@@ -1333,95 +1334,6 @@
 </section>
 
 <!-- ════ PROJETS PILOTES ══════════════════════════════════════════ -->
-<section id="pilotes">
-  <div class="container">
-
-    <div class="pilotes-header reveal">
-      <p class="eyebrow">05 — Premiers projets</p>
-      <h2 class="section-title">Projets pilotes à lancer en priorité</h2>
-      <p class="section-sub">Cinq projets concrets, déployables rapidement, à fort impact institutionnel et entièrement souverains. Cliquez pour explorer chaque pilote.</p>
-    </div>
-
-    <div class="pilotes-grid">
-
-      <div class="pilote reveal d1" onclick="openModal('m1')" role="button" tabindex="0" aria-haspopup="dialog">
-        <div class="pilote-img">
-          <img src="img/assistant-documentaire-ministeriel.png" alt="Assistant documentaire ministériel dans une administration béninoise" loading="lazy" />
-        </div>
-        <div class="pilote-body">
-          <div class="pilote-num">Pilote 01 — Administration</div>
-          <h3 class="pilote-title">Assistant documentaire ministériel</h3>
-          <p class="pilote-excerpt">Déployer un assistant IA local dans un ministère pilote pour traiter les courriers, classer les dossiers et générer des réponses standardisées en temps réel.</p>
-          <div class="pilote-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            Explorer ce pilote
-          </div>
-        </div>
-      </div>
-
-      <div class="pilote reveal d2" onclick="openModal('m2')" role="button" tabindex="0" aria-haspopup="dialog">
-        <div class="pilote-img">
-          <img src="img/mpo3b4l2-photo2.jpg" alt="Services citoyens numériques Bénin" loading="lazy" />
-        </div>
-        <div class="pilote-body">
-          <div class="pilote-num">Pilote 02 — Services citoyens</div>
-          <h3 class="pilote-title">Chatbot citoyen pour l'administration</h3>
-          <p class="pilote-excerpt">Interface conversationnelle déployée dans une administration, permettant aux citoyens d'obtenir des informations et d'initier des démarches sans attente.</p>
-          <div class="pilote-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            Explorer ce pilote
-          </div>
-        </div>
-      </div>
-
-      <div class="pilote reveal d3" onclick="openModal('m3')" role="button" tabindex="0" aria-haspopup="dialog">
-        <div class="pilote-img">
-          <img src="img/mpo3b4l7-photo3.jpg" alt="Santé numérique Bénin inclusion" loading="lazy" />
-        </div>
-        <div class="pilote-body">
-          <div class="pilote-num">Pilote 03 — Santé</div>
-          <h3 class="pilote-title">Gestion hospitalière intelligente des médicaments</h3>
-          <p class="pilote-excerpt">Système intégré de suivi des stocks et d'alerte pour les médicaments non autorisés, déployé on-premise dans des hôpitaux pilotes.</p>
-          <div class="pilote-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            Explorer ce pilote
-          </div>
-        </div>
-      </div>
-
-      <div class="pilote reveal d1" onclick="openModal('m4')" role="button" tabindex="0" aria-haspopup="dialog">
-        <div class="pilote-img">
-          <img src="img/mpo3b4m7-photo4.jpg" alt="Agriculture intelligente Bénin terrain" loading="lazy" />
-        </div>
-        <div class="pilote-body">
-          <div class="pilote-num">Pilote 04 — Agriculture</div>
-          <h3 class="pilote-title">Conseiller agricole offline-first</h3>
-          <p class="pilote-excerpt">Application mobile fonctionnant hors-ligne pour guider les producteurs sur les semis, traitements et calendriers agricoles — inspiré du projet Drone4Ag et de l'app Nana.</p>
-          <div class="pilote-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            Explorer ce pilote
-          </div>
-        </div>
-      </div>
-
-      <div class="pilote reveal d2" onclick="openModal('m5')" role="button" tabindex="0" aria-haspopup="dialog">
-        <div class="pilote-img">
-          <img src="img/mpo3b4mj-photo5.jpg" alt="Éducation numérique transformation Bénin" loading="lazy" />
-        </div>
-        <div class="pilote-body">
-          <div class="pilote-num">Pilote 05 — Éducation</div>
-          <h3 class="pilote-title">Plateforme de tutorat IA pour établissements</h3>
-          <p class="pilote-excerpt">Système de tutorat adaptatif déployé dans des lycées pilotes, personnalisant le parcours de chaque élève. Données élèves strictement locales, aucune transmission à l'étranger.</p>
-          <div class="pilote-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            Explorer ce pilote
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- ════ ROADMAP ══════════════════════════════════════════════════ -->
 <section id="roadmap">
