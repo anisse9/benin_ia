@@ -38,8 +38,8 @@
     .eyebrow-light::before { background: var(--or-dore); }
     .section-title { font-size: clamp(28px, 3.8vw, 50px); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; margin-bottom: 18px; }
     .section-sub { font-size: clamp(15px, 1.5vw, 18px); color: var(--muted); line-height: 1.75; max-width: 600px; }
-    #sidenav { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 900; background: rgba(20,20,18,0.82); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.18); border-radius: 40px; padding: 14px 10px; box-shadow: 0 8px 40px rgba(0,0,0,0.45); }
-    #sidenav ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    #sidenav { position: static; background: none; border: none; padding: 0; box-shadow: none; }
+    #sidenav ul { list-style: none; display: flex; flex-direction: row; gap: 4px; }
     .snav-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px 7px 9px; border-radius: 100px; transition: background var(--fast) var(--ease); white-space: nowrap; }
     .snav-item:hover { background: rgba(255,255,255,0.08); }
     .snav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.55); flex-shrink: 0; transition: background var(--base) var(--ease), transform var(--base) var(--ease), box-shadow var(--base) var(--ease); }
@@ -48,12 +48,13 @@
     .snav-item:hover .snav-label { color: rgba(255,255,255,0.85); }
     .snav-item.active .snav-dot { background: var(--or-dore); transform: scale(1.55); box-shadow: 0 0 0 3px rgba(217,164,4,0.22); }
     .snav-item.active .snav-label { color: var(--or-dore); font-weight: 700; }
-    @media(max-width:1023px){#sidenav{left:10px}.snav-label{display:none}}
+    @media(max-width:1023px){.snav-label{display:none}}
     @media(max-width:767px){#sidenav{display:none}}
-    #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 900; height: 100px; background: rgba(18,53,36,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+    #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 900; height: 100px; background: rgba(18,53,36,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-inline: var(--gutter); box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+    #sidenav { justify-self: end; }
     #topbar a { display: flex; align-items: center; }
     #topbar img { height: 82px; width: auto; object-fit: contain; }
-    .topbar-back { position: absolute; left: var(--gutter); display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); transition: color var(--fast) var(--ease); }
+    .topbar-back { position: static; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); transition: color var(--fast) var(--ease); }
     .topbar-back:hover { color: var(--or-dore); }
     .topbar-back svg { width: 15px; height: 15px; transition: transform var(--fast) var(--ease); }
     .topbar-back:hover svg { transform: translateX(-3px); }
@@ -258,6 +259,24 @@
     @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr 1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-deco{display:none}}
     @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
+    /* ── WhatsApp demo tabs ── */
+    .wa-section { margin-top: 52px; background: #fff; border-radius: var(--r-lg); padding: 36px 40px; }
+    .wa-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+    .wa-header .arch-diag-label { color: var(--vert-profond); }
+    .wa-tab-btns { display: flex; gap: 6px; }
+    .wa-tab-btn { padding: 8px 22px; border-radius: var(--r-sm); font-size: 12.5px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: var(--blanc); color: var(--muted); transition: all var(--fast) var(--ease); font-family: var(--font); letter-spacing: 0.02em; }
+    .wa-tab-btn:hover { background: var(--surface); color: var(--anthracite); border-color: var(--vert-profond); }
+    .wa-tab-btn.active { background: var(--vert-profond); border-color: var(--vert-profond); color: #fff; }
+    .wa-panel { display: none; }
+    .wa-panel.active { display: block; }
+    .wa-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; align-items: start; }
+    .wa-step { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .wa-step img { width: 100%; border-radius: 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); display: block; }
+    .wa-step-meta { text-align: center; }
+    .wa-step-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 4px; }
+    .wa-step-name { font-size: 13px; font-weight: 600; color: var(--anthracite); }
+    @media(max-width:767px){ .wa-grid { grid-template-columns: repeat(2,1fr); gap: 14px; } }
+    @media(max-width:480px){ .wa-grid { grid-template-columns: 1fr; } }
     /* ── Pitch popup ── */
     #pitch-popup { display: none; position: fixed; inset: 0; z-index: 1200; padding: 24px; align-items: center; justify-content: center; }
     #pitch-popup.open { display: flex; }
@@ -281,18 +300,18 @@
 <header id="topbar">
   <a href="../index.html" class="topbar-back"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Page principale</a>
   <a href="#hero"><img src="../img/logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" /></a>
+  <nav id="sidenav" aria-label="Navigation sections">
+    <ul>
+      <li><a href="#contexte" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Contexte</span></a></li>
+      <li><a href="#objectif" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Objectif</span></a></li>
+      <li><a href="#solution" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Solution</span></a></li>
+      <li><a href="#realisation" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Réalisation</span></a></li>
+      <li><a href="#chiffrage" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Chiffrage</span></a></li>
+      <li><a href="#modele" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Modèle éco.</span></a></li>
+      <li><a href="#ressources" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Ressources</span></a></li>
+    </ul>
+  </nav>
 </header>
-<nav id="sidenav" aria-label="Navigation sections">
-  <ul>
-    <li><a href="#contexte" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Contexte</span></a></li>
-    <li><a href="#objectif" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Objectif</span></a></li>
-    <li><a href="#solution" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Solution</span></a></li>
-    <li><a href="#realisation" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Réalisation</span></a></li>
-    <li><a href="#chiffrage" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Chiffrage</span></a></li>
-    <li><a href="#modele" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Modèle éco.</span></a></li>
-    <li><a href="#ressources" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Ressources</span></a></li>
-  </ul>
-</nav>
 <section id="hero">
   <div class="hero-gradient" aria-hidden="true"></div>
   <div class="hero-grid-lines" aria-hidden="true"></div>
@@ -386,6 +405,58 @@
     </div>
     <div class="arch-wrap reveal">
       <img src="assets/workflow-detection-maladies-cultures-kora-ai.png" alt="Workflow de détection des maladies des cultures — KORA AI" style="width:100%;border-radius:var(--r-lg);display:block;" />
+    </div>
+
+    <div class="wa-section reveal">
+      <div class="wa-header">
+        <div class="arch-diag-label" style="margin-bottom:0;">Conversation WhatsApp — Expérience utilisateur</div>
+        <div class="wa-tab-btns" role="tablist">
+          <button class="wa-tab-btn active" data-lang="fr" role="tab" aria-selected="true">Français</button>
+          <button class="wa-tab-btn" data-lang="fon" role="tab" aria-selected="false">Fon</button>
+        </div>
+      </div>
+
+      <div class="wa-panel active" id="wa-fr" role="tabpanel">
+        <div class="wa-grid">
+          <div class="wa-step">
+            <img src="whatsapp/fr/whatsapp-agribot-01-accueil-logo-coherent.png" alt="Accueil Agribot en français" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
+          </div>
+          <div class="wa-step">
+            <img src="whatsapp/fon/whatsapp-agribot-fon-02-prise-photo.png" alt="Prise de photo de la plante" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Prise de photo</div></div>
+          </div>
+          <div class="wa-step">
+            <img src="whatsapp/fr/whatsapp-agribot-03-patience-logo-coherent.png" alt="Traitement en cours" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Traitement</div></div>
+          </div>
+          <div class="wa-step">
+            <img src="whatsapp/fr/whatsapp-agribot-04-diagnostic-logo-coherent.png" alt="Diagnostic reçu" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Diagnostic</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wa-panel" id="wa-fon" role="tabpanel">
+        <div class="wa-grid">
+          <div class="wa-step">
+            <img src="whatsapp/fon/whatsapp-agribot-fon-01-accueil.png" alt="Accueil Agribot en Fon" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
+          </div>
+          <div class="wa-step">
+            <img src="whatsapp/fon/whatsapp-agribot-fon-02-prise-photo.png" alt="Prise de photo en Fon" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Prise de photo</div></div>
+          </div>
+          <div class="wa-step">
+            <img src="whatsapp/fon/whatsapp-agribot-fon-03-patience.png" alt="Traitement en cours en Fon" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Traitement</div></div>
+          </div>
+          <div class="wa-step">
+            <img src="whatsapp/fon/whatsapp-agribot-fon-04-diagnostic.png" alt="Diagnostic en Fon" loading="lazy" />
+            <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Diagnostic</div></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -596,6 +667,17 @@
   pitchOverlay.addEventListener('click', schedulePitchClose);
   pitchClose.addEventListener('click', schedulePitchClose);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') schedulePitchClose(); });
+
+  // WhatsApp tabs
+  document.querySelectorAll('.wa-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.wa-tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('.wa-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      document.getElementById('wa-' + btn.dataset.lang).classList.add('active');
+    });
+  });
 </script>
 </body>
 </html>
