@@ -1,0 +1,888 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AsphyxiaBot — Assistant IA néonatal pour le repérage de l'asphyxie périnatale · Bénin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A3226'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%23D9A404' stroke-width='1.2'/%3E%3Ccircle cx='16' cy='13' r='4.5' fill='%23D9A404'/%3E%3Cpath d='M10 22 C10 18.5 12.5 16.5 16 16.5 C19.5 16.5 22 18.5 22 22' fill='none' stroke='%232A8850' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <meta name="description" content="AsphyxiaBot — Un assistant IA déployé sur WhatsApp pour le repérage précoce de l'asphyxie périnatale par analyse acoustique des pleurs du nouveau-né, inscrit dans la SNIAM 2023-2027 du Bénin." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --vert-profond: #1F6B3A; --vert-sombre: #123524; --vert-clair: #2A8850;
+      --or-dore: #D9A404; --or-doux: #E7C64A; --rouge: #A63A32;
+      --blanc: #F7F4EC; --gris: #D9D4C7; --anthracite: #1E1E1A;
+      --muted: #5A5756; --border: #E0DBD0; --surface: #FFFFFF;
+      --font: 'DM Sans', -apple-system, system-ui, sans-serif;
+      --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+      --container: 1200px; --gutter: clamp(20px, 4vw, 48px);
+      --section-y: clamp(64px, 9vw, 120px);
+      --ease: cubic-bezier(0.2, 0, 0, 1); --fast: 150ms; --base: 250ms;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
+    body { background: var(--blanc); color: var(--anthracite); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    .container { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1{transition-delay:80ms}.d2{transition-delay:160ms}.d3{transition-delay:240ms}
+    .d4{transition-delay:320ms}.d5{transition-delay:400ms}.d6{transition-delay:480ms}
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 14px; }
+    .eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--or-dore); flex-shrink: 0; }
+    .eyebrow-light { color: rgba(255,255,255,0.55); }
+    .eyebrow-light::before { background: var(--or-dore); }
+    .section-title { font-size: clamp(28px, 3.8vw, 50px); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; margin-bottom: 18px; }
+    .section-sub { font-size: clamp(15px, 1.5vw, 18px); color: var(--muted); line-height: 1.75; max-width: 600px; }
+    #sidenav { position: static; background: none; border: none; padding: 0; box-shadow: none; }
+    #sidenav ul { list-style: none; display: flex; flex-direction: row; gap: 4px; }
+    .snav-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px 7px 9px; border-radius: 100px; transition: background var(--fast) var(--ease); white-space: nowrap; }
+    .snav-item:hover { background: rgba(255,255,255,0.08); }
+    .snav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.55); flex-shrink: 0; transition: background var(--base) var(--ease), transform var(--base) var(--ease), box-shadow var(--base) var(--ease); }
+    .snav-label { font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.60); letter-spacing: 0.03em; pointer-events: none; transition: color var(--fast) var(--ease); }
+    .snav-item:hover .snav-dot { background: rgba(255,255,255,0.75); }
+    .snav-item:hover .snav-label { color: rgba(255,255,255,0.85); }
+    .snav-item.active .snav-dot { background: var(--or-dore); transform: scale(1.55); box-shadow: 0 0 0 3px rgba(217,164,4,0.22); }
+    .snav-item.active .snav-label { color: var(--or-dore); font-weight: 700; }
+    @media(max-width:1023px){.snav-label{display:none}}
+    @media(max-width:767px){#sidenav{display:none}}
+    #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 900; height: 100px; background: rgba(18,53,36,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-inline: var(--gutter); box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+    #sidenav { justify-self: end; }
+    #topbar a { display: flex; align-items: center; }
+    #topbar img { height: 82px; width: auto; object-fit: contain; }
+    .topbar-back { position: static; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); transition: color var(--fast) var(--ease); }
+    .topbar-back:hover { color: var(--or-dore); }
+    .topbar-back svg { width: 15px; height: 15px; transition: transform var(--fast) var(--ease); }
+    .topbar-back:hover svg { transform: translateX(-3px); }
+    #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; background: var(--vert-sombre); overflow: hidden; }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
+    .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
+    .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
+    .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 100%; align-self: stretch; }
+    .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 520px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
+    .hstat-val { font-size: clamp(36px,4.5vw,58px); font-weight: 700; color: #52D68A; letter-spacing: -0.03em; line-height: 1; }
+    .hstat-label { font-size: 13px; color: rgba(255,255,255,0.60); max-width: 160px; line-height: 1.4; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(217,164,4,0.35); background: rgba(217,164,4,0.10); border-radius: var(--r-sm); font-size: 11.5px; font-weight: 700; color: var(--or-doux); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 28px; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .hero-h1 { font-size: clamp(36px,5.2vw,72px); font-weight: 700; color: #fff; line-height: 1.08; letter-spacing: -0.025em; max-width: 860px; margin-bottom: 24px; }
+    .hero-accent { color: var(--or-dore); }
+    .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 640px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 52px; margin-bottom: 56px; }
+    .hstat { display: flex; flex-direction: column; gap: 6px; }
+    .hstat-val { font-size: clamp(40px,5vw,62px); font-weight: 700; color: var(--or-dore); letter-spacing: -0.03em; line-height: 1; }
+    .hstat-label { font-size: 13px; color: rgba(255,255,255,0.57); max-width: 150px; line-height: 1.4; }
+    .hero-miniflow { display: flex; align-items: center; padding: 18px 24px; max-width: 680px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-md); }
+    .hmf-node { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 7px; }
+    .hmf-ico { width: 34px; height: 34px; background: rgba(217,164,4,0.14); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .hmf-ico svg { width: 16px; height: 16px; color: var(--or-dore); }
+    .hmf-label { font-size: 10.5px; color: rgba(255,255,255,0.58); font-weight: 500; line-height: 1.3; }
+    .hmf-arrow { flex-shrink: 0; padding-inline: 5px; color: rgba(255,255,255,0.20); margin-bottom: 14px; font-size: 16px; }
+    .hero-scroll-indicator { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.32); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent); animation: scrollDrop 2.2s ease-in-out infinite; }
+    @keyframes scrollDrop{0%,100%{opacity:1}50%{opacity:0.25}}
+    #contexte { padding-block: var(--section-y); background: var(--surface); }
+    .contexte-intro { max-width: 740px; margin-bottom: 52px; }
+    .contexte-text { font-size: 15.5px; color: var(--muted); line-height: 1.8; margin-top: 16px; }
+    .constats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 48px; }
+    .constat { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--r-md); padding: 26px 22px; position: relative; transition: all var(--base) var(--ease); }
+    .constat:hover { border-color: var(--vert-profond); box-shadow: 0 4px 24px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .constat-bar { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--or-dore); border-radius: 3px 3px 0 0; }
+    .constat-ico { width: 40px; height: 40px; background: rgba(31,107,58,0.09); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .constat-ico svg { width: 20px; height: 20px; color: var(--vert-profond); }
+    .constat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .constat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .pourquoi-bloc { background: var(--vert-sombre); border-radius: var(--r-lg); padding: 44px; display: flex; gap: 52px; align-items: flex-start; }
+    .pourquoi-left { flex: 1 1 280px; }
+    .pourquoi-right { flex: 1.4 1 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .pourquoi-title { font-size: clamp(20px,2.4vw,26px); font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .pourquoi-sub { font-size: 14px; color: rgba(255,255,255,0.58); line-height: 1.7; }
+    .raison { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-md); padding: 16px; }
+    .raison-title { font-size: 13px; font-weight: 700; color: var(--or-dore); margin-bottom: 6px; }
+    .raison-desc { font-size: 12px; color: rgba(255,255,255,0.56); line-height: 1.55; }
+    #objectif { padding-block: var(--section-y); background: var(--blanc); }
+    .objectif-header { margin-bottom: 48px; }
+    .objectif-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 52px; }
+    .obj-col { border-radius: var(--r-lg); padding: 40px 36px; position: relative; overflow: hidden; }
+    .obj-col-terrain { background: var(--vert-sombre); }
+    .obj-col-monitoring { background: var(--anthracite); }
+    .obj-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; }
+    .badge-terrain { background: rgba(42,136,80,0.28); color: var(--or-doux); }
+    .badge-monitoring { background: rgba(217,164,4,0.18); color: var(--or-dore); }
+    .obj-title { font-size: clamp(18px,2.2vw,24px); font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.25; }
+    .obj-desc { font-size: 14px; color: rgba(255,255,255,0.62); line-height: 1.7; }
+    .obj-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 20px; }
+    .obj-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+    .obj-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); flex-shrink: 0; margin-top: 6px; }
+    .benef-section-title { font-size: 19px; font-weight: 700; margin-bottom: 22px; }
+    .benef-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .benef { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 22px 16px; text-align: center; transition: all var(--base) var(--ease); }
+    .benef:hover { border-color: var(--vert-profond); box-shadow: 0 4px 20px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .benef-ico { width: 44px; height: 44px; background: rgba(31,107,58,0.09); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .benef-ico svg { width: 22px; height: 22px; color: var(--vert-profond); }
+    .benef-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .benef-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    #solution { padding-block: var(--section-y); background: var(--vert-sombre); color: #fff; position: relative; overflow: hidden; }
+    #solution::before { content: ''; position: absolute; top: -30%; right: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(31,107,58,0.20) 0%, transparent 70%); pointer-events: none; }
+    .solution-intro { max-width: 720px; margin-bottom: 52px; }
+    .solution-text { font-size: 15.5px; color: rgba(255,255,255,0.63); line-height: 1.8; margin-top: 16px; }
+    .arch-wrap { margin-bottom: 44px; }
+    .arch-diag-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--or-dore); margin-bottom: 20px; }
+    .arch-flow { display: flex; align-items: center; overflow-x: auto; padding: 36px 32px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-lg); }
+    .arch-node { flex: 1; min-width: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+    .arch-ico { width: 58px; height: 58px; border-radius: var(--r-md); background: rgba(217,164,4,0.12); border: 1px solid rgba(217,164,4,0.25); display: flex; align-items: center; justify-content: center; transition: all var(--base) var(--ease); }
+    .arch-ico:hover { background: rgba(217,164,4,0.22); border-color: rgba(217,164,4,0.50); transform: translateY(-2px); }
+    .arch-ico svg { width: 26px; height: 26px; color: var(--or-dore); }
+    .arch-node-title { font-size: 12.5px; font-weight: 700; color: #fff; }
+    .arch-node-sub { font-size: 10.5px; color: rgba(255,255,255,0.44); line-height: 1.4; max-width: 120px; }
+    .arch-arrow { flex-shrink: 0; padding-inline: 8px; color: rgba(255,255,255,0.22); margin-bottom: 24px; display: flex; align-items: center; }
+    .arch-arrow svg { width: 18px; height: 18px; }
+    .pourquoi-archi-label { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 18px; }
+    .pourquoi-archi { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .arg { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-md); padding: 18px 14px; transition: all var(--base) var(--ease); }
+    .arg:hover { background: rgba(255,255,255,0.07); border-color: rgba(217,164,4,0.25); }
+    .arg-ico { margin-bottom: 10px; }
+    .arg-ico svg { width: 22px; height: 22px; color: var(--or-dore); }
+    .arg-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .arg-desc { font-size: 11.5px; color: rgba(255,255,255,0.50); line-height: 1.55; }
+    #realisation { padding-block: var(--section-y); background: var(--blanc); }
+    .real-intro { max-width: 740px; margin-bottom: 52px; }
+    .timeline-wrap { margin-bottom: 56px; }
+    .timeline-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .timeline-label::before { content: ''; display: block; width: 18px; height: 2px; background: var(--or-dore); }
+    .timeline-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 0; position: relative; }
+    .timeline-grid::before { content: ''; position: absolute; top: 25px; left: calc(100%/12); right: calc(100%/12); height: 2px; background: linear-gradient(90deg, var(--or-dore), var(--vert-clair), var(--or-dore)); z-index: 0; }
+    .tstep { display: flex; flex-direction: column; align-items: center; text-align: center; padding-inline: 6px; position: relative; z-index: 1; }
+    .tstep-dot { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 18px; transition: all var(--base) var(--ease); }
+    .tstep:hover .tstep-dot { border-color: var(--or-dore); background: rgba(217,164,4,0.08); color: var(--or-dore); box-shadow: 0 0 0 6px rgba(217,164,4,0.10); }
+    .tstep-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 5px; }
+    .tstep-name { font-size: 13px; font-weight: 700; color: var(--anthracite); margin-bottom: 5px; }
+    .tstep-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    .local-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .local-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .local-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 24px 20px; transition: all var(--base) var(--ease); }
+    .local-card:hover { border-color: var(--vert-profond); box-shadow: 0 4px 20px rgba(31,107,58,0.08); }
+    .local-ico { width: 36px; height: 36px; background: rgba(31,107,58,0.09); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .local-ico svg { width: 18px; height: 18px; color: var(--vert-profond); }
+    .local-card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .local-card-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    #chiffrage { padding-block: var(--section-y); background: var(--surface); }
+    .chiffrage-intro { max-width: 700px; margin-bottom: 16px; }
+    .chiffrage-note { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; margin-bottom: 40px; background: rgba(217,164,4,0.09); border: 1px solid rgba(217,164,4,0.22); border-radius: var(--r-sm); font-size: 12px; color: #7A5200; font-weight: 500; }
+    .chiffrage-note svg { width: 14px; height: 14px; color: var(--or-dore); flex-shrink: 0; }
+    .chiffrage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .chiffrage-col { border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border); }
+    .ch-head { padding: 30px 28px 22px; border-bottom: 1px solid var(--border); }
+    .ch-head-dark { background: var(--vert-sombre); border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .ch-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 10px; }
+    .ch-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .ch-title-light { color: #fff; }
+    .ch-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+    .ch-sub-light { color: rgba(255,255,255,0.56); }
+    .ch-body { padding: 28px; background: var(--surface); }
+    .ch-body-alt { background: rgba(18,53,36,0.02); }
+    .poste { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .poste:last-child { border-bottom: none; }
+    .poste-name { font-size: 13.5px; color: var(--anthracite); }
+    .poste-est { font-size: 12.5px; font-weight: 500; color: var(--muted); text-align: right; }
+    .poste-est-or { color: var(--or-dore); font-weight: 600; }
+    .ch-footer { padding: 18px 28px; border-top: 1px solid var(--border); }
+    .ch-footer-dark { background: rgba(255,255,255,0.04); border-top: 1px solid rgba(255,255,255,0.07); }
+    .ch-footer-text { font-size: 13px; }
+    .ch-footer-text-light { color: rgba(255,255,255,0.55); }
+    .coherence { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 44px; margin-top: 40px; }
+    .coherence-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .coherence-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .coherence-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+    .carg-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .carg-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    #ressources { padding-block: var(--section-y); background: var(--surface); border-top: 1px solid var(--border); }
+    .ressources-note { font-size: 14px; color: var(--muted); margin-bottom: 36px; max-width: 600px; line-height: 1.7; margin-top: 14px; }
+    .ressources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ressource-card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 38px 32px; display: flex; flex-direction: column; gap: 14px; transition: all var(--base) var(--ease); }
+    .ressource-card:hover { border-color: var(--vert-profond); box-shadow: 0 8px 32px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .ressource-tag { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--vert-profond); }
+    .ressource-title { font-size: 20px; font-weight: 700; line-height: 1.25; }
+    .ressource-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .ressource-link { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--vert-profond); margin-top: 4px; }
+    .ressource-link svg { width: 14px; height: 14px; transition: transform var(--fast) var(--ease); }
+    .ressource-card:hover .ressource-link svg { transform: translateX(4px); }
+    #cta { padding-block: var(--section-y); background: var(--vert-sombre); position: relative; overflow: hidden; }
+    #cta::after { content: ''; position: absolute; bottom: 0; right: 0; width: 440px; height: 440px; background: radial-gradient(circle, rgba(217,164,4,0.08) 0%, transparent 70%); pointer-events: none; }
+    .cta-content { position: relative; z-index: 1; max-width: 780px; }
+    .cta-title { font-size: clamp(26px,4vw,54px); font-weight: 700; color: #fff; line-height: 1.12; letter-spacing: -0.022em; margin-bottom: 20px; }
+    .cta-sub { font-size: clamp(14px,1.5vw,17px); color: rgba(255,255,255,0.66); line-height: 1.8; margin-bottom: 44px; max-width: 600px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .cta-gold { padding: 15px 28px; background: var(--or-dore); color: var(--anthracite); font-size: 15px; font-weight: 700; border-radius: var(--r-sm); transition: all var(--fast) var(--ease); display: inline-block; }
+    .cta-gold:hover { background: var(--or-doux); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,164,4,0.30); }
+    .cta-outline { padding: 15px 24px; border: 1.5px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 500; border-radius: var(--r-sm); transition: all var(--fast) var(--ease); display: inline-block; background: transparent; }
+    .cta-outline:hover { border-color: rgba(255,255,255,0.50); background: rgba(255,255,255,0.06); }
+    footer { background: var(--anthracite); padding-block: 28px; }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .foot-brand { font-size: 12.5px; color: rgba(255,255,255,0.36); }
+    .foot-flag { display: flex; align-items: stretch; width: 32px; height: 20px; border-radius: 2px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    .fs-green { background: #008751; width: 11px; flex-shrink: 0; }
+    .fs-right { display: flex; flex-direction: column; flex: 1; }
+    .fs-yellow { background: #FCD116; flex: 1; }
+    .fs-red { background: #E8112D; flex: 1; }
+    .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
+    #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--or-dore), var(--or-doux)); z-index: 1100; border-radius: 0 2px 2px 0; pointer-events: none; transition: width 80ms linear; }
+    @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-deco{display:none}}
+    @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
+    /* ── WhatsApp demo tabs ── */
+    .wa-section { margin-top: 52px; background: #fff; border-radius: var(--r-lg); padding: 36px 40px; }
+    .wa-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+    .wa-header .arch-diag-label { color: var(--vert-profond); }
+    .wa-tab-btns { display: flex; gap: 6px; }
+    .wa-tab-btn { padding: 8px 22px; border-radius: var(--r-sm); font-size: 12.5px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: var(--blanc); color: var(--muted); transition: all var(--fast) var(--ease); font-family: var(--font); letter-spacing: 0.02em; }
+    .wa-tab-btn:hover { background: var(--surface); color: var(--anthracite); border-color: var(--vert-profond); }
+    .wa-tab-btn.active { background: var(--vert-profond); border-color: var(--vert-profond); color: #fff; }
+    .wa-panel { display: none; }
+    .wa-panel.active { display: block; }
+    .wa-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; align-items: start; }
+    .wa-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .wa-img-wrap { width: 100%; }
+    .wa-img-placeholder { width: 100%; aspect-ratio: 9/16; background: linear-gradient(145deg, #e8f4ec 0%, #d4e9db 100%); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+    .wa-img-placeholder svg { width: 36px; height: 36px; color: var(--vert-profond); opacity: 0.45; }
+    .wa-img-placeholder span { font-size: 11px; color: var(--muted); font-weight: 500; text-align: center; padding-inline: 16px; line-height: 1.5; }
+    .wa-step img { width: 100%; border-radius: 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); display: block; }
+    .wa-speak-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: var(--vert-profond); border: none; cursor: pointer; color: #fff; font-size: 11.5px; font-weight: 600; font-family: var(--font); letter-spacing: 0.03em; box-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: all 150ms ease; }
+    .wa-speak-btn:hover { background: var(--vert-clair); transform: scale(1.04); }
+    .wa-speak-btn.speaking { background: var(--or-dore); }
+    .wa-speak-btn svg { width: 13px; height: 13px; flex-shrink: 0; pointer-events: none; }
+    .wa-step-meta { text-align: center; }
+    .wa-step-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 4px; }
+    .wa-step-name { font-size: 13px; font-weight: 600; color: var(--anthracite); }
+    @media(max-width:767px){ .wa-grid { grid-template-columns: repeat(2,1fr); gap: 14px; } }
+    @media(max-width:480px){ .wa-grid { grid-template-columns: 1fr; } }
+    /* ── Pitch popup ── */
+    #pitch-popup { display: none; position: fixed; inset: 0; z-index: 1200; padding: 24px; align-items: center; justify-content: center; }
+    #pitch-popup.open { display: flex; }
+    .pitch-overlay { position: absolute; inset: 0; background: rgba(10,18,12,0.62); backdrop-filter: blur(6px); cursor: pointer; }
+    .pitch-panel { position: relative; background: var(--surface); border-radius: var(--r-lg); max-width: 680px; width: 100%; max-height: 84vh; display: flex; flex-direction: column; box-shadow: 0 28px 80px rgba(0,0,0,0.40); overflow: hidden; z-index: 1; }
+    .pitch-header { padding: 30px 40px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .pitch-eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .pitch-eyebrow::before { content: ''; display: block; width: 20px; height: 2px; background: var(--or-dore); }
+    .pitch-title { font-size: 20px; font-weight: 700; }
+    .pitch-body { overflow-y: auto; padding: 26px 40px 36px; }
+    .pitch-body p { font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+    .pitch-body p:first-child { font-size: 15px; font-weight: 600; color: var(--anthracite); }
+    .pitch-body p:last-child { margin-bottom: 0; }
+    .pitch-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--blanc); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all var(--fast) var(--ease); cursor: pointer; font-size: 20px; line-height: 1; z-index: 2; }
+    .pitch-close:hover { background: var(--border); color: var(--anthracite); }
+    @media(max-width:600px){ .pitch-panel { max-height: 90vh; } .pitch-header, .pitch-body { padding-inline: 22px; } }
+  </style>
+</head>
+<body>
+<div id="progress-bar" aria-hidden="true"></div>
+<header id="topbar">
+  <a href="../index.html" class="topbar-back"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Page principale</a>
+  <a href="#hero"><img src="../img/logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" /></a>
+  <nav id="sidenav" aria-label="Navigation sections">
+    <ul>
+      <li><a href="#contexte" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Contexte</span></a></li>
+      <li><a href="#objectif" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Objectif</span></a></li>
+      <li><a href="#solution" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Solution</span></a></li>
+      <li><a href="#realisation" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Réalisation</span></a></li>
+      <li><a href="#chiffrage" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Chiffrage</span></a></li>
+      <li><a href="#ressources" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Ressources</span></a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="hero">
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="hero-grid-lines" aria-hidden="true"></div>
+  <div class="hero-deco" aria-hidden="true">
+    <!-- Emplacement vidéo hero — à remplacer par assets/hero-asphyxiabot.mp4 -->
+    <video class="hero-deco-video" autoplay muted loop playsinline>
+      <source src="assets/hero-asphyxiabot.mp4" type="video/mp4">
+    </video>
+    <div class="hero-deco-fade"></div>
+  </div>
+  <div class="hero-content">
+    <div class="container">
+      <p class="hero-sub reveal d1">AsphyxiaBot analyse les pleurs d'un nouveau-né via un simple message vocal WhatsApp pour aider au repérage précoce d'une suspicion d'asphyxie périnatale — dans les zones reculées du Bénin, là où l'accès rapide à un avis spécialisé peut être retardé.</p>
+      <div class="hero-stats reveal d2">
+        <div class="hstat"><span class="hstat-val">~27</span><span class="hstat-label">décès néonatals pour 1 000 naissances vivantes au Bénin</span></div>
+        <div class="hstat"><span class="hstat-val">~23<sup style="font-size:0.45em;font-weight:600">%</sup></span><span class="hstat-label">des décès néonatals liés à l'asphyxie périnatale</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
+
+<section id="contexte">
+  <div class="container">
+    <div class="contexte-intro reveal">
+      <p class="eyebrow">01 — Contexte</p>
+      <h2 class="section-title">Des urgences néonatales critiques, des zones rurales trop éloignées</h2>
+      <p class="contexte-text">Dans plusieurs régions reculées du Bénin, l'accès rapide à des soins néonatals spécialisés reste limité par l'éloignement des structures de santé, le manque de personnel qualifié, les difficultés de transport et les retards dans l'orientation des cas urgents. L'asphyxie périnatale fait partie des urgences les plus critiques : elle peut engager très rapidement le pronostic vital du bébé si elle n'est pas repérée à temps. Le déploiement d'AsphyxiaBot s'inscrit dans la Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées 2023–2027 du Bénin, qui identifie la santé comme un secteur prioritaire d'application de l'IA.</p>
+    </div>
+
+    <div class="constats-grid reveal">
+      <div class="constat">
+        <div class="constat-bar"></div>
+        <div class="constat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="constat-title">Éloignement des structures de santé</div>
+        <div class="constat-desc">Dans les zones rurales et semi-rurales, les centres de santé spécialisés en néonatalogie sont souvent à plusieurs heures de route. Chaque retard dans l'orientation peut être fatal pour le nouveau-né.</div>
+      </div>
+      <div class="constat">
+        <div class="constat-bar"></div>
+        <div class="constat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="constat-title">Manque de personnel spécialisé</div>
+        <div class="constat-desc">Les agents de santé communautaires et les sages-femmes en zones périphériques n'ont pas toujours accès à un avis néonatal spécialisé. L'IA peut combler ce gap en rendant l'expertise accessible en temps réel.</div>
+      </div>
+      <div class="constat">
+        <div class="constat-bar"></div>
+        <div class="constat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="constat-title">Urgence temporelle critique</div>
+        <div class="constat-desc">L'asphyxie périnatale exige une réaction immédiate. Chaque minute compte entre l'apparition du signal d'alerte et la décision d'orientation vers une prise en charge adaptée.</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:48px;">
+      <h3 style="font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-0.018em;margin-bottom:28px;">Pourquoi maintenant</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Faisabilité technique démontrée</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Les recherches existantes montrent la faisabilité de systèmes de classification des pleurs pour distinguer des cas liés à l'asphyxie. Les caractéristiques acoustiques validées (fréquence, énergie, structure temporelle) permettent d'entraîner des modèles fiables.</div>
+        </div>
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Alignement SNIAM 2023-2027</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Le Bénin dispose d'un cadre stratégique national explicite qui identifie la santé comme secteur prioritaire. L'ASIN et les institutions de coordination facilitent l'investissement dans des solutions IA souveraines à impact sanitaire.</div>
+        </div>
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Canal WhatsApp déjà maîtrisé</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">WhatsApp est largement utilisé et compris par les professionnels de santé et les populations. Cela réduit les coûts d'adoption et permet un déploiement rapide même en zones à ressources limitées, sans infrastructure lourde.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="objectif">
+  <div class="container">
+    <div class="objectif-header reveal">
+      <p class="eyebrow">02 — Objectif</p>
+      <h2 class="section-title">Réduire le délai entre le signal d'alerte et la décision d'orientation</h2>
+      <p class="section-sub" style="max-width:100%;">AsphyxiaBot vise à fournir un outil de première ligne adapté aux centres de santé périphériques, aux agents communautaires et aux zones rurales. L'objectif est de rendre une expertise spécialisée plus accessible, plus rapide et plus directement exploitable sur le terrain.</p>
+    </div>
+    <div class="objectif-split">
+      <div class="obj-col obj-col-terrain reveal d1">
+        <div class="obj-badge badge-terrain">Mission principale</div>
+        <div class="obj-title">Repérage précoce par les acteurs de première ligne</div>
+        <div class="obj-desc">L'utilisateur — agent de santé communautaire, sage-femme ou famille accompagnée — envoie un enregistrement vocal des pleurs du bébé via WhatsApp. Le système analyse automatiquement le signal audio et indique si le cri est compatible avec une suspicion d'asphyxie périnatale.</div>
+        <ul class="obj-list">
+          <li>Analyse acoustique des pleurs (fréquence fondamentale, énergie, instabilité)</li>
+          <li>Résultat clair avec niveau de confiance</li>
+          <li>Recommandation immédiate : surveillance, consultation rapide ou urgence néonatale</li>
+          <li>Interface simple sur WhatsApp, sans prérequis technique</li>
+          <li>Fonctionnel en zones rurales avec connectivité limitée</li>
+        </ul>
+      </div>
+      <div class="obj-col obj-col-monitoring reveal d2">
+        <div class="obj-badge badge-monitoring">Impact visé</div>
+        <div class="obj-title">Réduction de la mortalité néonatale et amélioration des soins</div>
+        <div class="obj-desc">En rendant le repérage plus rapide et plus accessible, AsphyxiaBot contribue directement à la réduction des retards de prise en charge, qui sont parmi les facteurs les plus critiques de mortalité néonatale dans les zones reculées.</div>
+        <ul class="obj-list">
+          <li>Réduction du temps entre signal d'alerte et orientation médicale</li>
+          <li>Appui aux agents de santé dans les zones sans accès à un néonatologue</li>
+          <li>Contribution à la réduction de la mortalité néonatale au Bénin</li>
+          <li>Outil d'aide au repérage, non de diagnostic médical définitif</li>
+          <li>Modèle exportable à d'autres pays d'Afrique de l'Ouest</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="benef-section-title">Utilisateurs et bénéficiaires</div>
+      <div class="benef-grid">
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="benef-name">Nouveau-nés</div>
+          <div class="benef-desc">Bénéficiaires directs d'une prise en charge plus rapide et mieux orientée</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="benef-name">Agents de santé</div>
+          <div class="benef-desc">Appui décisionnel pour les agents communautaires et sages-femmes en zones rurales</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          </div>
+          <div class="benef-name">Structures de santé</div>
+          <div class="benef-desc">Centres de santé périphériques et zones rurales sans accès à un néonatologue</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="benef-name">Familles</div>
+          <div class="benef-desc">Familles accompagnées dans les zones reculées, guidées vers les bons soins au bon moment</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div class="benef-name">Ministère de la Santé</div>
+          <div class="benef-desc">Outil concret d'appui aux programmes nationaux de santé maternelle et néonatale</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solution">
+  <div class="container">
+    <div class="solution-intro reveal">
+      <p class="eyebrow eyebrow-light">03 — Solution technique</p>
+      <h2 class="section-title" style="color:#fff;">Analyse acoustique des pleurs sur WhatsApp</h2>
+      <p class="solution-text">La solution repose sur l'analyse acoustique des pleurs du nouveau-né, en s'appuyant sur des caractéristiques validées dans la littérature scientifique : fréquence fondamentale, énergie, instabilité, pauses, structure temporelle et spectrale. Le canal WhatsApp, déjà largement adopté, permet un déploiement immédiat sans infrastructure lourde.</p>
+    </div>
+
+    <div class="arch-wrap reveal">
+      <!-- Emplacement image workflow — à remplacer par assets/workflow-asphyxiabot-kora-ai.png -->
+      <div class="arch-diag-label">Architecture de la solution — Pipeline audio</div>
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+          </div>
+          <div class="arch-node-title">Note vocale</div>
+          <div class="arch-node-sub">Pleurs du bébé envoyés via WhatsApp</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="arch-node-title">Extraction audio</div>
+          <div class="arch-node-sub">Réception et prétraitement du signal</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="arch-node-title">Analyse IA</div>
+          <div class="arch-node-sub">Classification acoustique par modèle entraîné</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="arch-node-title">Résultat</div>
+          <div class="arch-node-sub">Score de confiance + recommandation d'orientation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wa-section reveal">
+      <div class="wa-header">
+        <div class="arch-diag-label" style="margin-bottom:0;">Conversation WhatsApp — Expérience utilisateur</div>
+        <div class="wa-tab-btns" role="tablist">
+          <button class="wa-tab-btn active" data-lang="fr" role="tab" aria-selected="true">Français</button>
+          <button class="wa-tab-btn" data-lang="fon" role="tab" aria-selected="false">Fon</button>
+        </div>
+      </div>
+
+      <div class="wa-panel active" id="wa-fr" role="tabpanel">
+        <div class="wa-grid">
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fr/whatsapp-asphyxiabot-fr-01-accueil.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <span>Image à venir<br/>Écran d'accueil</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Bonjour, je suis AsphyxiaBot. Pour analyser les pleurs de votre nouveau-né, enregistrez un message vocal d'au moins 10 secondes et envoyez-le moi. Je vous donnerai une analyse rapide et une recommandation." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fr/whatsapp-asphyxiabot-fr-02-envoi-vocal.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                <span>Image à venir<br/>Envoi de la note vocale</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Maintenez le bouton micro de WhatsApp et enregistrez les pleurs du bébé pendant au moins 10 secondes, puis relâchez pour envoyer." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Envoi vocal</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fr/whatsapp-asphyxiabot-fr-03-analyse.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Image à venir<br/>Analyse en cours</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Message reçu. AsphyxiaBot analyse maintenant les pleurs de votre nouveau-né. Cela prend quelques secondes." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Analyse</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fr/whatsapp-asphyxiabot-fr-04-resultat.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Image à venir<br/>Résultat et recommandation</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Résultat AsphyxiaBot : signal compatible avec une suspicion d'asphyxie périnatale. Niveau de confiance élevé. Recommandation : orientation urgence néonatale immédiate. Ce résultat est une aide au repérage et ne remplace pas un diagnostic médical." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Résultat</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wa-panel" id="wa-fon" role="tabpanel">
+        <div class="wa-grid">
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fon/whatsapp-asphyxiabot-fon-01-accueil.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <span>Image à venir<br/>Écran d'accueil (Fon)</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Kwabɔ! Nyɛ AsphyxiaBot. Ðo wɛn vivo nyitɔ sín whatsapp bo sɛ́n do ma, na nɔ hɛn donukpɛvi na we." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fon/whatsapp-asphyxiabot-fon-02-envoi-vocal.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                <span>Image à venir<br/>Envoi vocal (Fon)</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Dó wɛn vivo nyitɔ bo sɛ́n do ma." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Envoi vocal</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fon/whatsapp-asphyxiabot-fon-03-analyse.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Image à venir<br/>Analyse (Fon)</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Jo, nɔ xwevi kpɔn. AsphyxiaBot nɔ vivo nyitɔ sín wɛn mɛ." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Analyse</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <!-- Emplacement image : whatsapp/fon/whatsapp-asphyxiabot-fon-04-resultat.png -->
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Image à venir<br/>Résultat (Fon)</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="AsphyxiaBot donukpɛvi: wɛn ɖó gɔ̌ asphyxie périnatale sín. Ko tlɛ ka dó sísɛ́ nyitɔ mɛdédé kɔn." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Résultat</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:52px;" class="reveal">
+      <div class="pourquoi-archi-label">Pourquoi AsphyxiaBot pour l'État du Bénin</div>
+      <div class="pourquoi-archi">
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="arg-title">Alignement SNIAM</div>
+          <div class="arg-desc">Renforce la crédibilité du Bénin comme plateforme de services numériques de santé en Afrique de l'Ouest.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="arg-title">Impact sanitaire</div>
+          <div class="arg-desc">Contribution directe à la réduction de la mortalité néonatale dans les zones où les retards de prise en charge sont les plus critiques.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="arg-title">Accessibilité WhatsApp</div>
+          <div class="arg-desc">Canal déjà familier, sans infrastructure lourde, adapté aux contraintes des zones rurales et des agents de santé de terrain.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="arg-title">Modèle exportable</div>
+          <div class="arg-desc">Un succès au Bénin ouvre la voie à d'autres solutions IA santé maternelle, néonatale et communautaire dans toute l'Afrique de l'Ouest.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="arg-title">Partenariat public-privé</div>
+          <div class="arg-desc">Collaboration avec startups béninoises, institutions de recherche et organisations internationales, renforçant les capacités nationales en IA santé.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="realisation">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:48px;">
+      <p class="eyebrow">04 — Réalisation</p>
+    </div>
+    <div class="timeline-wrap reveal">
+      <div class="timeline-label">Feuille de route opérationnelle — 3 phases, 6 étapes</div>
+      <div class="timeline-grid">
+        <div class="tstep d1"><div class="tstep-dot">1</div><div><div class="tstep-num">Phase pilote · 01</div><div class="tstep-name">Développement bot & backend</div><div class="tstep-desc">Développement du bot WhatsApp, du backend de réception audio et de la chaîne de traitement du signal. Architecture légère adaptée aux zones à faible connectivité.</div></div></div>
+        <div class="tstep d2"><div class="tstep-dot">2</div><div><div class="tstep-num">Phase pilote · 02</div><div class="tstep-name">Intégration IA audio</div><div class="tstep-desc">Intégration ou adaptation d'un modèle IA de classification des pleurs. Extraction des paramètres acoustiques pertinents et entraînement du prototype de classification.</div></div></div>
+        <div class="tstep d3"><div class="tstep-dot">3</div><div><div class="tstep-num">Phase pilote · 03</div><div class="tstep-name">Tests terrain pilotes</div><div class="tstep-desc">Tests terrain avec des agents de santé et des structures pilotes dans des zones rurales choisies. Collecte, annotation et validation médicale des données locales.</div></div></div>
+        <div class="tstep d4"><div class="tstep-dot">4</div><div><div class="tstep-num">Phase extension · 04</div><div class="tstep-name">Extension zones sanitaires</div><div class="tstep-desc">Extension progressive à d'autres zones sanitaires. Intégration de données locales pour améliorer la robustesse du modèle sur les spécificités béninoises.</div></div></div>
+        <div class="tstep d5"><div class="tstep-dot">5</div><div><div class="tstep-num">Phase extension · 05</div><div class="tstep-name">Formation des agents</div><div class="tstep-desc">Formation des agents de santé communautaires, sages-femmes et relais communautaires à l'usage du bot. Intégration dans les pratiques existantes.</div></div></div>
+        <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Phase généralisation · 06</div><div class="tstep-name">Déploiement national</div><div class="tstep-desc">Déploiement national progressif en lien avec les programmes de santé maternelle et néonatale. Connexion avec les systèmes d'information sanitaire existants et évaluation d'impact continue.</div></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="local-title">Ressources locales mobilisables</div>
+      <div class="local-grid">
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="local-card-title">Expertise médicale locale</div><div class="local-card-desc">Pédiatres, néonatologues, sages-femmes et agents de santé communautaire disposant de la connaissance terrain des urgences néonatales. Faculté de médecine de l'UAC et CNHU de Cotonou comme partenaires médicaux de référence.</div></div>
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="local-card-title">Structures publiques partenaires</div><div class="local-card-desc">Ministère de la Santé, ASIN, Direction Nationale de la Santé de la Mère et de l'Enfant, zones sanitaires périphériques, hôpitaux de zone et centres de santé communautaires dans les zones pilotes.</div></div>
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="local-card-title">Talents data & développement</div><div class="local-card-desc">Diplômés du Master Data Science de l'UAC/IMSP, ingénieurs des écoles polytechniques, développeurs mobiles locaux et alumni des formations de l'ASIN. Le CEA-SMIA constitue un vivier de compétences IA directement mobilisables.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="chiffrage">
+  <div class="container">
+    <div class="chiffrage-intro reveal">
+      <p class="eyebrow">05 — Chiffrage indicatif</p>
+      <h2 class="section-title">Investissement progressif, du pilote au déploiement national</h2>
+      <p class="section-sub">Le chiffrage est présenté sous forme de prototype pilote, avec une logique de coût progressif adaptée à un déploiement national graduel. Conversion indicative à 1 € ≈ 655 FCFA.</p>
+    </div>
+    <div class="chiffrage-note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Document de cadrage indicatif — les montants définitifs sont établis après concertation et définition précise du périmètre du pilote.
+    </div>
+    <div class="chiffrage-grid reveal">
+      <div class="chiffrage-col">
+        <div class="ch-head ch-head-dark"><div class="ch-badge">Phase 1 — Pilote fonctionnel</div><div class="ch-title ch-title-light">Pilote</div><div class="ch-sub ch-sub-light">Zones sanitaires pilotes · durée indicative 6 à 12 mois · enveloppe 13 740 à 32 040 €</div></div>
+        <div class="ch-body">
+          <div class="poste"><span class="poste-name">Développement bot WhatsApp et backend</span><span class="poste-est poste-est-or">3 050 – 6 100 €</span></div>
+          <div class="poste"><span class="poste-name">Intégration IA/audio et prototype de classification</span><span class="poste-est poste-est-or">4 580 – 9 160 €</span></div>
+          <div class="poste"><span class="poste-name">Collecte, annotation et validation terrain</span><span class="poste-est poste-est-or">4 580 – 12 200 €</span></div>
+          <div class="poste"><span class="poste-name">Hébergement, maintenance pilote et suivi opérationnel</span><span class="poste-est poste-est-or">1 530 – 4 580 €</span></div>
+        </div>
+        <div class="ch-footer ch-footer-dark"><div class="ch-footer-text ch-footer-text-light">Enveloppe pilote estimative : <strong style="color:var(--or-dore);">13 740 à 32 040 €</strong> selon que le modèle soit développé localement, adapté depuis des travaux existants, ou enrichi par une collecte de données au Bénin. Finançable dans le cadre d'un accord institutionnel ou d'un cofinancement bailleurs / État.</div></div>
+      </div>
+      <div class="chiffrage-col">
+        <div class="ch-head"><div class="ch-badge">Phase 2 — Extension nationale</div><div class="ch-title">Généralisation</div><div class="ch-sub">Extension progressive · connexion SI sanitaires · après validation du pilote</div></div>
+        <div class="ch-body ch-body-alt">
+          <div class="poste"><span class="poste-name">Extension à de nouvelles zones sanitaires</span><span class="poste-est">Déploiement progressif sur tout le territoire</span></div>
+          <div class="poste"><span class="poste-name">Enrichissement du modèle IA</span><span class="poste-est">Nouvelles données locales, validation médicale continue</span></div>
+          <div class="poste"><span class="poste-name">Formation continue des agents de santé</span><span class="poste-est">Agents terrain, sages-femmes, relais communautaires</span></div>
+          <div class="poste"><span class="poste-name">Connexion aux systèmes d'information sanitaire</span><span class="poste-est">DHIS2, SI national, suivi épidémiologique</span></div>
+          <div class="poste"><span class="poste-name">Maintenance & support technique</span><span class="poste-est">SLA défini, équipe dédiée</span></div>
+          <div class="poste"><span class="poste-name">Gouvernance & pilotage institutionnel</span><span class="poste-est">Comité de suivi Ministère de la Santé / ASIN</span></div>
+          <div class="poste"><span class="poste-name">Évaluation d'impact continu</span><span class="poste-est">Mortalité néonatale, délais d'orientation, couverture</span></div>
+          <div class="poste"><span class="poste-name">Licence institutionnelle annuelle</span><span class="poste-est poste-est-or">À définir selon périmètre</span></div>
+        </div>
+        <div class="ch-footer"><div class="ch-footer-text">Modèle B2G : licence annuelle couvrant la maintenance, le réentraînement, l'hébergement et le support. Visibilité budgétaire pluriannuelle pour l'État.</div></div>
+      </div>
+    </div>
+
+    <div class="coherence reveal">
+      <div class="coherence-title">Pourquoi cet investissement est cohérent pour l'État ?</div>
+      <div class="coherence-sub">Un investissement faible au regard du potentiel de réduction de la mortalité néonatale et de la valorisation du Bénin comme référence en IA santé en Afrique de l'Ouest.</div>
+      <div class="coherence-grid">
+        <div><div class="carg-title">Impact humain direct</div><div class="carg-desc">Une enveloppe pilote de 13 740 à 32 040 € pour potentiellement sauver des vies néonatales dans les zones les plus vulnérables représente un rapport coût-impact très favorable pour un programme de santé publique.</div></div>
+        <div><div class="carg-title">Solution scientifiquement fondée</div><div class="carg-desc">Les recherches existantes valident la faisabilité de la classification des pleurs pour détecter l'asphyxie. Le Bénin dispose des conditions pour encadrer ce type de projet et en faire un modèle de solution de santé numérique.</div></div>
+        <div><div class="carg-title">Leadership régional en IA santé</div><div class="carg-desc">Le succès d'AsphyxiaBot pourrait positionner le Bénin comme leader régional de l'IA appliquée à la santé maternelle et néonatale, avec un modèle exportable à d'autres pays d'Afrique de l'Ouest.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ressources">
+  <div class="container">
+    <div class="reveal">
+      <p class="eyebrow">06 — Pour aller plus loin</p>
+      <p class="ressources-note" style="margin-top:4px;">Cette page peut être complétée par un pitch oral synthétique et une foire aux questions conçue pour anticiper les objections institutionnelles les plus courantes.</p>
+    </div>
+    <div class="ressources-grid reveal">
+      <a href="#" class="ressource-card" id="pitch-trigger">
+        <div class="ressource-tag">Présentation orale</div>
+        <div class="ressource-title">Pitch oral — 5 minutes</div>
+        <div class="ressource-desc">Une présentation synthétique destinée à un échange de 5 minutes avec un décideur public ou un bailleur : le contexte sanitaire, la solution, le modèle de déploiement et les prochaines étapes. Structure claire pour un public ministériel ou médical.</div>
+        <div class="ressource-link" id="pitch-link">Lire le pitch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+      <a href="#faq-objections" class="ressource-card">
+        <div class="ressource-tag">Questions / Réponses</div>
+        <div class="ressource-title">FAQ — Objections ministérielles</div>
+        <div class="ressource-desc">Une foire aux questions conçue pour anticiper les objections institutionnelles les plus fréquentes : fiabilité médicale, responsabilité en cas d'erreur, dépendance technologique, gouvernance des données de santé et conditions d'une validation nationale.</div>
+        <div class="ressource-link">Consulter la FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <span class="foot-brand">KORA AI · AsphyxiaBot · 2026</span>
+      <div class="foot-flag" aria-label="Drapeau du Bénin"><div class="fs-green"></div><div class="fs-right"><div class="fs-yellow"></div><div class="fs-red"></div></div></div>
+      <span class="foot-note">Document institutionnel · Initiative IA Santé néonatale · SNIAM 2023-2027</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Pitch oral popup -->
+<div id="pitch-popup" role="dialog" aria-modal="true" aria-label="Pitch oral AsphyxiaBot">
+  <div class="pitch-overlay" id="pitch-overlay"></div>
+  <div class="pitch-panel">
+    <button class="pitch-close" id="pitch-close" aria-label="Fermer">&#x2715;</button>
+    <div class="pitch-header">
+      <div class="pitch-eyebrow">Présentation orale · 5 minutes</div>
+      <div class="pitch-title">Pitch oral — AsphyxiaBot</div>
+    </div>
+    <div class="pitch-body">
+      <p>Bonjour, et merci de me recevoir.</p>
+      <p>Je voudrais vous présenter une proposition de solution numérique pour la santé néonatale qui s'inscrit directement dans la Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées 2023–2027 du Bénin, laquelle identifie explicitement la santé comme l'un des secteurs prioritaires d'application de l'IA.</p>
+      <p>Le problème que nous cherchons à résoudre est précis. Dans les zones rurales et périphériques du Bénin, lorsqu'un nouveau-né présente des signes d'asphyxie périnatale à la naissance, le temps qui s'écoule avant qu'un professionnel de santé prenne la décision d'orienter vers une prise en charge spécialisée peut être fatal. L'éloignement des structures, le manque de personnel qualifié sur place, les difficultés de transport et l'absence d'outils de repérage rapide créent une fenêtre critique où une aide à la décision simple et accessible pourrait faire une différence réelle.</p>
+      <p>L'idée d'AsphyxiaBot est la suivante : permettre à un agent de santé communautaire, une sage-femme ou même une famille accompagnée d'envoyer un enregistrement vocal des pleurs du bébé via WhatsApp, et de recevoir en retour une analyse rapide indiquant si ce signal acoustique est compatible avec une suspicion d'asphyxie périnatale, avec un niveau de confiance et une recommandation d'orientation claire — surveillance renforcée, consultation rapide, ou urgence néonatale immédiate.</p>
+      <p>La solution repose sur l'analyse acoustique des pleurs du nouveau-né, un domaine de recherche actif qui a montré que les pleurs d'un bébé souffrant d'asphyxie présentent des caractéristiques acoustiques spécifiques et détectables : fréquence fondamentale, structure temporelle, énergie, instabilité. Ces paramètres, validés dans la littérature scientifique internationale, peuvent être extraits automatiquement et utilisés pour entraîner un modèle de classification.</p>
+      <p>Ce que nous proposons n'est pas un diagnostic médical. C'est un outil d'aide au repérage, conçu pour fonctionner comme une première ligne d'alerte dans des contextes où l'expertise spécialisée n'est pas immédiatement disponible. La décision médicale reste entièrement entre les mains du professionnel de santé. AsphyxiaBot réduit le délai entre le signal et la décision, pas la responsabilité du soignant.</p>
+      <p>Sur le plan technique, l'approche est volontairement simple et robuste. Le bot WhatsApp reçoit la note vocale, un backend extrait le signal audio et le prétraite, puis un modèle d'intelligence artificielle spécialisé analyse les paramètres acoustiques et renvoie le résultat directement dans la conversation WhatsApp. Ce canal est déjà maîtrisé par les professionnels et les populations, ce qui élimine la barrière d'adoption et permet un déploiement rapide sans infrastructure lourde.</p>
+      <p>Le projet est conçu pour un déploiement progressif. La première phase est un pilote fonctionnel, avec un bot développé, un modèle intégré ou adapté à partir de travaux existants, et des tests terrain avec des structures de santé choisies dans quelques zones rurales. C'est cette phase qui permettra de collecter des données locales, de valider le modèle sur les spécificités béninoises avec l'appui de pédiatres et néonatologues locaux, et de mesurer l'adoption réelle sur le terrain. L'enveloppe estimée pour ce pilote est de l'ordre de 13 740 à 32 040 euros, selon que le modèle soit développé localement ou adapté depuis des travaux existants.</p>
+      <p>La deuxième phase est une extension progressive à d'autres zones sanitaires, avec un enrichissement du modèle grâce aux nouvelles données locales et une formation des agents de santé à l'usage du bot. La troisième phase est un déploiement national, en lien avec les programmes nationaux de santé maternelle et néonatale, avec une connexion aux systèmes d'information sanitaire existants et un suivi d'impact continu.</p>
+      <p>L'intérêt stratégique pour l'État du Bénin est multiple. D'abord, ce projet contribue directement à la réduction de la mortalité néonatale, qui est un engagement national et international du Bénin dans le cadre des Objectifs de Développement Durable. Ensuite, il démontre concrètement que la SNIAM produit des effets mesurables dans des secteurs à fort enjeu humain, ce qui renforce la crédibilité du Bénin comme plateforme de services numériques innovants en Afrique de l'Ouest. Enfin, un modèle validé au Bénin peut être proposé à d'autres pays de la sous-région, positionnant le Bénin comme leader régional de l'IA appliquée à la santé maternelle et néonatale.</p>
+      <p>Ce projet peut être réalisé en collaboration avec des acteurs locaux — startups béninoises, équipes de recherche de l'UAC, médecins et soignants — ce qui renforce les capacités nationales en IA appliquée à la santé plutôt que de créer une dépendance à l'extérieur.</p>
+      <p>En résumé : AsphyxiaBot est une solution concrète, techniquement fondée, déployable rapidement sur un canal existant, à un coût pilote raisonnable, avec un impact humain direct dans les zones les plus vulnérables du Bénin. C'est exactement le type de cas d'usage que la SNIAM cherche à soutenir.</p>
+      <p>Je serais heureux de pouvoir vous présenter le schéma d'architecture, le pilote proposé ainsi que les modalités de partenariat institutionnel pour avancer sur cette initiative.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const snavItems = document.querySelectorAll('.snav-item');
+  const snavSections = Array.from(snavItems).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function updateSidenav() {
+    const trigger = window.innerHeight * 0.35;
+    let active = null;
+    snavSections.forEach(s => { const r = s.getBoundingClientRect(); if (r.top <= trigger && r.bottom > 0) active = s.id; });
+    snavItems.forEach(a => { const id = a.getAttribute('href').slice(1); a.classList.toggle('active', id === active); });
+  }
+  window.addEventListener('scroll', updateSidenav, { passive: true });
+  updateSidenav();
+  const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => { const total = document.documentElement.scrollHeight - window.innerHeight; if (total > 0) bar.style.width = (window.scrollY / total * 100).toFixed(1) + '%'; }, { passive: true });
+
+  // Pitch popup
+  const pitchLink    = document.getElementById('pitch-link');
+  const pitchPopup   = document.getElementById('pitch-popup');
+  const pitchOverlay = document.getElementById('pitch-overlay');
+  const pitchClose   = document.getElementById('pitch-close');
+  let pitchTimer;
+  function openPitch(e) { if (e) e.preventDefault(); clearTimeout(pitchTimer); pitchPopup.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function schedulePitchClose() { pitchTimer = setTimeout(() => { pitchPopup.classList.remove('open'); document.body.style.overflow = ''; }, 180); }
+  pitchLink.addEventListener('mouseenter', openPitch);
+  pitchLink.addEventListener('mouseleave', schedulePitchClose);
+  pitchLink.addEventListener('click', openPitch);
+  pitchPopup.addEventListener('mouseenter', () => clearTimeout(pitchTimer));
+  pitchPopup.addEventListener('mouseleave', schedulePitchClose);
+  pitchOverlay.addEventListener('click', schedulePitchClose);
+  pitchClose.addEventListener('click', schedulePitchClose);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') schedulePitchClose(); });
+
+  // WhatsApp tabs
+  document.querySelectorAll('.wa-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.wa-tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('.wa-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      document.getElementById('wa-' + btn.dataset.lang).classList.add('active');
+    });
+  });
+
+  // Web Speech API — boutons lecture vocale
+  (function() {
+    if (!('speechSynthesis' in window)) return;
+    let currentBtn = null;
+
+    document.querySelectorAll('.wa-speak-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.dataset.text;
+        const lang = btn.dataset.lang || 'fr-FR';
+
+        if (btn.classList.contains('speaking')) {
+          speechSynthesis.cancel();
+          btn.classList.remove('speaking');
+          currentBtn = null;
+          return;
+        }
+
+        speechSynthesis.cancel();
+        if (currentBtn) currentBtn.classList.remove('speaking');
+
+        const utt = new SpeechSynthesisUtterance(text);
+        utt.lang = lang;
+        utt.rate = 0.95;
+
+        utt.onstart = () => {
+          btn.classList.add('speaking');
+          currentBtn = btn;
+        };
+        utt.onend = utt.onerror = () => {
+          btn.classList.remove('speaking');
+          currentBtn = null;
+        };
+
+        speechSynthesis.speak(utt);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
