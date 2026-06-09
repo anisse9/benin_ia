@@ -298,6 +298,63 @@
     .pitch-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--blanc); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all var(--fast) var(--ease); cursor: pointer; font-size: 20px; line-height: 1; z-index: 2; }
     .pitch-close:hover { background: var(--border); color: var(--anthracite); }
     @media(max-width:600px){ .pitch-panel { max-height: 90vh; } .pitch-header, .pitch-body { padding-inline: 22px; } }
+    /* ── Ressources humaines du pilote ── */
+    .rh-section-intro { margin-bottom: 28px; }
+    .rh-section-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+    .rh-section-sub { font-size: 14px; color: var(--muted); max-width: 640px; line-height: 1.7; }
+    .rh-img-trigger { display: inline-flex; align-items: center; gap: 9px; margin-top: 16px; padding: 8px 18px 8px 14px; border-radius: 100px; background: rgba(217,164,4,0.10); border: 1px solid rgba(217,164,4,0.28); font-size: 12.5px; font-weight: 600; color: var(--or-dore); cursor: pointer; transition: background var(--fast) var(--ease), border-color var(--fast) var(--ease); position: relative; font-family: var(--font); }
+    .rh-img-trigger svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .rh-img-trigger:hover { background: rgba(217,164,4,0.17); border-color: rgba(217,164,4,0.50); }
+    .rh-img-preview { position: fixed; z-index: 950; pointer-events: none; opacity: 0; transform: scale(0.95) translateY(6px); transition: opacity 200ms var(--ease), transform 200ms var(--ease); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.35); max-width: 520px; width: 520px; }
+    .rh-img-preview.visible { opacity: 1; transform: scale(1) translateY(0); }
+    .rh-img-preview img { width: 100%; height: auto; display: block; }
+    .rh-img-preview-caption { background: var(--vert-sombre); padding: 12px 18px; font-size: 11.5px; color: rgba(255,255,255,0.60); }
+    /* Lightbox plein écran */
+    #rh-lightbox { display: none; position: fixed; inset: 0; z-index: 1300; align-items: center; justify-content: center; padding: 24px; }
+    #rh-lightbox.open { display: flex; }
+    .rh-lb-overlay { position: absolute; inset: 0; background: rgba(10,18,12,0.85); backdrop-filter: blur(8px); cursor: zoom-out; }
+    .rh-lb-panel { position: relative; z-index: 1; max-width: min(1100px, 92vw); width: 100%; animation: lbIn 260ms var(--ease) both; }
+    @keyframes lbIn { from { opacity:0; transform: scale(0.93); } to { opacity:1; transform: scale(1); } }
+    .rh-lb-panel img { width: 100%; height: auto; display: block; border-radius: var(--r-lg); box-shadow: 0 32px 100px rgba(0,0,0,0.55); }
+    .rh-lb-footer { display: flex; align-items: center; justify-content: space-between; padding: 14px 4px 0; }
+    .rh-lb-caption { font-size: 13px; color: rgba(255,255,255,0.55); }
+    .rh-lb-close { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.50); cursor: pointer; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; padding: 5px 14px; background: none; font-family: var(--font); transition: all var(--fast) var(--ease); }
+    .rh-lb-close:hover { color: #fff; border-color: rgba(255,255,255,0.40); background: rgba(255,255,255,0.06); }
+    .rh-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 36px; }
+    .rh-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: visible; transition: box-shadow var(--base) var(--ease), transform var(--base) var(--ease); }
+    .rh-group:hover { box-shadow: 0 6px 28px rgba(31,107,58,0.09); transform: translateY(-2px); }
+    .rh-group-dark { background: var(--vert-sombre); border-color: transparent; }
+    .rh-group-dark:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.25); }
+    .rh-group-head { padding: 20px 22px 16px; display: flex; align-items: center; gap: 13px; border-bottom: 1px solid var(--border); }
+    .rh-group-dark .rh-group-head { border-bottom-color: rgba(255,255,255,0.07); }
+    .rh-group-ico { width: 40px; height: 40px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(217,164,4,0.12); border: 1px solid rgba(217,164,4,0.22); }
+    .rh-group-ico svg { width: 19px; height: 19px; color: var(--or-dore); }
+    .rh-group-title { font-size: 13.5px; font-weight: 700; color: var(--anthracite); margin-bottom: 2px; line-height: 1.3; }
+    .rh-group-dark .rh-group-title { color: #fff; }
+    .rh-group-count { font-size: 11px; font-weight: 700; color: var(--or-dore); letter-spacing: 0.04em; }
+    .rh-roles { padding: 12px 22px 4px; display: flex; flex-direction: column; }
+    .rh-role { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05); position: relative; cursor: default; }
+    .rh-role:last-child { border-bottom: none; }
+    .rh-group-dark .rh-role { border-bottom-color: rgba(255,255,255,0.05); }
+    .rh-role-name { font-size: 12.5px; color: var(--anthracite); line-height: 1.4; display: flex; align-items: center; gap: 5px; }
+    .rh-role-name::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: rgba(217,164,4,0.45); flex-shrink: 0; opacity: 0; transition: opacity var(--fast) var(--ease); }
+    .rh-role[data-mission]:hover .rh-role-name::after { opacity: 1; }
+    .rh-group-dark .rh-role-name { color: rgba(255,255,255,0.72); }
+    .rh-role-n { font-size: 12px; font-weight: 700; color: var(--or-dore); flex-shrink: 0; white-space: nowrap; }
+    .rh-vivier { padding: 10px 22px 16px; font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .rh-group-dark .rh-vivier { color: rgba(255,255,255,0.32); }
+    /* Tooltip mission */
+    #rh-tooltip { position: fixed; z-index: 960; pointer-events: none; opacity: 0; transform: translateY(4px); transition: opacity 160ms var(--ease), transform 160ms var(--ease); max-width: 300px; background: var(--anthracite); border: 1px solid rgba(255,255,255,0.10); border-radius: var(--r-md); padding: 12px 15px; box-shadow: 0 8px 28px rgba(0,0,0,0.30); }
+    #rh-tooltip.visible { opacity: 1; transform: translateY(0); }
+    .rh-tt-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--or-dore); margin-bottom: 5px; }
+    .rh-tt-text { font-size: 12px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+    .rh-partners-label { font-size: 13px; font-weight: 700; color: var(--anthracite); margin-bottom: 12px; }
+    .rh-partners { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 40px; }
+    .rh-partner { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 100px; background: rgba(31,107,58,0.07); border: 1px solid rgba(31,107,58,0.18); font-size: 12px; font-weight: 600; color: var(--vert-profond); transition: background var(--fast) var(--ease), border-color var(--fast) var(--ease); cursor: default; }
+    .rh-partner::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--vert-profond); flex-shrink: 0; }
+    .rh-partner:hover { background: rgba(31,107,58,0.13); border-color: var(--vert-profond); }
+    @media(max-width:1023px){ .rh-groups { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:767px){ .rh-groups { grid-template-columns: 1fr; } .rh-img-preview { max-width: 90vw; width: 90vw; } }
   </style>
 </head>
 <body>
@@ -516,6 +573,8 @@
   <div class="container">
     <div class="reveal" style="margin-bottom:48px;">
       <p class="eyebrow">04 — Réalisation</p>
+      <h2 class="section-title">De la donnée terrain au service déployé</h2>
+      <p class="section-sub">Six étapes opérationnelles, de la collecte d'images à l'amélioration continue, portées par une équipe pluridisciplinaire entièrement mobilisable au Bénin.</p>
     </div>
     <div class="timeline-wrap reveal">
       <div class="timeline-label">Feuille de route opérationnelle — 6 étapes</div>
@@ -528,12 +587,124 @@
         <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Étape 06</div><div class="tstep-name">Amélioration continue</div><div class="tstep-desc">Réentraînement régulier des modèles à partir des nouvelles données terrain collectées.</div></div></div>
       </div>
     </div>
+    <!-- Intro ressources humaines -->
+    <div class="rh-section-intro reveal">
+      <div class="rh-section-title">Ressources humaines du pilote</div>
+      <p class="rh-section-sub">Le pilote mobilise une équipe pluridisciplinaire répartie en quatre pôles de compétences, recrutables en grande partie au Bénin — universités, écoles polytechniques, CEA-SMIA et institutions partenaires. Survolez chaque poste pour voir sa mission.</p>
+      <button class="rh-img-trigger" id="rh-img-trigger" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Voir l'équipe
+      </button>
+    </div>
+
+    <!-- Petit aperçu au survol -->
+    <div class="rh-img-preview" id="rh-img-preview" aria-hidden="true">
+      <img src="../../../../ressources-humaines-pilote.png" alt="Équipe pilote Agribot" />
+      <div class="rh-img-preview-caption">Équipe pilote · profils mobilisables localement au Bénin</div>
+    </div>
+
+    <!-- Lightbox plein écran au clic -->
+    <div id="rh-lightbox" role="dialog" aria-modal="true" aria-label="Photo équipe pilote Agribot">
+      <div class="rh-lb-overlay" id="rh-lb-overlay"></div>
+      <div class="rh-lb-panel">
+        <img src="../../../../ressources-humaines-pilote.png" alt="Équipe pluridisciplinaire du pilote Agribot" />
+        <div class="rh-lb-footer">
+          <span class="rh-lb-caption">Équipe pilote Agribot · profils mobilisables localement au Bénin</span>
+          <button class="rh-lb-close" id="rh-lb-close">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tooltip mission (shared, JS-piloted) -->
+    <div id="rh-tooltip" role="tooltip" aria-live="polite">
+      <div class="rh-tt-label">Mission</div>
+      <div class="rh-tt-text" id="rh-tt-text"></div>
+    </div>
+
+    <!-- 4 groupes -->
+    <div class="rh-groups">
+      <div class="rh-group rh-group-dark reveal d1">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div>
+            <div class="rh-group-title">Technique IA & Développement</div>
+            <div class="rh-group-count">5–6 personnes</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Architecturer et superviser les modèles de vision par ordinateur. Définir les pipelines d'entraînement et de validation, garantir la qualité scientifique des diagnostics produits."><span class="rh-role-name">Lead ML Engineer (vision par ordinateur)</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Entraîner, évaluer et itérer sur les modèles de classification de maladies végétales. Produire les courbes de performance, matrices de confusion et rapports de validation croisée."><span class="rh-role-name">Data Scientists / ML Engineers</span><span class="rh-role-n">×2</span></div>
+          <div class="rh-role" data-mission="Déployer et maintenir les modèles en production. Gérer le versioning, les pipelines CI/CD, le monitoring des performances et la scalabilité de l'infrastructure IA."><span class="rh-role-name">MLOps Engineer</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Concevoir et développer l'API REST qui reçoit les photos, appelle les modèles et renvoie les diagnostics. Gérer l'intégration WhatsApp Business API et la sécurité des données."><span class="rh-role-name">Lead Backend Developer (API)</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Construire le tableau de bord institutionnel : cartographie des alertes phytosanitaires, indicateurs par filière, département et période, et exports de rapports pour les décideurs."><span class="rh-role-name">Développeur Frontend (dashboard)</span><span class="rh-role-n">×1</span></div>
+        </div>
+        <div class="rh-vivier">Vivier : CEA-SMIA · UAC/IMSP · écoles polytechniques · alumni ASIN</div>
+      </div>
+
+      <div class="rh-group reveal d2">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div>
+          <div>
+            <div class="rh-group-title">Expertise agronomique</div>
+            <div class="rh-group-count">2–3 personnes</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Annoter et valider les images collectées sur le terrain. Documenter les symptômes de chaque maladie, ravageur ou carence et servir de référence scientifique pour l'évaluation des diagnostics produits par les modèles."><span class="rh-role-name">Ingénieurs phytosanitaires (annotation & validation)</span><span class="rh-role-n">×2–3</span></div>
+          <div class="rh-role" data-mission="Apporter la connaissance approfondie des filières et pathologies béninoises. Valider les protocoles de collecte et assurer la cohérence scientifique avec les pratiques du MAEP et de l'INRAB."><span class="rh-role-name">Expert agricole référent (MAEP/INRAB)</span><span class="rh-role-n">×1</span></div>
+        </div>
+        <div class="rh-vivier">Partenaires : INRAB · MAEP · SONAPRA · coopératives filières</div>
+      </div>
+
+      <div class="rh-group reveal d3">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div>
+            <div class="rh-group-title">Collecte terrain & Déploiement</div>
+            <div class="rh-group-count">9–16 personnes</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Planifier et coordonner les missions de collecte dans les zones pilotes. Définir les protocoles de collecte, assurer la diversité géographique et la qualité des lots d'images produits."><span class="rh-role-name">Coordinateur collecte terrain</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Collecter sur le terrain les photos de cultures malades et saines selon les protocoles établis. Réaliser un premier étiquetage de base : culture, symptôme apparent, localisation GPS."><span class="rh-role-name">Agents terrain formés (photos + étiquetage)</span><span class="rh-role-n">×6–12</span></div>
+          <div class="rh-role" data-mission="Contrôler la qualité des images collectées par les agents : netteté, pertinence, diversité des cas. Assurer le respect des protocoles et la couverture des zones pilotes définies."><span class="rh-role-name">Superviseurs de zone</span><span class="rh-role-n">×2</span></div>
+          <div class="rh-role" data-mission="Former les agents terrain à l'application mobile et aux protocoles de collecte. Former les membres des coopératives pilotes à l'utilisation quotidienne d'Agribot pour leurs diagnostics phytosanitaires."><span class="rh-role-name">Formateurs agents & coopératives</span><span class="rh-role-n">×1–2</span></div>
+        </div>
+        <div class="rh-vivier">Vivier : agents CeCPA · techniciens coopératives · alumni ASIN</div>
+      </div>
+
+      <div class="rh-group reveal d4">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div>
+            <div class="rh-group-title">Coordination & Infrastructure</div>
+            <div class="rh-group-count">3 personnes</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Piloter l'ensemble du projet pilote : planification des 6 étapes, suivi des KPIs, coordination inter-équipes, reporting aux parties prenantes institutionnelles et ajustement du périmètre si nécessaire."><span class="rh-role-name">Chef de projet</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Assurer la liaison avec le MAEP, l'ASIN, le ministère du numérique et les bailleurs. Faciliter les accords d'accès terrain, la validation des protocoles et les conventions de partenariat."><span class="rh-role-name">Responsable partenariats institutionnels</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Mettre en place et maintenir l'infrastructure cloud : serveurs d'inférence, stockage des images, sécurité des données et des modèles. Gérer les déploiements, les sauvegardes et la supervision des services."><span class="rh-role-name">Administrateur système / DevOps</span><span class="rh-role-n">×1</span></div>
+        </div>
+        <div class="rh-vivier">Interface MAEP · ASIN · ministère du numérique · bailleurs</div>
+      </div>
+    </div>
+
+    <!-- Partenaires institutionnels -->
     <div class="reveal">
-      <div class="local-title">Ressources locales mobilisables</div>
-      <div class="local-grid">
-        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div><div class="local-card-title">Expertise agronomique locale</div><div class="local-card-desc">Ingénieurs phytosanitaires, chercheurs du INRAB, experts du MAEP, techniciens de la SONAPRA et structures coopératives disposant de la connaissance terrain des pathologies des cultures béninoises.</div></div>
-        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="local-card-title">Structures publiques partenaires</div><div class="local-card-desc">MAEP, ASIN, ministère du numérique, agences de développement rural, Chambres d'agriculture du Bénin, structures d'encadrement des filières prioritaires (coton, anacarde, ananas, maïs).</div></div>
-        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="local-card-title">Talents data & développement</div><div class="local-card-desc">Diplômés du Master Data Science de l'UAC/IMSP, ingénieurs des écoles polytechniques, développeurs mobiles locaux et alumni des formations de l'ASIN. Le CEA-SMIA constitue un vivier de compétences IA directement mobilisables.</div></div>
+      <div class="rh-partners-label">Partenaires institutionnels indispensables</div>
+      <div class="rh-partners">
+        <span class="rh-partner">MAEP</span>
+        <span class="rh-partner">ASIN</span>
+        <span class="rh-partner">INRAB</span>
+        <span class="rh-partner">CEA-SMIA</span>
+        <span class="rh-partner">Chambres d'Agriculture</span>
+        <span class="rh-partner">SONAPRA</span>
+        <span class="rh-partner">Ministère du Numérique</span>
+        <span class="rh-partner">Agences développement rural</span>
       </div>
     </div>
   </div>
@@ -575,7 +746,7 @@
           <div class="poste"><span class="poste-name">Hébergement & supervision</span><span class="poste-est">Infrastructure scalable, monitoring</span></div>
           <div class="poste"><span class="poste-name">Gouvernance & pilotage du service</span><span class="poste-est">Comité de suivi institutionnel</span></div>
           <div class="poste"><span class="poste-name">Formation continue des utilisateurs</span><span class="poste-est">Agents terrain, nouveaux entrants</span></div>
-          <div class="poste"><span class="poste-name">Licence institutionnelle annuelle</span><span class="poste-est poste-est-or">100 000 € / an</span></div>
+          <div class="poste"><span class="poste-name">Licence institutionnelle annuelle</span><span class="poste-est poste-est-or">200 000 € / an</span></div>
         </div>
         <div class="ch-footer"><div class="ch-footer-text">Modèle B2G : licence annuelle couvrant la maintenance, le réentraînement, l'hébergement et le support. Visibilité budgétaire pluriannuelle pour l'État.</div></div>
       </div>
@@ -696,6 +867,88 @@
       document.getElementById('wa-' + btn.dataset.lang).classList.add('active');
     });
   });
+
+  // Tooltip mission au survol des rôles RH
+  (function() {
+    const tooltip = document.getElementById('rh-tooltip');
+    const ttText  = document.getElementById('rh-tt-text');
+    if (!tooltip || !ttText) return;
+    let hideTimer;
+
+    function show(el, mission) {
+      clearTimeout(hideTimer);
+      ttText.textContent = mission;
+      tooltip.classList.add('visible');
+      positionTooltip(el);
+    }
+    function hide() {
+      hideTimer = setTimeout(() => tooltip.classList.remove('visible'), 120);
+    }
+    function positionTooltip(el) {
+      const r = el.getBoundingClientRect();
+      const tw = 300; const margin = 10;
+      let left = r.left;
+      let top  = r.bottom + 8;
+      if (left + tw > window.innerWidth - margin) left = window.innerWidth - tw - margin;
+      if (left < margin) left = margin;
+      if (top + 120 > window.innerHeight) top = r.top - 8 - tooltip.offsetHeight;
+      tooltip.style.left = left + 'px';
+      tooltip.style.top  = top  + 'px';
+    }
+
+    document.querySelectorAll('.rh-role[data-mission]').forEach(role => {
+      role.addEventListener('mouseenter', () => show(role, role.dataset.mission));
+      role.addEventListener('mouseleave', hide);
+      role.addEventListener('mousemove', () => positionTooltip(role));
+    });
+  })();
+
+  // Aperçu au survol + lightbox au clic sur "Voir l'équipe"
+  (function() {
+    const trigger  = document.getElementById('rh-img-trigger');
+    const preview  = document.getElementById('rh-img-preview');
+    const lightbox = document.getElementById('rh-lightbox');
+    const overlay  = document.getElementById('rh-lb-overlay');
+    const closeBtn = document.getElementById('rh-lb-close');
+    if (!trigger || !preview || !lightbox) return;
+    let hideTimer;
+
+    function showPreview() {
+      clearTimeout(hideTimer);
+      const r = trigger.getBoundingClientRect();
+      const pw = 520; const margin = 16;
+      let left = r.left;
+      let top  = r.bottom + 12;
+      if (left + pw > window.innerWidth - margin) left = window.innerWidth - pw - margin;
+      if (left < margin) left = margin;
+      if (top + 340 > window.innerHeight) top = r.top - 12 - preview.offsetHeight;
+      preview.style.left = left + 'px';
+      preview.style.top  = top  + 'px';
+      preview.classList.add('visible');
+      preview.removeAttribute('aria-hidden');
+    }
+    function hidePreview() {
+      hideTimer = setTimeout(() => { preview.classList.remove('visible'); preview.setAttribute('aria-hidden','true'); }, 160);
+    }
+    function openLightbox() {
+      hidePreview();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    trigger.addEventListener('mouseenter', showPreview);
+    trigger.addEventListener('mouseleave', hidePreview);
+    preview.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+    preview.addEventListener('mouseleave', hidePreview);
+    trigger.addEventListener('click', openLightbox);
+    overlay.addEventListener('click', closeLightbox);
+    closeBtn.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  })();
 
   // Web Speech API — boutons lecture vocale
   (function() {
