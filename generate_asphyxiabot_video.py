@@ -6,6 +6,16 @@ et la place dans ASPHYXIABOT/assets/hero-asphyxiabot.mp4
 import fal_client
 import base64, os, urllib.request
 
+# Chargement de la clé API depuis .env
+_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(_env_path):
+    with open(_env_path) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _k, _v = _line.split("=", 1)
+                os.environ.setdefault(_k.strip(), _v.strip())
+
 IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "detection-asphyxie-pleurs-smartphone.png")
 OUT_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ASPHYXIABOT", "assets")
 OUT_PATH   = os.path.join(OUT_DIR, "hero-asphyxiabot.mp4")
