@@ -5,29 +5,24 @@ et la place dans ASPHYXIABOT/assets/hero-asphyxiabot.mp4
 
 import os, base64, urllib.request
 
-# --- Chargement .env AVANT import fal_client ---
+# Lecture de la clé depuis .env
 _env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-print(f"[debug] .env path : {_env_path}")
-print(f"[debug] .env existe : {os.path.exists(_env_path)}")
-
+_fal_key = ""
 if os.path.exists(_env_path):
-    with open(_env_path, encoding="utf-8") as _f:
+    with open(_env_path, encoding="utf-8-sig") as _f:
         for _line in _f:
             _line = _line.strip()
-            if _line and not _line.startswith("#") and "=" in _line:
-                _k, _v = _line.split("=", 1)
-                os.environ[_k.strip()] = _v.strip()
+            if _line.startswith("FAL_KEY="):
+                _fal_key = _line.split("=", 1)[1].strip()
+                break
 
-_key = os.environ.get("FAL_KEY", "")
-print(f"[debug] FAL_KEY chargée : {'oui — ' + _key[:12] + '…' if _key else 'NON — clé manquante'}")
-
-# Séparation ID / SECRET pour fal_client (format id:secret)
-if _key and ":" in _key:
-    _kid, _ksecret = _key.split(":", 1)
-    os.environ["FAL_KEY_ID"]     = _kid.strip()
-    os.environ["FAL_KEY_SECRET"] = _ksecret.strip()
+if not _fal_key:
+    raise SystemExit("FAL_KEY introuvable dans .env")
 
 import fal_client
+
+# Instanciation du client avec la clé passée directement — bypass fetch_auth_credentials()
+client = fal_client.SyncClient(key=_fal_key)
 
 IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "detection-asphyxie-pleurs-smartphone.png")
 OUT_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ASPHYXIABOT", "assets")
@@ -52,10 +47,11 @@ def image_to_data_uri(path: str) -> str:
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
 
+    print(f"Clé FAL chargée : {_fal_key[:12]}…")
     print("Envoi de l'image à Fal.ai (Kling image-to-video 1.6)…")
     data_uri = image_to_data_uri(IMAGE_PATH)
 
-    result = fal_client.subscribe(
+    result = client.subscribe(
         "fal-ai/kling-video/v1.6/standard/image-to-video",
         arguments={
             "image_url": data_uri,
