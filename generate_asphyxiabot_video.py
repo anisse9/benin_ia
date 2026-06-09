@@ -5,15 +5,27 @@ et la place dans ASPHYXIABOT/assets/hero-asphyxiabot.mp4
 
 import os, base64, urllib.request
 
-# Chargement du .env AVANT import fal_client
+# --- Chargement .env AVANT import fal_client ---
 _env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+print(f"[debug] .env path : {_env_path}")
+print(f"[debug] .env existe : {os.path.exists(_env_path)}")
+
 if os.path.exists(_env_path):
-    with open(_env_path) as _f:
+    with open(_env_path, encoding="utf-8") as _f:
         for _line in _f:
             _line = _line.strip()
             if _line and not _line.startswith("#") and "=" in _line:
                 _k, _v = _line.split("=", 1)
                 os.environ[_k.strip()] = _v.strip()
+
+_key = os.environ.get("FAL_KEY", "")
+print(f"[debug] FAL_KEY chargée : {'oui — ' + _key[:12] + '…' if _key else 'NON — clé manquante'}")
+
+# Séparation ID / SECRET pour fal_client (format id:secret)
+if _key and ":" in _key:
+    _kid, _ksecret = _key.split(":", 1)
+    os.environ["FAL_KEY_ID"]     = _kid.strip()
+    os.environ["FAL_KEY_SECRET"] = _ksecret.strip()
 
 import fal_client
 
