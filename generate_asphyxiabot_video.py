@@ -14,7 +14,9 @@ if os.path.exists(_env_path):
             _line = _line.strip()
             if _line and not _line.startswith("#") and "=" in _line:
                 _k, _v = _line.split("=", 1)
-                os.environ.setdefault(_k.strip(), _v.strip())
+                os.environ[_k.strip()] = _v.strip()
+
+fal_client.api_key = os.environ.get("FAL_KEY", "")
 
 IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "detection-asphyxie-pleurs-smartphone.png")
 OUT_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ASPHYXIABOT", "assets")
