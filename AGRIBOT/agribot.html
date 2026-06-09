@@ -271,7 +271,12 @@
     .wa-panel.active { display: block; }
     .wa-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; align-items: start; }
     .wa-step { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .wa-img-wrap { position: relative; width: 100%; }
     .wa-step img { width: 100%; border-radius: 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); display: block; }
+    .wa-speak-btn { position: absolute; bottom: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%; background: var(--vert-profond); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.28); transition: all 150ms ease; }
+    .wa-speak-btn:hover { background: var(--vert-clair); transform: scale(1.1); }
+    .wa-speak-btn.speaking { background: var(--or-dore); }
+    .wa-speak-btn svg { width: 15px; height: 15px; color: #fff; pointer-events: none; }
     .wa-step-meta { text-align: center; }
     .wa-step-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 4px; }
     .wa-step-name { font-size: 13px; font-weight: 600; color: var(--anthracite); }
@@ -330,7 +335,6 @@
       </div>
     </div>
   </div>
-  <div class="hero-scroll-indicator" aria-hidden="true"><div class="scroll-line"></div><span>Découvrir</span></div>
 </section>
 
 <section id="contexte">
@@ -419,19 +423,39 @@
       <div class="wa-panel active" id="wa-fr" role="tabpanel">
         <div class="wa-grid">
           <div class="wa-step">
-            <img src="whatsapp/fr/whatsapp-agribot-01-accueil-logo-coherent.png" alt="Accueil Agribot en français" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fr/whatsapp-agribot-01-accueil-logo-coherent.png" alt="Accueil Agribot en français" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Bienvenue, je suis Agribot, votre assistant agricole. Prenez votre photo de plante malade et envoyez-la moi pour obtenir un diagnostic rapide." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
           </div>
           <div class="wa-step">
-            <img src="whatsapp/fon/whatsapp-agribot-fon-02-prise-photo.png" alt="Prise de photo de la plante" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fon/whatsapp-agribot-fon-02-prise-photo.png" alt="Prise de photo de la plante" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Prenez une photo de votre plante malade et envoyez-la pour analyse." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Prise de photo</div></div>
           </div>
           <div class="wa-step">
-            <img src="whatsapp/fr/whatsapp-agribot-03-patience-logo-coherent.png" alt="Traitement en cours" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fr/whatsapp-agribot-03-patience-logo-coherent.png" alt="Traitement en cours" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Merci de patienter quelques secondes. Agribot analyse votre plante." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Traitement</div></div>
           </div>
           <div class="wa-step">
-            <img src="whatsapp/fr/whatsapp-agribot-04-diagnostic-logo-coherent.png" alt="Diagnostic reçu" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fr/whatsapp-agribot-04-diagnostic-logo-coherent.png" alt="Diagnostic reçu" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Diagnostic Agribot : Votre maïs présente des symptômes d'helminthosporiose. Recommandation : retirer les feuilles très atteintes et éviter l'arrosage sur le feuillage. Traitement recommandé : sprayer avec un fongicide homologué chaque 7 jours." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Diagnostic</div></div>
           </div>
         </div>
@@ -440,19 +464,39 @@
       <div class="wa-panel" id="wa-fon" role="tabpanel">
         <div class="wa-grid">
           <div class="wa-step">
-            <img src="whatsapp/fon/whatsapp-agribot-fon-01-accueil.png" alt="Accueil Agribot en Fon" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fon/whatsapp-agribot-fon-01-accueil.png" alt="Accueil Agribot en Fon" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Kwabɔ! Nyɛ Agribot, agbledeto tɔn alogonto. Yi foto atin dɔdɔ tɔn bo do-e nam, na nɔ hɛn donukpɛvi na we." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
           </div>
           <div class="wa-step">
-            <img src="whatsapp/fon/whatsapp-agribot-fon-02-prise-photo.png" alt="Prise de photo en Fon" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fon/whatsapp-agribot-fon-02-prise-photo.png" alt="Prise de photo en Fon" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Yi foto atin towe bo do-e nam." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Prise de photo</div></div>
           </div>
           <div class="wa-step">
-            <img src="whatsapp/fon/whatsapp-agribot-fon-03-patience.png" alt="Traitement en cours en Fon" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fon/whatsapp-agribot-fon-03-patience.png" alt="Traitement en cours en Fon" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Jo, nɔ xwevi kpɔn. Agribot nɔ atin towe mɛ." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Traitement</div></div>
           </div>
           <div class="wa-step">
-            <img src="whatsapp/fon/whatsapp-agribot-fon-04-diagnostic.png" alt="Diagnostic en Fon" loading="lazy" />
+            <div class="wa-img-wrap">
+              <img src="whatsapp/fon/whatsapp-agribot-fon-04-diagnostic.png" alt="Diagnostic en Fon" loading="lazy" />
+              <button class="wa-speak-btn" data-lang="fr-FR" data-text="Agribot donukpɛvi : Maïs towe do helminthosporiose tɔn sinsin. Nudide : gba avun he gble lɛ, bo ma na omi do avun ji. Atike : sprayer fongicide homologué gbe 7 ɖe." aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
             <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Diagnostic</div></div>
           </div>
         </div>
@@ -678,6 +722,46 @@
       document.getElementById('wa-' + btn.dataset.lang).classList.add('active');
     });
   });
+
+  // Web Speech API — boutons lecture vocale
+  (function() {
+    if (!('speechSynthesis' in window)) return;
+    let currentBtn = null;
+
+    document.querySelectorAll('.wa-speak-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.dataset.text;
+        const lang = btn.dataset.lang || 'fr-FR';
+
+        // Si ce bouton est déjà en train de parler → stop
+        if (btn.classList.contains('speaking')) {
+          speechSynthesis.cancel();
+          btn.classList.remove('speaking');
+          currentBtn = null;
+          return;
+        }
+
+        // Arrêter tout discours en cours
+        speechSynthesis.cancel();
+        if (currentBtn) currentBtn.classList.remove('speaking');
+
+        const utt = new SpeechSynthesisUtterance(text);
+        utt.lang = lang;
+        utt.rate = 0.95;
+
+        utt.onstart = () => {
+          btn.classList.add('speaking');
+          currentBtn = btn;
+        };
+        utt.onend = utt.onerror = () => {
+          btn.classList.remove('speaking');
+          currentBtn = null;
+        };
+
+        speechSynthesis.speak(utt);
+      });
+    });
+  })();
 </script>
 </body>
 </html>
