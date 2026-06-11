@@ -1,0 +1,878 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GbétoBot — Assistant IA démarches administratives pour la diaspora béninoise · Bénin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A3226'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%23D9A404' stroke-width='1.2'/%3E%3Cpath d='M16 6 C13 10 10 13.5 10 17.5 C10 21.8 12.7 25 16 25 C19.3 25 22 21.8 22 17.5 C22 13.5 19 10 16 6Z' fill='%23D9A404'/%3E%3Cpath d='M16 10 C14 13 12.5 15.5 12.5 17.5 C12.5 20.5 14 23 16 23 C18 23 19.5 20.5 19.5 17.5 C19.5 15.5 18 13 16 10Z' fill='%232A8850'/%3E%3C/svg%3E" />
+  <meta name="description" content="GbétoBot — Un assistant IA sur WhatsApp pour guider les Béninois de l'étranger dans leurs démarches administratives, inscrit dans le cadre SMART GOUV et la SNIAM 2023-2027." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --vert-profond: #1F6B3A; --vert-sombre: #123524; --vert-clair: #2A8850;
+      --or-dore: #D9A404; --or-doux: #E7C64A; --rouge: #A63A32;
+      --blanc: #F7F4EC; --gris: #D9D4C7; --anthracite: #1E1E1A;
+      --muted: #5A5756; --border: #E0DBD0; --surface: #FFFFFF;
+      --font: 'DM Sans', -apple-system, system-ui, sans-serif;
+      --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+      --container: 1200px; --gutter: clamp(20px, 4vw, 48px);
+      --section-y: clamp(64px, 9vw, 120px);
+      --ease: cubic-bezier(0.2, 0, 0, 1); --fast: 150ms; --base: 250ms;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
+    body { background: var(--blanc); color: var(--anthracite); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    .container { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1{transition-delay:80ms}.d2{transition-delay:160ms}.d3{transition-delay:240ms}
+    .d4{transition-delay:320ms}.d5{transition-delay:400ms}.d6{transition-delay:480ms}
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 14px; }
+    .eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--or-dore); flex-shrink: 0; }
+    .eyebrow-light { color: rgba(255,255,255,0.55); }
+    .eyebrow-light::before { background: var(--or-dore); }
+    .section-title { font-size: clamp(28px, 3.8vw, 50px); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; margin-bottom: 18px; }
+    .section-sub { font-size: clamp(15px, 1.5vw, 18px); color: var(--muted); line-height: 1.75; max-width: 600px; }
+    #sidenav { position: static; background: none; border: none; padding: 0; box-shadow: none; }
+    #sidenav ul { list-style: none; display: flex; flex-direction: row; gap: 4px; }
+    .snav-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px 7px 9px; border-radius: 100px; transition: background var(--fast) var(--ease); white-space: nowrap; }
+    .snav-item:hover { background: rgba(255,255,255,0.08); }
+    .snav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.55); flex-shrink: 0; transition: background var(--base) var(--ease), transform var(--base) var(--ease), box-shadow var(--base) var(--ease); }
+    .snav-label { font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.60); letter-spacing: 0.03em; pointer-events: none; transition: color var(--fast) var(--ease); }
+    .snav-item:hover .snav-dot { background: rgba(255,255,255,0.75); }
+    .snav-item:hover .snav-label { color: rgba(255,255,255,0.85); }
+    .snav-item.active .snav-dot { background: var(--or-dore); transform: scale(1.55); box-shadow: 0 0 0 3px rgba(217,164,4,0.22); }
+    .snav-item.active .snav-label { color: var(--or-dore); font-weight: 700; }
+    @media(max-width:1023px){.snav-label{display:none}}
+    @media(max-width:767px){#sidenav{display:none}}
+    #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 900; height: 100px; background: rgba(18,53,36,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-inline: var(--gutter); box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+    #sidenav { justify-self: end; }
+    #topbar a { display: flex; align-items: center; }
+    #topbar img { height: 82px; width: auto; object-fit: contain; }
+    .topbar-back { position: static; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); transition: color var(--fast) var(--ease); }
+    .topbar-back:hover { color: var(--or-dore); }
+    .topbar-back svg { width: 15px; height: 15px; transition: transform var(--fast) var(--ease); }
+    .topbar-back:hover svg { transform: translateX(-3px); }
+    #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; background: var(--vert-sombre); overflow: hidden; }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(18,53,36,0.97) 0%, rgba(31,107,58,0.68) 55%, rgba(18,53,36,0.93) 100%); }
+    .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 64px 64px; }
+    .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
+    .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
+    .hero-deco-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(31,107,58,0.15) 0%, rgba(217,164,4,0.08) 100%); display: flex; align-items: center; justify-content: center; }
+    .hero-deco-placeholder svg { width: 120px; height: 120px; opacity: 0.08; color: var(--or-dore); }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 100%; align-self: stretch; }
+    .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 520px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 52px; margin-bottom: 56px; }
+    .hstat { display: flex; flex-direction: column; gap: 6px; }
+    .hstat-val { font-size: clamp(40px,5vw,62px); font-weight: 700; color: var(--or-dore); letter-spacing: -0.03em; line-height: 1; }
+    .hstat-label { font-size: 13px; color: rgba(255,255,255,0.57); max-width: 150px; line-height: 1.4; }
+    .hero-scroll-indicator { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.32); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent); animation: scrollDrop 2.2s ease-in-out infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    @keyframes scrollDrop{0%,100%{opacity:1}50%{opacity:0.25}}
+    #contexte { padding-block: var(--section-y); background: var(--surface); }
+    .contexte-intro { max-width: 740px; margin-bottom: 52px; }
+    .contexte-text { font-size: 15.5px; color: var(--muted); line-height: 1.8; margin-top: 16px; }
+    .constats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 48px; }
+    .constat { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--r-md); padding: 26px 22px; position: relative; transition: all var(--base) var(--ease); }
+    .constat:hover { border-color: var(--vert-profond); box-shadow: 0 4px 24px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .constat-bar { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--or-dore); border-radius: 3px 3px 0 0; }
+    .constat-ico { width: 40px; height: 40px; background: rgba(31,107,58,0.09); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .constat-ico svg { width: 20px; height: 20px; color: var(--vert-profond); }
+    .constat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .constat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .raison { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-md); padding: 16px; }
+    .raison-title { font-size: 13px; font-weight: 700; color: var(--or-dore); margin-bottom: 6px; }
+    .raison-desc { font-size: 12px; color: rgba(255,255,255,0.56); line-height: 1.55; }
+    #objectif { padding-block: var(--section-y); background: var(--blanc); }
+    .objectif-header { margin-bottom: 48px; }
+    .objectif-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 52px; }
+    .obj-col { border-radius: var(--r-lg); padding: 40px 36px; position: relative; overflow: hidden; }
+    .obj-col-terrain { background: var(--vert-sombre); }
+    .obj-col-monitoring { background: var(--anthracite); }
+    .obj-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; }
+    .badge-terrain { background: rgba(42,136,80,0.28); color: var(--or-doux); }
+    .badge-monitoring { background: rgba(217,164,4,0.18); color: var(--or-dore); }
+    .obj-title { font-size: clamp(18px,2.2vw,24px); font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.25; }
+    .obj-desc { font-size: 14px; color: rgba(255,255,255,0.62); line-height: 1.7; }
+    .obj-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 20px; }
+    .obj-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+    .obj-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--or-dore); flex-shrink: 0; margin-top: 6px; }
+    .benef-section-title { font-size: 19px; font-weight: 700; margin-bottom: 22px; }
+    .benef-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .benef { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 22px 16px; text-align: center; transition: all var(--base) var(--ease); }
+    .benef:hover { border-color: var(--vert-profond); box-shadow: 0 4px 20px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .benef-ico { width: 44px; height: 44px; background: rgba(31,107,58,0.09); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .benef-ico svg { width: 22px; height: 22px; color: var(--vert-profond); }
+    .benef-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .benef-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    #solution { padding-block: var(--section-y); background: var(--vert-sombre); color: #fff; position: relative; overflow: hidden; }
+    #solution::before { content: ''; position: absolute; top: -30%; right: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(31,107,58,0.20) 0%, transparent 70%); pointer-events: none; }
+    .solution-intro { max-width: 720px; margin-bottom: 52px; }
+    .solution-text { font-size: 15.5px; color: rgba(255,255,255,0.63); line-height: 1.8; margin-top: 16px; }
+    .arch-wrap { margin-bottom: 44px; }
+    .arch-diag-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--or-dore); margin-bottom: 20px; }
+    .arch-flow { display: flex; align-items: center; overflow-x: auto; padding: 36px 32px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.09); border-radius: var(--r-lg); }
+    .arch-node { flex: 1; min-width: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+    .arch-ico { width: 58px; height: 58px; border-radius: var(--r-md); background: rgba(217,164,4,0.12); border: 1px solid rgba(217,164,4,0.25); display: flex; align-items: center; justify-content: center; transition: all var(--base) var(--ease); }
+    .arch-ico:hover { background: rgba(217,164,4,0.22); border-color: rgba(217,164,4,0.50); transform: translateY(-2px); }
+    .arch-ico svg { width: 26px; height: 26px; color: var(--or-dore); }
+    .arch-node-title { font-size: 12.5px; font-weight: 700; color: #fff; }
+    .arch-node-sub { font-size: 10.5px; color: rgba(255,255,255,0.44); line-height: 1.4; max-width: 120px; }
+    .arch-arrow { flex-shrink: 0; padding-inline: 8px; color: rgba(255,255,255,0.22); margin-bottom: 24px; display: flex; align-items: center; }
+    .arch-arrow svg { width: 18px; height: 18px; }
+    .pourquoi-archi-label { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 18px; }
+    .pourquoi-archi { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .arg { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-md); padding: 18px 14px; transition: all var(--base) var(--ease); }
+    .arg:hover { background: rgba(255,255,255,0.07); border-color: rgba(217,164,4,0.25); }
+    .arg-ico { margin-bottom: 10px; }
+    .arg-ico svg { width: 22px; height: 22px; color: var(--or-dore); }
+    .arg-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .arg-desc { font-size: 11.5px; color: rgba(255,255,255,0.50); line-height: 1.55; }
+    #realisation { padding-block: var(--section-y); background: var(--blanc); }
+    .timeline-wrap { margin-bottom: 56px; }
+    .timeline-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .timeline-label::before { content: ''; display: block; width: 18px; height: 2px; background: var(--or-dore); }
+    .timeline-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 0; position: relative; }
+    .timeline-grid::before { content: ''; position: absolute; top: 25px; left: calc(100%/12); right: calc(100%/12); height: 2px; background: linear-gradient(90deg, var(--or-dore), var(--vert-clair), var(--or-dore)); z-index: 0; }
+    .tstep { display: flex; flex-direction: column; align-items: center; text-align: center; padding-inline: 6px; position: relative; z-index: 1; }
+    .tstep-dot { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 18px; transition: all var(--base) var(--ease); }
+    .tstep:hover .tstep-dot { border-color: var(--or-dore); background: rgba(217,164,4,0.08); color: var(--or-dore); box-shadow: 0 0 0 6px rgba(217,164,4,0.10); }
+    .tstep-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 5px; }
+    .tstep-name { font-size: 13px; font-weight: 700; color: var(--anthracite); margin-bottom: 5px; }
+    .tstep-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    .local-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .local-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .local-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 24px 20px; transition: all var(--base) var(--ease); }
+    .local-card:hover { border-color: var(--vert-profond); box-shadow: 0 4px 20px rgba(31,107,58,0.08); }
+    .local-ico { width: 36px; height: 36px; background: rgba(31,107,58,0.09); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .local-ico svg { width: 18px; height: 18px; color: var(--vert-profond); }
+    .local-card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .local-card-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    #chiffrage { padding-block: var(--section-y); background: var(--surface); }
+    .chiffrage-intro { max-width: 700px; margin-bottom: 16px; }
+    .chiffrage-note { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; margin-bottom: 40px; background: rgba(217,164,4,0.09); border: 1px solid rgba(217,164,4,0.22); border-radius: var(--r-sm); font-size: 12px; color: #7A5200; font-weight: 500; }
+    .chiffrage-note svg { width: 14px; height: 14px; color: var(--or-dore); flex-shrink: 0; }
+    .chiffrage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .chiffrage-col { border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border); }
+    .ch-head { padding: 30px 28px 22px; border-bottom: 1px solid var(--border); }
+    .ch-head-dark { background: var(--vert-sombre); border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .ch-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--or-dore); margin-bottom: 10px; }
+    .ch-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .ch-title-light { color: #fff; }
+    .ch-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+    .ch-sub-light { color: rgba(255,255,255,0.56); }
+    .ch-body { padding: 28px; background: var(--surface); }
+    .ch-body-alt { background: rgba(18,53,36,0.02); }
+    .poste { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .poste:last-child { border-bottom: none; }
+    .poste-name { font-size: 13.5px; color: var(--anthracite); }
+    .poste-est { font-size: 12.5px; font-weight: 500; color: var(--muted); text-align: right; }
+    .poste-est-or { color: var(--or-dore); font-weight: 600; }
+    .ch-footer { padding: 18px 28px; border-top: 1px solid var(--border); }
+    .ch-footer-dark { background: rgba(255,255,255,0.04); border-top: 1px solid rgba(255,255,255,0.07); }
+    .ch-footer-text { font-size: 13px; }
+    .ch-footer-text-light { color: rgba(255,255,255,0.55); }
+    .coherence { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 44px; margin-top: 40px; }
+    .coherence-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .coherence-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .coherence-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+    .carg-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .carg-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    #ressources { padding-block: var(--section-y); background: var(--surface); border-top: 1px solid var(--border); }
+    .ressources-note { font-size: 14px; color: var(--muted); margin-bottom: 36px; max-width: 600px; line-height: 1.7; margin-top: 14px; }
+    .ressources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ressource-card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 38px 32px; display: flex; flex-direction: column; gap: 14px; transition: all var(--base) var(--ease); }
+    .ressource-card:hover { border-color: var(--vert-profond); box-shadow: 0 8px 32px rgba(31,107,58,0.08); transform: translateY(-2px); }
+    .ressource-tag { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: var(--vert-profond); }
+    .ressource-title { font-size: 20px; font-weight: 700; line-height: 1.25; }
+    .ressource-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .ressource-link { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--vert-profond); margin-top: 4px; }
+    .ressource-link svg { width: 14px; height: 14px; transition: transform var(--fast) var(--ease); }
+    .ressource-card:hover .ressource-link svg { transform: translateX(4px); }
+    #cta { padding-block: var(--section-y); background: var(--vert-sombre); position: relative; overflow: hidden; }
+    #cta::after { content: ''; position: absolute; bottom: 0; right: 0; width: 440px; height: 440px; background: radial-gradient(circle, rgba(217,164,4,0.08) 0%, transparent 70%); pointer-events: none; }
+    .cta-content { position: relative; z-index: 1; max-width: 780px; }
+    .cta-title { font-size: clamp(26px,4vw,54px); font-weight: 700; color: #fff; line-height: 1.12; letter-spacing: -0.022em; margin-bottom: 20px; }
+    .cta-sub { font-size: clamp(14px,1.5vw,17px); color: rgba(255,255,255,0.66); line-height: 1.8; margin-bottom: 44px; max-width: 600px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .cta-gold { padding: 15px 28px; background: var(--or-dore); color: var(--anthracite); font-size: 15px; font-weight: 700; border-radius: var(--r-sm); transition: all var(--fast) var(--ease); display: inline-block; }
+    .cta-gold:hover { background: var(--or-doux); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,164,4,0.30); }
+    .cta-outline { padding: 15px 24px; border: 1.5px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 500; border-radius: var(--r-sm); transition: all var(--fast) var(--ease); display: inline-block; background: transparent; }
+    .cta-outline:hover { border-color: rgba(255,255,255,0.50); background: rgba(255,255,255,0.06); }
+    footer { background: var(--anthracite); padding-block: 28px; }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .foot-brand { font-size: 12.5px; color: rgba(255,255,255,0.36); }
+    .foot-flag { display: flex; align-items: stretch; width: 32px; height: 20px; border-radius: 2px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    .fs-green { background: #008751; width: 11px; flex-shrink: 0; }
+    .fs-right { display: flex; flex-direction: column; flex: 1; }
+    .fs-yellow { background: #FCD116; flex: 1; }
+    .fs-red { background: #E8112D; flex: 1; }
+    .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
+    #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--or-dore), var(--or-doux)); z-index: 1100; border-radius: 0 2px 2px 0; pointer-events: none; transition: width 80ms linear; }
+    @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-stats{gap:24px}.hero-deco{display:none}}
+    @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
+    /* ── WhatsApp demo tabs ── */
+    .wa-section { margin-top: 52px; background: #fff; border-radius: var(--r-lg); padding: 36px 40px; }
+    .wa-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+    .wa-header .arch-diag-label { color: var(--vert-profond); }
+    .wa-tab-btns { display: flex; gap: 6px; }
+    .wa-tab-btn { padding: 8px 22px; border-radius: var(--r-sm); font-size: 12.5px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: var(--blanc); color: var(--muted); transition: all var(--fast) var(--ease); font-family: var(--font); letter-spacing: 0.02em; }
+    .wa-tab-btn:hover { background: var(--surface); color: var(--anthracite); border-color: var(--vert-profond); }
+    .wa-tab-btn.active { background: var(--vert-profond); border-color: var(--vert-profond); color: #fff; }
+    .wa-panel { display: none; }
+    .wa-panel.active { display: block; }
+    .wa-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; align-items: start; }
+    .wa-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .wa-img-wrap { width: 100%; }
+    .wa-img-placeholder { width: 100%; aspect-ratio: 9/16; background: linear-gradient(145deg, #e8f4ec 0%, #d4e9db 100%); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+    .wa-img-placeholder svg { width: 36px; height: 36px; color: var(--vert-profond); opacity: 0.45; }
+    .wa-img-placeholder span { font-size: 11px; color: var(--muted); font-weight: 500; text-align: center; padding-inline: 16px; line-height: 1.5; }
+    .wa-step img { width: 100%; border-radius: 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); display: block; }
+    .wa-speak-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: var(--vert-profond); border: none; cursor: pointer; color: #fff; font-size: 11.5px; font-weight: 600; font-family: var(--font); letter-spacing: 0.03em; box-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: all 150ms ease; }
+    .wa-speak-btn:hover { background: var(--vert-clair); transform: scale(1.04); }
+    .wa-speak-btn.speaking { background: var(--or-dore); }
+    .wa-speak-btn svg { width: 13px; height: 13px; flex-shrink: 0; pointer-events: none; }
+    .wa-step-meta { text-align: center; }
+    .wa-step-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 4px; }
+    .wa-step-name { font-size: 13px; font-weight: 600; color: var(--anthracite); }
+    @media(max-width:767px){ .wa-grid { grid-template-columns: repeat(2,1fr); gap: 14px; } }
+    @media(max-width:480px){ .wa-grid { grid-template-columns: 1fr; } }
+    /* ── Pitch popup ── */
+    #pitch-popup { display: none; position: fixed; inset: 0; z-index: 1200; padding: 24px; align-items: center; justify-content: center; }
+    #pitch-popup.open { display: flex; }
+    .pitch-overlay { position: absolute; inset: 0; background: rgba(10,18,12,0.62); backdrop-filter: blur(6px); cursor: pointer; }
+    .pitch-panel { position: relative; background: var(--surface); border-radius: var(--r-lg); max-width: 680px; width: 100%; max-height: 84vh; display: flex; flex-direction: column; box-shadow: 0 28px 80px rgba(0,0,0,0.40); overflow: hidden; z-index: 1; }
+    .pitch-header { padding: 30px 40px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .pitch-eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .pitch-eyebrow::before { content: ''; display: block; width: 20px; height: 2px; background: var(--or-dore); }
+    .pitch-title { font-size: 20px; font-weight: 700; }
+    .pitch-body { overflow-y: auto; padding: 26px 40px 36px; }
+    .pitch-body p { font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+    .pitch-body p:first-child { font-size: 15px; font-weight: 600; color: var(--anthracite); }
+    .pitch-body p:last-child { margin-bottom: 0; }
+    .pitch-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--blanc); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all var(--fast) var(--ease); cursor: pointer; font-size: 20px; line-height: 1; z-index: 2; }
+    .pitch-close:hover { background: var(--border); color: var(--anthracite); }
+    @media(max-width:600px){ .pitch-panel { max-height: 90vh; } .pitch-header, .pitch-body { padding-inline: 22px; } }
+  </style>
+</head>
+<body>
+<div id="progress-bar" aria-hidden="true"></div>
+<header id="topbar">
+  <a href="../index.html" class="topbar-back"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Page principale</a>
+  <a href="#hero"><img src="../img/logoKORA_AI-header-fond-header.png" alt="Logo KORA AI" /></a>
+  <nav id="sidenav" aria-label="Navigation sections">
+    <ul>
+      <li><a href="#contexte" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Contexte</span></a></li>
+      <li><a href="#objectif" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Objectif</span></a></li>
+      <li><a href="#solution" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Solution</span></a></li>
+      <li><a href="#realisation" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Réalisation</span></a></li>
+      <li><a href="#chiffrage" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Chiffrage</span></a></li>
+      <li><a href="#ressources" class="snav-item"><span class="snav-dot"></span><span class="snav-label">Ressources</span></a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ════ HERO ═══════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="hero-grid-lines" aria-hidden="true"></div>
+  <div class="hero-deco" aria-hidden="true">
+    <div class="hero-deco-placeholder">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </div>
+    <div class="hero-deco-fade"></div>
+  </div>
+  <div class="hero-content">
+    <div class="container">
+      <p class="hero-sub reveal d1">GbétoBot guide les Béninois de l'étranger dans leurs démarches administratives — passeport, état civil, casier judiciaire, création d'entreprise — via une simple conversation WhatsApp, 24h/24, en français et en Fon.</p>
+      <div class="hero-stats reveal d2">
+        <div class="hstat"><span class="hstat-val">~700K</span><span class="hstat-label">Béninois établis à l'étranger dans le monde</span></div>
+        <div class="hstat"><span class="hstat-val">4–8<sup style="font-size:0.45em;font-weight:600">sem</sup></span><span class="hstat-label">délai moyen de traitement consulaire d'un dossier</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
+
+<!-- ════ CONTEXTE ════════════════════════════════════════════════ -->
+<section id="contexte">
+  <div class="container">
+    <div class="contexte-intro reveal">
+      <p class="eyebrow">01 — Contexte</p>
+      <h2 class="section-title">Une diaspora active, des démarches complexes, un cadre numérique favorable</h2>
+      <p class="contexte-text">Le Bénin compte près de 700 000 ressortissants établis à l'étranger, principalement en France, en Côte d'Ivoire, au Nigeria, au Togo et en Europe. Cette diaspora contribue significativement à l'économie nationale via les transferts de fonds, l'investissement et le développement local. Pourtant, l'accès aux services administratifs depuis l'étranger reste une source de difficultés récurrentes : procédures mal connues, pièces manquantes, délais imprévus, multiplicité des interlocuteurs. Le Portail National des Services Publics (service-public.bj), le programme SMART GOUV et le cadre SNIAM 2023-2027 offrent aujourd'hui une base solide pour déployer un assistant intelligent capable de répondre à ces besoins en temps réel.</p>
+    </div>
+
+    <div class="constats-grid reveal">
+      <div class="constat">
+        <div class="constat-bar"></div>
+        <div class="constat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="constat-title">Isolement administratif à distance</div>
+        <div class="constat-desc">Le Béninois de l'étranger ne sait souvent pas par où commencer, quels documents rassembler, ni vers quel consulat ou service se tourner. L'information est dispersée, les sites publics peu lisibles, les agents consulaires débordés.</div>
+      </div>
+      <div class="constat">
+        <div class="constat-bar"></div>
+        <div class="constat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="constat-title">Délais et erreurs de dossier</div>
+        <div class="constat-desc">Une pièce manquante, un formulaire mal rempli ou une démarche entamée dans le mauvais ordre peuvent faire perdre des semaines. Les aller-retours avec les services sont coûteux en temps et parfois en argent pour des personnes vivant loin du Bénin.</div>
+      </div>
+      <div class="constat">
+        <div class="constat-bar"></div>
+        <div class="constat-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="constat-title">Absence d'assistant dédié 24/7</div>
+        <div class="constat-desc">Les services consulaires ont des horaires limités et des capacités d'accueil réduites. Il n'existe pas aujourd'hui d'outil conversationnel permettant à un Béninois de l'étranger d'obtenir une réponse précise à tout moment, dans sa langue, sur son téléphone.</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:48px;">
+      <h3 style="font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-0.018em;margin-bottom:28px;">Pourquoi maintenant</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">Portail National des Services existant</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Le Bénin dispose déjà de service-public.bj, un portail structuré qui centralise des centaines de fiches de procédures administratives. Ce contenu constitue la base d'entraînement idéale pour un assistant RAG sans développement de données à partir de zéro.</div>
+        </div>
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">RAG techniquement mature</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">Les architectures RAG (Retrieval-Augmented Generation) sont aujourd'hui éprouvées et déployables rapidement. Couplées à un modèle LLM performant comme Claude, elles permettent de répondre avec précision en s'appuyant sur des sources officielles vérifiées.</div>
+        </div>
+        <div class="raison" style="background:var(--vert-profond);border:none;border-radius:var(--r-md);padding:28px 24px;">
+          <div class="raison-title" style="font-size:15px;color:#fff;margin-bottom:8px;">WhatsApp canal maîtrisé</div>
+          <div class="raison-desc" style="color:rgba(255,255,255,0.70);">WhatsApp est l'application de messagerie dominante chez les Béninois de l'étranger. C'est un canal zéro-friction qui ne nécessite aucune installation, aucun compte supplémentaire et qui fonctionne dans tous les pays de la diaspora.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ OBJECTIF ════════════════════════════════════════════════ -->
+<section id="objectif">
+  <div class="container">
+    <div class="objectif-header reveal">
+      <p class="eyebrow">02 — Objectif</p>
+      <h2 class="section-title">Un assistant et un outil de pilotage pour le Ministère des Affaires étrangères</h2>
+      <p class="section-sub" style="max-width:100%;">GbétoBot n'est pas seulement un chatbot d'information. C'est aussi un instrument de connaissance des besoins réels de la diaspora, permettant à l'État de comprendre quelles démarches posent le plus de difficultés et d'améliorer ses services en conséquence.</p>
+    </div>
+    <div class="objectif-split">
+      <div class="obj-col obj-col-terrain reveal d1">
+        <div class="obj-badge badge-terrain">Mission 1</div>
+        <div class="obj-title">Assistance aux démarches administratives</div>
+        <div class="obj-desc">Le Béninois de l'étranger pose sa question en langage naturel via WhatsApp. GbétoBot comprend la demande, interroge sa base de connaissances (les fiches officielles de service-public.bj) et fournit une réponse précise, structurée et à jour.</div>
+        <ul class="obj-list">
+          <li>Passeport et renouvellement depuis l'étranger</li>
+          <li>Acte de naissance, légalisation et état civil</li>
+          <li>Casier judiciaire et certificats consulaires</li>
+          <li>Création d'entreprise et immatriculation RCCM</li>
+          <li>Attestations fiscales et démarches ANIP</li>
+          <li>Réponses 24h/24 en français et en Fon</li>
+        </ul>
+      </div>
+      <div class="obj-col obj-col-monitoring reveal d2">
+        <div class="obj-badge badge-monitoring">Mission 2</div>
+        <div class="obj-title">Connaissance de la diaspora et amélioration des services</div>
+        <div class="obj-desc">Chaque interaction enrichit une base de données agrégée et anonymisée sur les questions posées, les démarches les plus recherchées, les blocages fréquents et les besoins non couverts. Un tableau de bord institutionnel permet de suivre ces données en temps réel.</div>
+        <ul class="obj-list">
+          <li>Tableau de bord des questions les plus fréquentes par pays</li>
+          <li>Identification des procédures mal documentées ou peu claires</li>
+          <li>Mesure de l'adoption du service et des taux de satisfaction</li>
+          <li>Données pour améliorer les fiches du Portail National des Services</li>
+          <li>Rapports périodiques pour les ambassades et le ministère</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="benef-section-title">Utilisateurs et bénéficiaires</div>
+      <div class="benef-grid">
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="benef-name">Diaspora béninoise</div>
+          <div class="benef-desc">Béninois établis à l'étranger, toutes générations confondues</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          </div>
+          <div class="benef-name">Ambassades & consulats</div>
+          <div class="benef-desc">Réduction de la pression sur les agents consulaires pour les questions d'information</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="benef-name">Mandataires & notaires</div>
+          <div class="benef-desc">Professionnels assistant les Béninois de l'étranger dans leurs démarches</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="benef-name">Familles au Bénin</div>
+          <div class="benef-desc">Proches aidant à préparer les dossiers depuis le Bénin</div>
+        </div>
+        <div class="benef">
+          <div class="benef-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="benef-name">Ministère des AE</div>
+          <div class="benef-desc">Outil de pilotage et de connaissance des besoins de la diaspora</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SOLUTION ════════════════════════════════════════════════ -->
+<section id="solution">
+  <div class="container">
+    <div class="solution-intro reveal">
+      <p class="eyebrow eyebrow-light">03 — Solution technique</p>
+      <h2 class="section-title" style="color:#fff;">RAG + LLM : une IA ancrée dans les sources officielles</h2>
+      <p class="solution-text">La solution repose sur une architecture RAG (Retrieval-Augmented Generation) : les fiches officielles de service-public.bj sont indexées dans une base vectorielle. À chaque question, les passages pertinents sont extraits et transmis à un modèle de langage (Claude) qui génère une réponse précise, en français ou en Fon, directement dans WhatsApp. Le modèle ne répond jamais hors de ses sources — il cite et synthétise, sans inventer.</p>
+    </div>
+
+    <div class="arch-wrap reveal">
+      <div class="arch-diag-label">Architecture de la solution — Pipeline RAG WhatsApp</div>
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="arch-node-title">Message WhatsApp</div>
+          <div class="arch-node-sub">Question en langage naturel FR ou Fon</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="arch-node-title">Webhook API</div>
+          <div class="arch-node-sub">Réception et classification de l'intention</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <div class="arch-node-title">Base vectorielle</div>
+          <div class="arch-node-sub">Fiches service-public.bj indexées</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="arch-node-title">Claude (LLM)</div>
+          <div class="arch-node-sub">Génération de réponse ancrée sur les sources</div>
+        </div>
+        <div class="arch-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="arch-node">
+          <div class="arch-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="arch-node-title">Réponse WhatsApp</div>
+          <div class="arch-node-sub">Réponse structurée renvoyée à l'utilisateur</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wa-section reveal">
+      <div class="wa-header">
+        <div class="arch-diag-label" style="margin-bottom:0;">Conversation WhatsApp — Expérience utilisateur</div>
+        <div class="wa-tab-btns" role="tablist">
+          <button class="wa-tab-btn active" data-lang="fr" role="tab" aria-selected="true">Français</button>
+          <button class="wa-tab-btn" data-lang="fon" role="tab" aria-selected="false">Fon</button>
+        </div>
+      </div>
+
+      <div class="wa-panel active" id="wa-fr" role="tabpanel">
+        <div class="wa-grid">
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Bonjour ! Je suis GbétoBot, votre assistant pour toutes vos démarches administratives béninoises depuis l'étranger. Posez-moi votre question directement — passeport, acte de naissance, casier judiciaire ou création d'entreprise." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Je suis en France depuis deux ans, mon passeport expire dans un mois. Comment le renouveler depuis Paris ?" aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Question</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Je cherche les informations sur le renouvellement de passeport depuis la France. Un instant, je consulte les procédures officielles." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Recherche RAG</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Pour renouveler votre passeport depuis Paris, rendez-vous à l'Ambassade du Bénin, 87 avenue Victor Hugo 75116 Paris. Documents requis : ancien passeport, acte de naissance légalisé de moins de 3 mois, 2 photos, justificatif de domicile. Frais consulaires : 80 euros. Délai estimé : 4 à 6 semaines." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Réponse</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wa-panel" id="wa-fon" role="tabpanel">
+        <div class="wa-grid">
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Kwabɔ! Nyɛ GbétoBot, alogonto nú gbéto lɛ tɔn ɖò tò ɖevo mɛ. Sprɛ nǔ e a ba kɔn ce lɛ — passeport, acte naissance, casier judiciaire alǒ création d'entreprise." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">01</div><div class="wa-step-name">Accueil</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Un mois ago, nyi ɖò France. Passeport ce nɔ cí. Éto ɖé gbé Paris sín passeport yɔyɔ lɛ ko?" aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">02</div><div class="wa-step-name">Sprɛ nǔ</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Jo, nɔ xwevi kpɔn. GbétoBot nɔ ɖó amlɔ passeport lɛ mɛ ɖò tò Bénin tɔn mɛ." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">03</div><div class="wa-step-name">Xixɔ amlɔ</div></div>
+          </div>
+          <div class="wa-step">
+            <div class="wa-img-wrap">
+              <div class="wa-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Maquette en cours de production</span>
+              </div>
+            </div>
+            <button class="wa-speak-btn" data-lang="fr-FR" data-text="Passeport yɔyɔ sí Paris: yi Ambassade du Bénin, 87 avenue Victor Hugo. Ɖó kpɔ: passeport jɛ, acte naissance, foto 2, justificatif de domicile. Àkwɛ: 80 euros. Hwenu: vɔ 4-6 semaines." aria-label="Écouter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Écouter
+            </button>
+            <div class="wa-step-meta"><div class="wa-step-num">04</div><div class="wa-step-name">Xósin</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:52px;" class="reveal">
+      <div class="pourquoi-archi-label">Pourquoi GbétoBot pour l'État du Bénin</div>
+      <div class="pourquoi-archi">
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="arg-title">Alignement SMART GOUV</div>
+          <div class="arg-desc">S'inscrit directement dans le programme SMART GOUV et le Portail National des Services — extension naturelle vers la diaspora d'une infrastructure déjà financée et opérationnelle.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="arg-title">Service 24/7 sans agent</div>
+          <div class="arg-desc">GbétoBot répond à tout moment, sans mobiliser de ressources humaines supplémentaires dans les consulats, réduisant la charge des agents pour les dossiers complexes.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="arg-title">WhatsApp sans friction</div>
+          <div class="arg-desc">Aucune application à installer, aucun compte à créer. La diaspora est déjà sur WhatsApp — le bot arrive dans un canal familier, en français comme en Fon.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="arg-title">Données précieuses</div>
+          <div class="arg-desc">Les questions posées par la diaspora alimentent un tableau de bord institutionnel : quelles procédures sont incomprises, quelles ambassades sont saturées, quels services méritent d'être clarifiés.</div>
+        </div>
+        <div class="arg">
+          <div class="arg-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="arg-title">Modèle exportable</div>
+          <div class="arg-desc">Un succès avec la diaspora béninoise peut être proposé à d'autres pays d'Afrique de l'Ouest ayant une forte diaspora et un portail national de services similaire.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ RÉALISATION ══════════════════════════════════════════════ -->
+<section id="realisation">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:48px;">
+      <p class="eyebrow">04 — Réalisation</p>
+      <h2 class="section-title">Du contenu officiel au service déployé en 6 étapes</h2>
+      <p class="section-sub">Six étapes opérationnelles, de l'indexation des fiches publiques au déploiement d'un service fiable, testé et amélioré en continu par les retours terrain de la diaspora.</p>
+    </div>
+    <div class="timeline-wrap reveal">
+      <div class="timeline-label">Feuille de route opérationnelle — 6 étapes</div>
+      <div class="timeline-grid">
+        <div class="tstep d1"><div class="tstep-dot">1</div><div><div class="tstep-num">Étape 01</div><div class="tstep-name">Indexation des sources</div><div class="tstep-desc">Scraping et nettoyage des fiches de service-public.bj, du Portail National des Services et des informations consulaires officielles. Structuration en chunks documentaires annotés.</div></div></div>
+        <div class="tstep d2"><div class="tstep-dot">2</div><div><div class="tstep-num">Étape 02</div><div class="tstep-name">Base vectorielle</div><div class="tstep-desc">Génération des embeddings et construction de la base vectorielle (pgvector ou Qdrant). Mise en place du pipeline de recherche sémantique et validation de la qualité des résultats.</div></div></div>
+        <div class="tstep d3"><div class="tstep-dot">3</div><div><div class="tstep-num">Étape 03</div><div class="tstep-name">API RAG + Claude</div><div class="tstep-desc">Développement du backend : webhook WhatsApp, orchestration RAG, intégration Claude (Haiku pour le coût), prompt système calibré sur le registre administratif bienveillant.</div></div></div>
+        <div class="tstep d4"><div class="tstep-dot">4</div><div><div class="tstep-num">Étape 04</div><div class="tstep-name">Bot WhatsApp</div><div class="tstep-desc">Intégration via WhatsApp Business API (Meta) ou Twilio. Gestion des sessions de conversation, des questions hors-périmètre et de l'escalade vers un agent humain consulaire.</div></div></div>
+        <div class="tstep d5"><div class="tstep-dot">5</div><div><div class="tstep-num">Étape 05</div><div class="tstep-name">Pilote diaspora France</div><div class="tstep-desc">Test avec un panel de Béninois résidant en France. Collecte des retours, identification des questions mal couvertes, ajustement du prompt et enrichissement de la base documentaire.</div></div></div>
+        <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Étape 06</div><div class="tstep-name">Extension & amélioration</div><div class="tstep-desc">Extension à d'autres pays de la diaspora (Côte d'Ivoire, Belgique, Canada), ajout de nouvelles démarches, tableau de bord institutionnel et connexion progressive au Portail National.</div></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="local-title">Ressources locales mobilisables</div>
+      <div class="local-grid">
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div class="local-card-title">Contenu officiel existant</div><div class="local-card-desc">Le Portail National des Services (service-public.bj) centralise déjà des centaines de fiches de procédures administratives, constituant la base documentaire prête à indexer. Aucune création de contenu requise au départ.</div></div>
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="local-card-title">Partenaires institutionnels</div><div class="local-card-desc">Ministère des Affaires étrangères, ASIN, Ambassades du Bénin à Paris, Abidjan, Bruxelles et Montréal, Portail National des Services (service-public.bj) et programme SMART GOUV comme cadre d'intégration.</div></div>
+        <div class="local-card"><div class="local-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="local-card-title">Talents tech disponibles</div><div class="local-card-desc">Développeurs backend et fullstack, ingénieurs NLP et data scientists issus de l'UAC/IMSP, du CEA-SMIA et des écoles polytechniques du Bénin. Profils RAG et LLM mobilisables localement.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CHIFFRAGE ════════════════════════════════════════════════ -->
+<section id="chiffrage">
+  <div class="container">
+    <div class="chiffrage-intro reveal">
+      <p class="eyebrow">05 — Chiffrage indicatif</p>
+      <h2 class="section-title">Investissement modeste, déploiement rapide</h2>
+      <p class="section-sub">GbétoBot est le use case le plus léger de la gamme Kora AI : pas de collecte de données terrain, pas d'entraînement de modèle — uniquement une intégration intelligente de sources existantes. Conversion indicative à 1 € ≈ 655 FCFA.</p>
+    </div>
+    <div class="chiffrage-note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Document de cadrage indicatif — les montants définitifs sont établis après concertation et définition précise du périmètre du pilote.
+    </div>
+    <div class="chiffrage-grid reveal">
+      <div class="chiffrage-col">
+        <div class="ch-head ch-head-dark"><div class="ch-badge">Phase 1 — Pilote fonctionnel</div><div class="ch-title ch-title-light">Pilote</div><div class="ch-sub ch-sub-light">Diaspora France pilote · durée indicative 3 à 6 mois · enveloppe 8 000 à 18 000 €</div></div>
+        <div class="ch-body">
+          <div class="poste"><span class="poste-name">Scraping, nettoyage et indexation des fiches service-public.bj</span><span class="poste-est poste-est-or">1 500 – 3 000 €</span></div>
+          <div class="poste"><span class="poste-name">Construction base vectorielle et pipeline RAG</span><span class="poste-est poste-est-or">2 000 – 5 000 €</span></div>
+          <div class="poste"><span class="poste-name">Développement bot WhatsApp et API backend</span><span class="poste-est poste-est-or">2 000 – 5 000 €</span></div>
+          <div class="poste"><span class="poste-name">Hébergement cloud, API Claude et maintenance pilote</span><span class="poste-est poste-est-or">1 500 – 3 000 €</span></div>
+          <div class="poste"><span class="poste-name">Tests terrain et ajustements post-pilote</span><span class="poste-est poste-est-or">1 000 – 2 000 €</span></div>
+        </div>
+        <div class="ch-footer ch-footer-dark"><div class="ch-footer-text ch-footer-text-light">Enveloppe pilote estimative : <strong style="color:var(--or-dore);">8 000 à 18 000 €</strong> pour un service opérationnel en moins de 3 mois. C'est le projet le plus rapide à déployer de la gamme Kora AI — aucun modèle à entraîner, uniquement une intégration de sources officielles existantes.</div></div>
+      </div>
+      <div class="chiffrage-col">
+        <div class="ch-head"><div class="ch-badge">Phase 2 — Extension nationale</div><div class="ch-title">Généralisation</div><div class="ch-sub">Extension pays par pays · connexion Portail National · après validation du pilote</div></div>
+        <div class="ch-body ch-body-alt">
+          <div class="poste"><span class="poste-name">Extension à d'autres pays de la diaspora</span><span class="poste-est">Côte d'Ivoire, Belgique, Canada, Nigeria</span></div>
+          <div class="poste"><span class="poste-name">Ajout de nouvelles démarches et procédures</span><span class="poste-est">Mise à jour continue des fiches indexées</span></div>
+          <div class="poste"><span class="poste-name">Développement du tableau de bord institutionnel</span><span class="poste-est">Analytics MAE / Ambassades / SMART GOUV</span></div>
+          <div class="poste"><span class="poste-name">Connexion au Portail National des Services</span><span class="poste-est">Intégration API service-public.bj</span></div>
+          <div class="poste"><span class="poste-name">Maintenance, hébergement et support LLM</span><span class="poste-est">Coût marginal faible grâce à Claude Haiku</span></div>
+          <div class="poste"><span class="poste-name">Gouvernance et pilotage institutionnel</span><span class="poste-est">Comité de suivi MAE / ASIN / SMART GOUV</span></div>
+          <div class="poste"><span class="poste-name">Support multilingue Fon + Yoruba</span><span class="poste-est">Cohérent avec programme JaimeMaLangue</span></div>
+          <div class="poste"><span class="poste-name">Licence institutionnelle annuelle</span><span class="poste-est poste-est-or">À définir selon périmètre</span></div>
+        </div>
+        <div class="ch-footer"><div class="ch-footer-text">Modèle B2G : licence annuelle couvrant la maintenance, les mises à jour documentaires, l'hébergement et le support. Coût marginal par conversation très bas grâce à Claude Haiku — modèle idéal pour un service à fort volume.</div></div>
+      </div>
+    </div>
+
+    <div class="coherence reveal">
+      <div class="coherence-title">Pourquoi cet investissement est cohérent pour l'État ?</div>
+      <div class="coherence-sub">Un investissement minimal pour un service à impact immédiat sur 700 000 ressortissants, avec un retour sur investissement mesurable dès le pilote.</div>
+      <div class="coherence-grid">
+        <div><div class="carg-title">Impact direct et mesurable</div><div class="carg-desc">Réduction de la charge des agents consulaires sur les questions d'information, amélioration de la satisfaction de la diaspora, augmentation des dossiers bien constitués dès la première soumission.</div></div>
+        <div><div class="carg-title">Valorisation du Portail National existant</div><div class="carg-desc">GbétoBot n'est pas un projet from scratch — il amplifie l'investissement déjà réalisé dans service-public.bj et SMART GOUV en rendant ce contenu accessible via un canal conversationnel moderne.</div></div>
+        <div><div class="carg-title">Signal fort pour la diaspora</div><div class="carg-desc">Un service public IA en français et en Fon, disponible 24/7 depuis n'importe quel pays, est un signal fort de considération de la diaspora par l'État — levier d'image et de mobilisation de l'épargne diasporique.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ RESSOURCES ════════════════════════════════════════════════ -->
+<section id="ressources">
+  <div class="container">
+    <div class="reveal">
+      <p class="eyebrow">06 — Pour aller plus loin</p>
+      <p class="ressources-note" style="margin-top:4px;">Cette page peut être complétée par un pitch oral synthétique et une foire aux questions conçue pour anticiper les objections institutionnelles les plus courantes.</p>
+    </div>
+    <div class="ressources-grid reveal">
+      <a href="#" class="ressource-card" id="pitch-trigger">
+        <div class="ressource-tag">Présentation orale</div>
+        <div class="ressource-title">Pitch oral — 5 minutes</div>
+        <div class="ressource-desc">Une présentation synthétique destinée à un échange de 5 minutes avec un décideur public — Ministère des AE, ASIN ou ambassadeur : le contexte diaspora, la solution technique, le modèle de déploiement et les prochaines étapes. Structure claire pour un public institutionnel.</div>
+        <div class="ressource-link" id="pitch-link">Lire le pitch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+      <a href="#" class="ressource-card">
+        <div class="ressource-tag">Questions / Réponses</div>
+        <div class="ressource-title">FAQ — Objections institutionnelles</div>
+        <div class="ressource-desc">Une foire aux questions conçue pour anticiper les objections les plus fréquentes : fiabilité des réponses, que se passe-t-il si le bot répond faux, gouvernance des données des ressortissants, dépendance à Claude, conditions d'une validation nationale et conformité APDP.</div>
+        <div class="ressource-link">Consulter la FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="container">
+    <div class="cta-content reveal">
+      <p class="eyebrow eyebrow-light">Prochaine étape</p>
+      <h2 class="cta-title">Lancer le pilote GbétoBot avec la diaspora en France</h2>
+      <p class="cta-sub">Trois mois suffisent pour avoir un service opérationnel testé par un panel réel de Béninois de l'étranger — la base documentaire existe, la technologie est mature, l'infrastructure WhatsApp est prête.</p>
+      <div class="cta-actions">
+        <a href="../index.html" class="cta-gold">Retour à la page principale</a>
+        <a href="#contexte" class="cta-outline">Revoir la présentation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <span class="foot-brand">KORA AI · GbétoBot · 2026</span>
+      <div class="foot-flag" aria-label="Drapeau du Bénin"><div class="fs-green"></div><div class="fs-right"><div class="fs-yellow"></div><div class="fs-red"></div></div></div>
+      <span class="foot-note">Document institutionnel · Initiative IA Services Publics · SNIAM 2023-2027</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Pitch oral popup -->
+<div id="pitch-popup" role="dialog" aria-modal="true" aria-label="Pitch oral GbétoBot">
+  <div class="pitch-overlay" id="pitch-overlay"></div>
+  <div class="pitch-panel">
+    <button class="pitch-close" id="pitch-close" aria-label="Fermer">&#x2715;</button>
+    <div class="pitch-header">
+      <div class="pitch-eyebrow">Présentation orale · 5 minutes</div>
+      <div class="pitch-title">Pitch oral — GbétoBot</div>
+    </div>
+    <div class="pitch-body">
+      <p>Bonjour, et merci de me recevoir.</p>
+      <p>Je voudrais vous présenter GbétoBot, un assistant IA sur WhatsApp conçu pour les Béninois de l'étranger — les gbéto, ceux qui sont partis — et qui s'inscrit directement dans le programme SMART GOUV et la Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées 2023-2027 du Bénin.</p>
+      <p>Le problème est simple et concret. Il y a environ 700 000 Béninois établis à l'étranger — en France, en Côte d'Ivoire, en Belgique, au Canada, au Nigeria. Ces ressortissants ont régulièrement besoin d'effectuer des démarches administratives : renouveler un passeport, obtenir un acte de naissance, demander un casier judiciaire, créer une entreprise depuis l'étranger. Aujourd'hui, ils ne savent souvent pas par où commencer, quels documents rassembler, ni vers quel consulat se tourner. Le résultat : des dossiers incomplets, des allers-retours inutiles, des semaines perdues, et une frustration qui nuit à l'image des services de l'État.</p>
+      <p>La solution que nous proposons est GbétoBot, un assistant conversationnel accessible via WhatsApp — l'application de messagerie que la diaspora utilise déjà massivement. L'utilisateur pose sa question en langage naturel, en français ou en Fon, sans menu complexe, sans application à installer. GbétoBot comprend la demande, recherche dans sa base de connaissances — constituée des fiches officielles de service-public.bj et des informations consulaires — et renvoie une réponse claire, structurée et précise, avec les documents requis, les adresses, les délais et les frais.</p>
+      <p>Sur le plan technique, GbétoBot repose sur une architecture RAG, Retrieval-Augmented Generation. Ce n'est pas un modèle d'IA qui invente des réponses — c'est un système qui interroge des sources officielles vérifiées et les synthétise en réponse lisible. Le modèle de langage utilisé, Claude d'Anthropic, est réputé pour son niveau de fiabilité et sa capacité à expliquer des procédures administratives de façon claire. GbétoBot ne répond pas hors de ses sources — si la réponse n'est pas dans sa base documentaire, il le dit clairement et oriente vers le bon service.</p>
+      <p>Ce projet est particulièrement pertinent pour l'État pour trois raisons. Premièrement, il valorise un investissement déjà réalisé : le Portail National des Services existe, il centralise des centaines de fiches administratives — GbétoBot les rend accessibles par une interface conversationnelle moderne, sans recréer de contenu. Deuxièmement, il réduit la charge des agents consulaires sur les questions d'information, leur permettant de se concentrer sur les dossiers complexes qui nécessitent une intervention humaine. Troisièmement, il génère des données précieuses : quelles démarches posent le plus de difficultés, quelles ambassades sont les plus sollicitées, quelles procédures méritent d'être clarifiées sur le portail officiel.</p>
+      <p>Le pilote peut être lancé en moins de trois mois. La phase pilote cible la diaspora béninoise en France, avec une enveloppe estimée entre 8 000 et 18 000 euros — le projet le moins coûteux de notre gamme parce qu'il ne nécessite ni collecte de données terrain, ni entraînement de modèle spécialisé, uniquement l'intégration intelligente de sources officielles existantes.</p>
+      <p>Ce n'est pas un projet expérimental lointain. C'est un service déployable aujourd'hui, sur un canal que la diaspora utilise chaque jour, avec une infrastructure technique mature et un contenu officiel déjà disponible. Nous avons ce qu'il faut pour faire de GbétoBot le premier service public IA de l'État béninois dédié à sa diaspora — un signal fort de modernité et de considération envers les 700 000 Béninois qui contribuent chaque année à l'économie nationale depuis l'étranger.</p>
+      <p>Je serais heureux de vous présenter le schéma d'architecture, le plan de déploiement du pilote et les modalités de partenariat institutionnel pour avancer sur cette initiative.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const snavItems = document.querySelectorAll('.snav-item');
+  const snavSections = Array.from(snavItems).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function updateSidenav() {
+    const trigger = window.innerHeight * 0.35;
+    let active = null;
+    snavSections.forEach(s => { const r = s.getBoundingClientRect(); if (r.top <= trigger && r.bottom > 0) active = s.id; });
+    snavItems.forEach(a => { const id = a.getAttribute('href').slice(1); a.classList.toggle('active', id === active); });
+  }
+  window.addEventListener('scroll', updateSidenav, { passive: true });
+  updateSidenav();
+  const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => { const total = document.documentElement.scrollHeight - window.innerHeight; if (total > 0) bar.style.width = (window.scrollY / total * 100).toFixed(1) + '%'; }, { passive: true });
+
+  // Pitch popup
+  const pitchLink    = document.getElementById('pitch-link');
+  const pitchPopup   = document.getElementById('pitch-popup');
+  const pitchOverlay = document.getElementById('pitch-overlay');
+  const pitchClose   = document.getElementById('pitch-close');
+  let pitchTimer;
+  function openPitch(e) { if (e) e.preventDefault(); clearTimeout(pitchTimer); pitchPopup.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function schedulePitchClose() { pitchTimer = setTimeout(() => { pitchPopup.classList.remove('open'); document.body.style.overflow = ''; }, 180); }
+  pitchLink.addEventListener('mouseenter', openPitch);
+  pitchLink.addEventListener('mouseleave', schedulePitchClose);
+  pitchLink.addEventListener('click', openPitch);
+  pitchPopup.addEventListener('mouseenter', () => clearTimeout(pitchTimer));
+  pitchPopup.addEventListener('mouseleave', schedulePitchClose);
+  pitchOverlay.addEventListener('click', schedulePitchClose);
+  pitchClose.addEventListener('click', schedulePitchClose);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') schedulePitchClose(); });
+
+  // WhatsApp tabs
+  document.querySelectorAll('.wa-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.wa-tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('.wa-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      document.getElementById('wa-' + btn.dataset.lang).classList.add('active');
+    });
+  });
+
+  // Web Speech API — boutons lecture vocale
+  (function() {
+    if (!('speechSynthesis' in window)) return;
+    let currentBtn = null;
+    document.querySelectorAll('.wa-speak-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.dataset.text;
+        const lang = btn.dataset.lang || 'fr-FR';
+        if (btn.classList.contains('speaking')) {
+          speechSynthesis.cancel();
+          btn.classList.remove('speaking');
+          currentBtn = null;
+          return;
+        }
+        speechSynthesis.cancel();
+        if (currentBtn) currentBtn.classList.remove('speaking');
+        const utt = new SpeechSynthesisUtterance(text);
+        utt.lang = lang;
+        utt.rate = 0.95;
+        utt.onstart = () => { btn.classList.add('speaking'); currentBtn = btn; };
+        utt.onend = utt.onerror = () => { btn.classList.remove('speaking'); currentBtn = null; };
+        speechSynthesis.speak(utt);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
