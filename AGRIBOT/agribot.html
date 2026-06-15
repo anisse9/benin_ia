@@ -256,6 +256,20 @@
     .fs-red { background: #E8112D; flex: 1; }
     .foot-note { font-size: 11.5px; color: rgba(255,255,255,0.25); }
     #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--or-dore), var(--or-doux)); z-index: 1100; border-radius: 0 2px 2px 0; pointer-events: none; transition: width 80ms linear; }
+    @media(max-width:1440px){
+      :root{--section-y:clamp(56px,6vw,88px)}
+      #topbar{height:78px}#topbar img{height:60px}
+      .hero-content{padding-top:96px;padding-bottom:56px}
+      .hero-h1{font-size:clamp(32px,4vw,50px);margin-bottom:18px;max-width:700px}
+      .hero-sub{font-size:15.5px;margin-bottom:36px;max-width:540px;line-height:1.65}
+      .hero-stats{gap:36px;margin-bottom:36px}
+      .hstat-val{font-size:clamp(30px,3vw,40px)}
+      .hstat-label{font-size:12.5px}
+      .section-title{font-size:clamp(26px,2.8vw,38px)}
+      .section-sub{font-size:15px}
+      .hero-deco{width:48%}
+      .hero-scroll-indicator{display:none}
+    }
     @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr 1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-deco{display:none}}
     @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
