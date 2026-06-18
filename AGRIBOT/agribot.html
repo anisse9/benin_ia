@@ -64,7 +64,7 @@
     .hero-deco { position: absolute; top: 0; right: 0; bottom: 0; width: 55%; pointer-events: none; display: flex; align-items: center; overflow: hidden; }
     .hero-deco-video { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; }
     .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
-    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 100%; align-self: stretch; }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 50%; align-self: stretch; }
     .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 520px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
     .hstat-val { font-size: clamp(36px,4.5vw,58px); font-weight: 700; color: #52D68A; letter-spacing: -0.03em; line-height: 1; }
     .hstat-label { font-size: 13px; color: rgba(255,255,255,0.60); max-width: 160px; line-height: 1.4; }
@@ -271,7 +271,7 @@
       .hero-scroll-indicator{display:none}
     }
     @media(max-width:1023px){.constats-grid{grid-template-columns:1fr 1fr}.pourquoi-bloc{flex-direction:column;gap:28px}.pourquoi-right{grid-template-columns:1fr 1fr}.objectif-split{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(3,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr 1fr}.timeline-grid{grid-template-columns:repeat(3,1fr);gap:20px}.timeline-grid::before{display:none}.tstep{flex-direction:row;text-align:left;align-items:flex-start;gap:14px}.tstep-dot{margin-bottom:0;flex-shrink:0}.local-grid{grid-template-columns:1fr 1fr}.chiffrage-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr 1fr}.coherence-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-deco{display:none}}
+    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.modele-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-miniflow{display:none}.hero-stats{gap:24px}.hero-deco{display:none}.hero-content{width:100%}}
     @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
     /* ── WhatsApp demo tabs ── */
     .wa-section { margin-top: 52px; background: #fff; border-radius: var(--r-lg); padding: 36px 40px; }

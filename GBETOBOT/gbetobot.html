@@ -66,7 +66,7 @@
     .hero-deco-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--vert-sombre) 0%, rgba(18,53,36,0.55) 28%, transparent 65%); }
     .hero-deco-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(31,107,58,0.15) 0%, rgba(217,164,4,0.08) 100%); display: flex; align-items: center; justify-content: center; }
     .hero-deco-placeholder svg { width: 120px; height: 120px; opacity: 0.08; color: var(--or-dore); }
-    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 100%; align-self: stretch; }
+    .hero-content { position: relative; z-index: 1; padding-top: clamp(110px,10vw,135px); padding-bottom: 80px; width: 50%; align-self: stretch; }
     .hero-sub { font-size: clamp(15px,1.8vw,19px); color: rgba(255,255,255,0.70); max-width: 520px; line-height: 1.75; font-weight: 300; margin-bottom: 56px; }
     .hero-stats { display: flex; flex-wrap: wrap; gap: 52px; margin-bottom: 56px; }
     .hstat { display: flex; flex-direction: column; gap: 6px; }
@@ -230,7 +230,7 @@
       .hero-deco{width:48%}
       .hero-scroll-indicator{display:none}
     }
-    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-stats{gap:24px}.hero-deco{display:none}}
+    @media(max-width:767px){.constats-grid{grid-template-columns:1fr}.benef-grid{grid-template-columns:repeat(2,1fr)}.pourquoi-archi{grid-template-columns:1fr 1fr}.timeline-grid{grid-template-columns:1fr 1fr}.local-grid{grid-template-columns:1fr}.coherence-grid{grid-template-columns:1fr 1fr}.ressources-grid{grid-template-columns:1fr}.cta-actions{flex-direction:column}.hero-stats{gap:24px}.hero-deco{display:none}.hero-content{width:100%}}
     @media(max-width:480px){.benef-grid{grid-template-columns:1fr}.pourquoi-archi{grid-template-columns:1fr}.timeline-grid{grid-template-columns:1fr}.arch-flow{flex-direction:column;gap:14px;padding:24px}.arch-arrow{transform:rotate(90deg);margin-bottom:0}.coherence-grid{grid-template-columns:1fr}}
     /* ── WhatsApp demo tabs ── */
     .wa-section { margin-top: 52px; background: #fff; border-radius: var(--r-lg); padding: 36px 40px; }
