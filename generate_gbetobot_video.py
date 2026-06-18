@@ -29,11 +29,9 @@ OUT_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "GBETOBOT"
 OUT_PATH   = os.path.join(OUT_DIR, "hero-gbetobot.mp4")
 
 PROMPT = (
-    "The young man slowly lifts his gaze from the passport he is holding, studying it carefully. "
-    "He then reaches into his pocket and picks up his smartphone with his other hand. "
-    "He glances at the phone screen — a WhatsApp conversation is visible — "
-    "then he raises his eyes toward the camera, a warm and confident smile spreading across his face. "
-    "He holds up his open passport toward the camera, showing it proudly. "
+    "The passport is lying flat on the desk in front of the young man. "
+    "He holds his smartphone in his hand and looks down at the screen — a WhatsApp conversation is visible. "
+    "He scrolls slightly, then slowly raises his eyes toward the camera and gives a warm, confident smile. "
     "There is a plain white ceramic mug on the desk beside the laptop. "
     "Soft natural indoor light. Cinematic, calm and confident, shallow depth of field, "
     "warm neutral tones. No text overlay, no subtitles. "
