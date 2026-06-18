@@ -34,6 +34,7 @@ PROMPT = (
     "He glances at the phone screen — a WhatsApp conversation is visible — "
     "then he raises his eyes toward the camera, a warm and confident smile spreading across his face. "
     "He holds up his open passport toward the camera, showing it proudly. "
+    "There is a plain white ceramic mug on the desk beside the laptop. "
     "Soft natural indoor light. Cinematic, calm and confident, shallow depth of field, "
     "warm neutral tones. No text overlay, no subtitles. "
     "Keep the original composition and camera angle stable. Realistic motion, no warping, no deformation."
@@ -58,7 +59,7 @@ def main():
             "prompt": PROMPT,
             "duration": "10",
             "aspect_ratio": "16:9",
-            "negative_prompt": "blur, low quality, deformed, extra people, text overlay, watermark, camera movement",
+            "negative_prompt": "blur, low quality, deformed, extra people, text overlay, watermark, camera movement, yellow mug, colored mug, orange mug",
             "cfg_scale": 0.5,
         },
         with_logs=True,
