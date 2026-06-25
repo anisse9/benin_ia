@@ -369,6 +369,65 @@
     .rh-partner:hover { background: rgba(31,107,58,0.13); border-color: var(--vert-profond); }
     @media(max-width:1023px){ .rh-groups { grid-template-columns: 1fr 1fr; } }
     @media(max-width:767px){ .rh-groups { grid-template-columns: 1fr; } .rh-img-preview { max-width: 90vw; width: 90vw; } }
+    /* ── 7 chantiers + synthèse ── */
+    .rh-chantiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    .rh-chantiers .rh-group { font-size: 12px; }
+    .rh-chantiers .rh-group-head { padding: 16px 18px 12px; }
+    .rh-chantiers .rh-group-ico { width: 34px; height: 34px; }
+    .rh-chantiers .rh-group-ico svg { width: 16px; height: 16px; }
+    .rh-chantiers .rh-group-title { font-size: 12.5px; }
+    .rh-chantiers .rh-group-count { font-size: 10px; }
+    .rh-chantiers .rh-roles { padding: 8px 18px 4px; }
+    .rh-chantiers .rh-role-name { font-size: 11.5px; }
+    .rh-chantiers .rh-role-n { font-size: 10.5px; }
+    .rh-chantiers .rh-vivier { padding: 8px 18px 14px; font-size: 10px; }
+    @media(max-width:1199px){ .rh-chantiers { grid-template-columns: repeat(3, 1fr); } }
+    @media(max-width:899px){ .rh-chantiers { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width:540px){ .rh-chantiers { grid-template-columns: 1fr; } }
+
+    .rh-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 36px; }
+    .rh-summary-grid .rh-group-title { font-size: 14.5px; }
+    .rh-summary-full { margin-bottom: 36px; }
+    .rh-summary-full .rh-group-title { font-size: 15.5px; }
+    .rh-synthese-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; padding: 18px 4px; }
+    .rh-synthese-cell { padding: 12px 22px; border-right: 1px solid rgba(255,255,255,0.08); }
+    .rh-synthese-cell:last-child { border-right: none; }
+    .rh-synthese-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.10em; color: rgba(255,255,255,0.50); margin-bottom: 8px; }
+    .rh-synthese-val { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.2; }
+    .rh-synthese-val-or { color: var(--or-dore); }
+    .rh-synthese-sub { font-size: 11px; color: rgba(255,255,255,0.42); line-height: 1.5; }
+    .rh-synthese-cell-total { background: rgba(217,164,4,0.08); border-left: 1px solid rgba(217,164,4,0.25); border-right: none; }
+    @media(max-width:1023px){ .rh-synthese-grid { grid-template-columns: repeat(2, 1fr); } .rh-synthese-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); } .rh-synthese-cell:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08); } .rh-synthese-cell-total { grid-column: span 2; border-left: none; border-top: 1px solid rgba(217,164,4,0.25); } }
+    @media(max-width:540px){ .rh-synthese-grid { grid-template-columns: 1fr; } .rh-synthese-cell { border-right: none !important; } .rh-synthese-cell-total { grid-column: span 1; } }
+    .rh-vivier-total { font-size: 12.5px !important; color: var(--anthracite) !important; padding-top: 14px !important; padding-bottom: 18px !important; border-top: 1px solid rgba(0,0,0,0.06); margin-top: 4px; }
+    .rh-vivier-total strong { color: var(--vert-profond); }
+    .rh-vivier-total-dark { color: rgba(255,255,255,0.78) !important; border-top-color: rgba(255,255,255,0.10); }
+    .rh-vivier-total-dark strong { color: var(--or-dore); }
+    .rh-expl-btn { background: rgba(217,164,4,0.18); border: 1px solid rgba(217,164,4,0.42); color: var(--or-dore); font-size: 10.5px; font-weight: 700; padding: 4px 11px; border-radius: 100px; cursor: pointer; font-family: var(--font); letter-spacing: 0.02em; transition: all var(--fast) var(--ease); }
+    .rh-expl-btn:hover { background: rgba(217,164,4,0.30); border-color: var(--or-dore); }
+    @media(max-width:767px){ .rh-summary-grid { grid-template-columns: 1fr; } }
+
+    /* ── Popup exploitation ── */
+    #expl-popup { display: none; position: fixed; inset: 0; z-index: 1250; padding: 24px; align-items: center; justify-content: center; }
+    #expl-popup.open { display: flex; }
+    .expl-overlay { position: absolute; inset: 0; background: rgba(10,18,12,0.62); backdrop-filter: blur(6px); cursor: pointer; }
+    .expl-panel { position: relative; background: var(--blanc); border-radius: var(--r-lg); max-width: 640px; width: 100%; max-height: 84vh; display: flex; flex-direction: column; box-shadow: 0 28px 80px rgba(0,0,0,0.40); overflow: hidden; z-index: 1; }
+    .expl-header { padding: 28px 36px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .expl-eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: var(--vert-profond); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .expl-eyebrow::before { content: ''; display: block; width: 20px; height: 2px; background: var(--or-dore); }
+    .expl-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+    .expl-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .expl-body { overflow-y: auto; padding: 18px 36px 8px; }
+    .expl-row { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .expl-row:last-child { border-bottom: none; }
+    .expl-name { font-size: 13px; color: var(--anthracite); line-height: 1.4; }
+    .expl-val { font-size: 12.5px; font-weight: 700; color: var(--or-dore); flex-shrink: 0; white-space: nowrap; }
+    .expl-row-total { background: rgba(217,164,4,0.07); margin: 8px -36px 0; padding: 14px 36px; border-top: 1px solid rgba(217,164,4,0.30); border-bottom: none; }
+    .expl-val-total { font-size: 14px; color: var(--vert-profond); }
+    .expl-footer { padding: 16px 36px 26px; font-size: 12px; color: var(--muted); line-height: 1.6; background: var(--surface); border-top: 1px solid var(--border); }
+    .expl-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all var(--fast) var(--ease); cursor: pointer; font-size: 18px; line-height: 1; z-index: 2; }
+    .expl-close:hover { background: var(--border); color: var(--anthracite); }
+    @media(max-width:600px){ .expl-header, .expl-body, .expl-footer { padding-inline: 22px; } }
   </style>
 </head>
 <body>
@@ -601,10 +660,10 @@
         <div class="tstep d6"><div class="tstep-dot">6</div><div><div class="tstep-num">Étape 06</div><div class="tstep-name">Amélioration continue</div><div class="tstep-desc">Réentraînement régulier des modèles à partir des nouvelles données terrain collectées.</div></div></div>
       </div>
     </div>
-    <!-- Intro ressources humaines -->
+    <!-- Intro ressources du pilote -->
     <div class="rh-section-intro reveal">
-      <div class="rh-section-title">Ressources humaines du pilote</div>
-      <p class="rh-section-sub">Le pilote mobilise une équipe pluridisciplinaire répartie en quatre pôles de compétences, recrutables en grande partie au Bénin — universités, écoles polytechniques, CEA-SMIA et institutions partenaires. Survolez chaque poste pour voir sa mission.</p>
+      <div class="rh-section-title">Ressources du pilote</div>
+      <p class="rh-section-sub">Le pilote mobilise sept chantiers de ressources humaines complémentaires entre la France et le Bénin, un investissement matériel souverain et une enveloppe d'exploitation annuelle. Survolez chaque poste pour voir sa mission ; ouvrez la synthèse pour le détail des coûts.</p>
       <button class="rh-img-trigger" id="rh-img-trigger" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
         Voir l'équipe
@@ -638,72 +697,200 @@
       <div class="rh-tt-text" id="rh-tt-text"></div>
     </div>
 
-    <!-- 4 groupes -->
-    <div class="rh-groups">
-      <div class="rh-group rh-group-dark reveal d1">
+    <!-- 7 chantiers RH (alignés sur la feuille RESSOURCE HUMAINE de synthese_cout.xlsx) -->
+    <div class="rh-chantiers">
+      <div class="rh-group reveal d1">
         <div class="rh-group-head">
-          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
           <div>
-            <div class="rh-group-title">Technique IA & Développement</div>
-            <div class="rh-group-count">5–6 personnes</div>
+            <div class="rh-group-title">Chantier 1 · ML / IA</div>
+            <div class="rh-group-count">3 personnes · FR</div>
           </div>
         </div>
         <div class="rh-roles">
-          <div class="rh-role" data-mission="Architecturer et superviser les modèles de vision par ordinateur. Définir les pipelines d'entraînement et de validation, garantir la qualité scientifique des diagnostics produits."><span class="rh-role-name">Lead ML Engineer (vision par ordinateur)</span><span class="rh-role-n">×1</span></div>
-          <div class="rh-role" data-mission="Entraîner, évaluer et itérer sur les modèles de classification de maladies végétales. Produire les courbes de performance, matrices de confusion et rapports de validation croisée."><span class="rh-role-name">Data Scientists / ML Engineers</span><span class="rh-role-n">×2</span></div>
-          <div class="rh-role" data-mission="Déployer et maintenir les modèles en production. Gérer le versioning, les pipelines CI/CD, le monitoring des performances et la scalabilité de l'infrastructure IA."><span class="rh-role-name">MLOps Engineer</span><span class="rh-role-n">×1</span></div>
-          <div class="rh-role" data-mission="Concevoir et développer l'API REST qui reçoit les photos, appelle les modèles et renvoie les diagnostics. Gérer l'intégration WhatsApp Business API et la sécurité des données."><span class="rh-role-name">Lead Backend Developer (API)</span><span class="rh-role-n">×1</span></div>
-          <div class="rh-role" data-mission="Construire le tableau de bord institutionnel : cartographie des alertes phytosanitaires, indicateurs par filière, département et période, et exports de rapports pour les décideurs."><span class="rh-role-name">Développeur Frontend (dashboard)</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Architecturer la vision par ordinateur, superviser l'entraînement et la validation des modèles, garantir la qualité scientifique des diagnostics. Salaire : 7 000 € / mois."><span class="rh-role-name">Lead ML Engineer · FR ×1</span><span class="rh-role-n">84 000 € / an</span></div>
+          <div class="rh-role" data-mission="Entraîner, évaluer et itérer sur les modèles de classification de maladies végétales. Produire les courbes de performance, matrices de confusion et rapports de validation. Salaire : 6 500 € / mois."><span class="rh-role-name">Data Scientist / ML Engineer · FR ×2</span><span class="rh-role-n">156 000 € / an</span></div>
         </div>
-        <div class="rh-vivier">Vivier : CEA-SMIA · UAC/IMSP · écoles polytechniques · alumni ASIN</div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>240 000 € / an</strong></div>
       </div>
 
       <div class="rh-group reveal d2">
         <div class="rh-group-head">
-          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div>
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
           <div>
-            <div class="rh-group-title">Expertise agronomique</div>
-            <div class="rh-group-count">2–3 personnes</div>
+            <div class="rh-group-title">Chantier 2 · Développement logiciel + traduction</div>
+            <div class="rh-group-count">3 personnes · FR + BJ</div>
           </div>
         </div>
         <div class="rh-roles">
-          <div class="rh-role" data-mission="Annoter et valider les images collectées sur le terrain. Documenter les symptômes de chaque maladie, ravageur ou carence et servir de référence scientifique pour l'évaluation des diagnostics produits par les modèles."><span class="rh-role-name">Ingénieurs phytosanitaires (annotation & validation)</span><span class="rh-role-n">×2–3</span></div>
-          <div class="rh-role" data-mission="Apporter la connaissance approfondie des filières et pathologies béninoises. Valider les protocoles de collecte et assurer la cohérence scientifique avec les pratiques du MAEP et de l'INRAB."><span class="rh-role-name">Expert agricole référent (MAEP/INRAB)</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Concevoir et développer l'API REST qui reçoit les photos, appelle les modèles, renvoie les diagnostics. Gérer la logique métier et l'intégration WhatsApp. Salaire : 6 500 € / mois."><span class="rh-role-name">Développeur backend · FR ×1</span><span class="rh-role-n">78 000 € / an</span></div>
+          <div class="rh-role" data-mission="Construire le dashboard institutionnel : cartographie des alertes, indicateurs par filière et département, exports de rapports pour les décideurs. Salaire : 5 500 € / mois."><span class="rh-role-name">Développeur frontend · FR ×1</span><span class="rh-role-n">66 000 € / an</span></div>
+          <div class="rh-role" data-mission="Adapter les contenus et messages du bot en français et en fon. Garantir la justesse linguistique et culturelle. Salaire : ~380 € / mois (250 000 FCFA)."><span class="rh-role-name">Traducteur / localisateur FR-Fon · BJ ×1</span><span class="rh-role-n">4 600 € / an</span></div>
         </div>
-        <div class="rh-vivier">Partenaires : INRAB · MAEP · SONAPRA · coopératives filières</div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>148 600 € / an</strong></div>
       </div>
 
       <div class="rh-group reveal d3">
         <div class="rh-group-head">
-          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 2 17 2s0 5-5 10zM12 12C12 7 7 2 7 2s0 5 5 10z"/></svg></div>
           <div>
-            <div class="rh-group-title">Collecte terrain & Déploiement</div>
-            <div class="rh-group-count">9–16 personnes</div>
+            <div class="rh-group-title">Chantier 3 · Agronome et annotation</div>
+            <div class="rh-group-count">3 personnes · BJ</div>
           </div>
         </div>
         <div class="rh-roles">
-          <div class="rh-role" data-mission="Planifier et coordonner les missions de collecte dans les zones pilotes. Définir les protocoles de collecte, assurer la diversité géographique et la qualité des lots d'images produits."><span class="rh-role-name">Coordinateur collecte terrain</span><span class="rh-role-n">×1</span></div>
-          <div class="rh-role" data-mission="Collecter sur le terrain les photos de cultures malades et saines selon les protocoles établis. Réaliser un premier étiquetage de base : culture, symptôme apparent, localisation GPS."><span class="rh-role-name">Agents terrain formés (photos + étiquetage)</span><span class="rh-role-n">×6–12</span></div>
-          <div class="rh-role" data-mission="Contrôler la qualité des images collectées par les agents : netteté, pertinence, diversité des cas. Assurer le respect des protocoles et la couverture des zones pilotes définies."><span class="rh-role-name">Superviseurs de zone</span><span class="rh-role-n">×2</span></div>
-          <div class="rh-role" data-mission="Former les agents terrain à l'application mobile et aux protocoles de collecte. Former les membres des coopératives pilotes à l'utilisation quotidienne d'Agribot pour leurs diagnostics phytosanitaires."><span class="rh-role-name">Formateurs agents & coopératives</span><span class="rh-role-n">×1–2</span></div>
+          <div class="rh-role" data-mission="Valider les maladies, les protocoles et les remèdes. Apporter la connaissance approfondie des filières et pathologies béninoises (MAEP / INRAB). Salaire : ~1 220 € / mois (800 000 FCFA)."><span class="rh-role-name">Agronome référent · BJ ×1</span><span class="rh-role-n">14 600 € / an</span></div>
+          <div class="rh-role" data-mission="Labelliser les images collectées, contrôler la qualité, documenter chaque symptôme et servir de référence aux modèles. Salaire : ~460 € / mois (300 000 FCFA)."><span class="rh-role-name">Annotateurs / validateurs · BJ ×2</span><span class="rh-role-n">11 000 € / an</span></div>
         </div>
-        <div class="rh-vivier">Vivier : agents CeCPA · techniciens coopératives · alumni ASIN</div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>25 600 € / an</strong></div>
       </div>
 
       <div class="rh-group reveal d4">
         <div class="rh-group-head">
-          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           <div>
-            <div class="rh-group-title">Coordination & Infrastructure</div>
-            <div class="rh-group-count">3 personnes</div>
+            <div class="rh-group-title">Chantier 4 · Collecte terrain</div>
+            <div class="rh-group-count">15 personnes · BJ</div>
           </div>
         </div>
         <div class="rh-roles">
-          <div class="rh-role" data-mission="Piloter l'ensemble du projet pilote : planification des 6 étapes, suivi des KPIs, coordination inter-équipes, reporting aux parties prenantes institutionnelles et ajustement du périmètre si nécessaire."><span class="rh-role-name">Chef de projet</span><span class="rh-role-n">×1</span></div>
-          <div class="rh-role" data-mission="Assurer la liaison avec le MAEP, l'ASIN, le ministère du numérique et les bailleurs. Faciliter les accords d'accès terrain, la validation des protocoles et les conventions de partenariat."><span class="rh-role-name">Responsable partenariats institutionnels</span><span class="rh-role-n">×1</span></div>
-          <div class="rh-role" data-mission="Mettre en place et maintenir l'infrastructure cloud : serveurs d'inférence, stockage des images, sécurité des données et des modèles. Gérer les déploiements, les sauvegardes et la supervision des services."><span class="rh-role-name">Administrateur système / DevOps</span><span class="rh-role-n">×1</span></div>
+          <div class="rh-role" data-mission="Organiser les missions de collecte dans les zones pilotes : protocoles, calendrier, diversité géographique, qualité des lots d'images. Salaire : ~760 € / mois (500 000 FCFA)."><span class="rh-role-name">Coordinateur terrain · BJ ×1</span><span class="rh-role-n">9 100 € / an</span></div>
+          <div class="rh-role" data-mission="Photos, géolocalisation et premier étiquetage sur le terrain selon les protocoles établis. Salaire : ~380 € / mois (250 000 FCFA)."><span class="rh-role-name">Agents collecteurs · BJ ×12</span><span class="rh-role-n">54 900 € / an</span></div>
+          <div class="rh-role" data-mission="Contrôle qualité terrain : vérifier netteté, pertinence, couverture des cas et respect des protocoles. Salaire : ~530 € / mois (350 000 FCFA)."><span class="rh-role-name">Superviseurs de zone · BJ ×2</span><span class="rh-role-n">12 800 € / an</span></div>
         </div>
-        <div class="rh-vivier">Interface MAEP · ASIN · ministère du numérique · bailleurs</div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>76 800 € / an</strong></div>
+      </div>
+
+      <div class="rh-group reveal d5">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div>
+            <div class="rh-group-title">Chantier 5 · Gestion de projet</div>
+            <div class="rh-group-count">2 personnes · FR + BJ</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Pilotage global du projet pilote : planification des 6 étapes, suivi des KPIs, reporting institutionnel, arbitrages. Salaire : 6 000 € / mois."><span class="rh-role-name">Chef de projet · FR ×1</span><span class="rh-role-n">72 000 € / an</span></div>
+          <div class="rh-role" data-mission="Coordination avec l'État, le MAEP, l'ASIN et les bailleurs. Faciliter les accords d'accès terrain et les conventions de partenariat. Salaire : ~1 070 € / mois (700 000 FCFA)."><span class="rh-role-name">Responsable partenariats institutionnels · BJ ×1</span><span class="rh-role-n">12 800 € / an</span></div>
+        </div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>84 800 € / an</strong></div>
+      </div>
+
+      <div class="rh-group reveal d6">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div>
+            <div class="rh-group-title">Chantier 6 · Formation et adoption</div>
+            <div class="rh-group-count">4 personnes · BJ</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Former les agents terrain à l'application et aux protocoles. Former les coopératives pilotes à l'usage quotidien d'Agribot. Salaire : ~460 € / mois (300 000 FCFA)."><span class="rh-role-name">Formateur terrain · BJ ×2</span><span class="rh-role-n">11 000 € / an</span></div>
+          <div class="rh-role" data-mission="Accompagnement usage et support : animer la communauté, recueillir les retours, organiser les sessions de sensibilisation. Salaire : ~380 € / mois (250 000 FCFA)."><span class="rh-role-name">Animateur adoption · BJ ×2</span><span class="rh-role-n">9 100 € / an</span></div>
+        </div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>20 100 € / an</strong></div>
+      </div>
+
+      <div class="rh-group reveal d7">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <div>
+            <div class="rh-group-title">Chantier 7 · Infrastructure et qualité</div>
+            <div class="rh-group-count">3 personnes · FR + BJ</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role" data-mission="Serveurs d'inférence, sécurité, supervision, déploiements et sauvegardes. Salaire : 7 000 € / mois."><span class="rh-role-name">Administrateur système / DevOps · FR ×1</span><span class="rh-role-n">84 000 € / an</span></div>
+          <div class="rh-role" data-mission="Déploiement, monitoring et versioning des modèles. Pipelines CI/CD et scalabilité de l'infrastructure IA. Salaire : 7 000 € / mois."><span class="rh-role-name">MLOps Engineer · FR ×1</span><span class="rh-role-n">84 000 € / an</span></div>
+          <div class="rh-role" data-mission="Tests, stabilité et fiabilité des données. Contrôle qualité transverse sur les sorties modèles et l'expérience utilisateur. Salaire : ~460 € / mois (300 000 FCFA)."><span class="rh-role-name">QA / contrôle qualité · BJ ×1</span><span class="rh-role-n">5 500 € / an</span></div>
+        </div>
+        <div class="rh-vivier rh-chantier-total">Total chantier · <strong>173 500 € / an</strong></div>
+      </div>
+
+      <!-- Bloc HW à droite du chantier 7 -->
+      <div class="rh-group reveal d7">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+          <div>
+            <div class="rh-group-title">Investissement matériel · Serveur GPU local</div>
+            <div class="rh-group-count">One-shot · souveraineté</div>
+          </div>
+        </div>
+        <div class="rh-roles">
+          <div class="rh-role"><span class="rh-role-name">GPU principal — RTX 4090 24 Go</span><span class="rh-role-n">2 300–2 500 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">Châssis / CPU / carte mère pro</span><span class="rh-role-n">2 500–5 000 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">RAM ECC 128–256 Go</span><span class="rh-role-n">500–1 500 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">Stockage NVMe 4–8 To</span><span class="rh-role-n">400–1 200 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">UPS online 3 kVA+</span><span class="rh-role-n">1 500–3 595 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">Rack / PDU / accessoires</span><span class="rh-role-n">425–1 700 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">Réseau / sécurité / câblage</span><span class="rh-role-n">500–2 000 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">Climatisation salle technique</span><span class="rh-role-n">1 000–4 000 €</span></div>
+          <div class="rh-role"><span class="rh-role-name">Marge d'intégration / imprévus</span><span class="rh-role-n">3 000–6 000 €</span></div>
+        </div>
+        <div class="rh-vivier rh-chantier-total">Total matériel · <strong>~ 35 000 €</strong> (one-shot)</div>
+      </div>
+    </div>
+
+    <!-- Synthèse générale (pleine largeur) -->
+    <div class="rh-summary-full">
+      <div class="rh-group rh-group-dark reveal d1">
+        <div class="rh-group-head">
+          <div class="rh-group-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div>
+            <div class="rh-group-title">Synthèse générale du pilote</div>
+            <div class="rh-group-count">RH + Matériel + Exploitation</div>
+          </div>
+        </div>
+        <div class="rh-synthese-grid">
+          <div class="rh-synthese-cell">
+            <div class="rh-synthese-label">RH France</div>
+            <div class="rh-synthese-val">624 000 € / an</div>
+            <div class="rh-synthese-sub">Chantiers 1, 2, 5, 7 · profils techniques</div>
+          </div>
+          <div class="rh-synthese-cell">
+            <div class="rh-synthese-label">RH Bénin</div>
+            <div class="rh-synthese-val">145 400 € / an</div>
+            <div class="rh-synthese-sub">Chantiers 2 à 7 · équipe terrain & expertise locale</div>
+          </div>
+          <div class="rh-synthese-cell">
+            <div class="rh-synthese-label">Hardware (one-shot)</div>
+            <div class="rh-synthese-val">35 000 €</div>
+            <div class="rh-synthese-sub">Serveur GPU local · investissement souverain</div>
+          </div>
+          <div class="rh-synthese-cell">
+            <div class="rh-synthese-label">Exploitation annuelle</div>
+            <div class="rh-synthese-val">30 500 – 68 500 € / an</div>
+            <div class="rh-synthese-sub"><button class="rh-expl-btn" id="rh-expl-trigger" type="button">Voir le détail</button></div>
+          </div>
+          <div class="rh-synthese-cell rh-synthese-cell-total">
+            <div class="rh-synthese-label">Total investissement initial</div>
+            <div class="rh-synthese-val rh-synthese-val-or">~ 770 000 € / an</div>
+            <div class="rh-synthese-sub">+ 35 000 € matériel · hors exploitation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup exploitation -->
+    <div id="expl-popup" role="dialog" aria-modal="true" aria-label="Coûts d'exploitation annuels">
+      <div class="expl-overlay" id="expl-overlay"></div>
+      <div class="expl-panel">
+        <button class="expl-close" id="expl-close" aria-label="Fermer">&#x2715;</button>
+        <div class="expl-header">
+          <div class="expl-eyebrow">Coûts d'exploitation · indicatifs annuels</div>
+          <div class="expl-title">Exploitation du pilote — détail</div>
+          <p class="expl-sub">Postes récurrents au-delà de l'investissement initial : énergie, maintenance, sécurité et exploitation terrain.</p>
+        </div>
+        <div class="expl-body">
+          <div class="expl-row"><span class="expl-name">Électricité (serveur GPU + équipements réseau)</span><span class="expl-val">4 000 – 8 000 € / an</span></div>
+          <div class="expl-row"><span class="expl-name">Refroidissement (climatisation salle technique)</span><span class="expl-val">2 000 – 4 000 € / an</span></div>
+          <div class="expl-row"><span class="expl-name">Maintenance matérielle (réparations, pièces, assistance)</span><span class="expl-val">1 500 – 3 500 € / an</span></div>
+          <div class="expl-row"><span class="expl-name">Sauvegarde / stockage / cybersécurité de base</span><span class="expl-val">1 000 – 3 000 € / an</span></div>
+          <div class="expl-row"><span class="expl-name">Support technique infrastructure (suivi, mises à jour)</span><span class="expl-val">2 000 – 5 000 € / an</span></div>
+          <div class="expl-row"><span class="expl-name">Exploitation terrain (déplacements, per diem, logistique)</span><span class="expl-val">20 000 – 45 000 € / an</span></div>
+          <div class="expl-row expl-row-total"><span class="expl-name"><strong>Total exploitation annuelle</strong></span><span class="expl-val expl-val-total">30 500 – 68 500 € / an</span></div>
+        </div>
+        <div class="expl-footer">Ces postes sont récurrents et viennent s'ajouter aux RH et au hardware. Ils sont intégrés au modèle de licence institutionnelle annuelle (Phase 2).</div>
       </div>
     </div>
 
@@ -748,10 +935,10 @@
           <div class="poste"><span class="poste-name">Infrastructure & hébergement</span><span class="poste-est">Serveur, stockage, sécurité</span></div>
           <div class="poste"><span class="poste-name">Coordination & gestion de projet</span><span class="poste-est">Suivi, reporting, KPIs</span></div>
         </div>
-        <div class="ch-footer ch-footer-dark"><div class="ch-footer-text ch-footer-text-light">Budget du pilote : à définir selon le périmètre retenu, finançable dans le cadre d'un accord institutionnel initial ou d'un cofinancement bailleurs / État.</div></div>
+        <div class="ch-footer"><div class="ch-footer-text" style="color:var(--anthracite);">Budget annoncé du pilote : <strong style="color:var(--vert-profond);">~ 770 000 € / an</strong> (RH France 624 k€ + RH Bénin 145 k€) + <strong style="color:var(--vert-profond);">35 000 €</strong> d'investissement matériel souverain (serveur GPU local). Finançable dans le cadre d'un accord institutionnel initial ou d'un cofinancement bailleurs / État.</div></div>
       </div>
       <div class="chiffrage-col">
-        <div class="ch-head"><div class="ch-badge">Phase 2</div><div class="ch-title">Exploitation nationale</div><div class="ch-sub">Extension progressive · modèle de licence annuelle · après validation du pilote</div></div>
+        <div class="ch-head"><div class="ch-badge">Phase 2</div><div class="ch-title">Exploitation et extension nationale</div><div class="ch-sub">Extension progressive · modèle de licence annuelle · après validation du pilote</div></div>
         <div class="ch-body ch-body-alt">
           <div class="poste"><span class="poste-name">Extension à de nouvelles filières</span><span class="poste-est">Coton, anacarde, manioc, riz…</span></div>
           <div class="poste"><span class="poste-name">Extension géographique</span><span class="poste-est">Nouveaux départements, zones rurales</span></div>
@@ -864,6 +1051,18 @@
   pitchOverlay.addEventListener('click', schedulePitchClose);
   pitchClose.addEventListener('click', schedulePitchClose);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') schedulePitchClose(); });
+
+  // Exploitation popup
+  const explTrigger = document.getElementById('rh-expl-trigger');
+  const explPopup   = document.getElementById('expl-popup');
+  const explOverlay = document.getElementById('expl-overlay');
+  const explClose   = document.getElementById('expl-close');
+  function openExpl() { explPopup.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeExpl() { explPopup.classList.remove('open'); document.body.style.overflow = ''; }
+  if (explTrigger) explTrigger.addEventListener('click', openExpl);
+  if (explOverlay) explOverlay.addEventListener('click', closeExpl);
+  if (explClose) explClose.addEventListener('click', closeExpl);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && explPopup && explPopup.classList.contains('open')) closeExpl(); });
 
   // WhatsApp tabs
   document.querySelectorAll('.wa-tab-btn').forEach(btn => {
